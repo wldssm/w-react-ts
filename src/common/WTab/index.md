@@ -34,7 +34,7 @@ export default () =>
 |--|--|--|--|
 |initTag|初始化选中面板的key|string|第一个面板tag|
 |className|头部类名|string|-|
-|onClick|头部选项卡单击事件|function|-|
+|onClick|头部选项卡单击事件|function(tag, index, childPane)|-|
 
 ##### WTabPane
 |参数|说明|类型|默认值|

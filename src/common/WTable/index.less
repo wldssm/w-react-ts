@@ -1,0 +1,66 @@
+@import "../../../public/css/_variable.less";
+
+// 表格
+.table-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .col {
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 70px;
+    padding: 0 2px;
+    word-break: break-all;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #fff;
+
+    &.multi {
+      white-space: pre-wrap;
+    }
+  }
+
+  .tb-th {
+    display: flex;
+    // height: 48px;
+    background: @aibox-bg10;
+    border-radius: 2px 2px 0 0;
+
+    .col {
+      min-height: 48px;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+  }
+
+  .tb-tbody {
+    display: block;
+  }
+
+  .tb-row {
+    display: flex;
+    margin-bottom: 1px;
+    border-radius: 2px;
+
+    &:hover {
+      background: #0d2c52 !important;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:nth-child(odd) {
+      background: @aibox-bg1;
+    }
+
+    &:nth-child(even) {
+      background: @aibox-bg11;
+    }
+  }
+}

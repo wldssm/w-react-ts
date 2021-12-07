@@ -22,4 +22,4 @@ export default () => <WIcon code="&#xe679;" />;
 |--|--|--|--|
 |code|图标编码|string【unicode】|-|
 |className|类名|string|-|
-|onClick|图标单击事件|function|-|
+|onClick|图标单击事件|function(e)|-|

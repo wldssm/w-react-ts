@@ -24,4 +24,4 @@ export default () => <WButton icon="&#xe62b;">按钮</WButton>;
 |disabled|禁用按钮|boolean|false|
 |icon|按钮icon|string【unicode】|-|
 |className|类名|string|-|
-|onClick|按钮单击事件|function|-|
+|onClick|按钮单击事件|function(e)|-|

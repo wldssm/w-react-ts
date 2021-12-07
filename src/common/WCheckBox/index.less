@@ -1,0 +1,26 @@
+@import "../../../public/css/_variable.less";
+
+.icon-check {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  background: @aibox-bg3;
+
+  &.active {
+    background: @aibox-bg2;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    background: @aibox-bg3;
+  }
+
+  .check-on {
+    font-size: 16px;
+    color: #fff;
+  }
+}
