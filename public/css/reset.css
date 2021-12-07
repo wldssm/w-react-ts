@@ -1,0 +1,164 @@
+@charset "utf-8";
+
+body {
+  /* // font-family: arial, verdana, helvetica, Microsoft Yahei, sans-serif;
+
+  // font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  //   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  //   sans-serif; */
+
+  font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", 微软雅黑, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-Text-Size-Adjust: 100%;
+  -webkit-overflow-scrolling: touch;
+  color: #9DA5AC;
+}
+
+/* // body{font-family: "PingFangSC-Regular", "Microsoft YaHei","Helvetica Neue",Helvetica,STHeiTi,sans-serif;  -webkit-Text-Size-Adjust:100%;-webkit-overflow-scrolling: touch;} */
+html,
+body {
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.clear {
+  clear: both;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
+input {
+  margin: 0;
+  padding: 0;
+  background: none;
+  -webkit-appearance: none;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #238def;
+}
+
+button,
+input,
+select,
+textarea,
+radio,
+checkbox,
+a:focus {
+  outline: none;
+}
+
+fieldset,
+button,
+input,
+select,
+textarea {
+  border: none;
+}
+
+img {
+  border: none;
+  vertical-align: middle;
+}
+
+radio,
+checkbox {
+  display: block;
+  min-height: 20px;
+}
+
+label {
+  display: inline-block;
+  font-weight: bold;
+}
+
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  font-family: inherit;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th {
+  text-align: left;
+}
+
+textarea {
+  resize: none;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+button {
+  margin: 0;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-input-placeholder {
+  color: #9DA5AC;
+}
+
+:-moz-placeholder {
+  color: #9DA5AC;
+}
+
+:-moz-placeholder {
+  color: #9DA5AC;
+}
+
+:-ms-input-placeholder {
+  color: #9DA5AC;
+}

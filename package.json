@@ -1,7 +1,13 @@
 {
-  "private": true,
-  "name": "react-npm",
+  "name": "w-react-ts",
   "version": "1.0.0",
+  "author": "wldssm",
+  "description": "react-npm",
+  "keywords": [
+    "react",
+    "ts"
+  ],
+  "main": "es/index.ts",
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
