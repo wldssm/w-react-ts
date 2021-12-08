@@ -1,11 +1,11 @@
 ---
-title: WTable 表格
+title: Table 表格
 group: 
   title: '通用'
   
 ---
 
-## WTable 表格
+## Table 表格
 
 Demo:
 
@@ -14,7 +14,7 @@ Demo:
  * defaultShowCode: true
  */
 import React, { Fragment } from 'react';
-import {  WTable, WTableColumn, WCheckBox, WIcon } from 'w-react-ts';
+import {  WTable, WTableColumn, WIcon } from 'w-react-ts';
 
 let tableData = [{
   date: '2016-05-02',
@@ -28,7 +28,7 @@ let tableData = [{
 
 export default () =>
   <WTable data={tableData}>
-    <WTableColumn width="15%" render={data => <WCheckBox />} />
+    <WTableColumn width="15%" render={data => <WIcon code="&#xe732;" />} />
     <WTableColumn width="30%" label={() =><Fragment>随意<WIcon code="&#xe62a;" /></Fragment>} prop="zip" />
     <WTableColumn width="20%" label="名字" prop="name" />
     <WTableColumn width="35%" label="时间" prop="date" fmt="-" />

@@ -1,10 +1,10 @@
 ---
-title: WTree 树结构
+title: Tree 树结构
 group: 
   title: '通用'
 ---
 
-## WTree 树结构
+## Tree 树结构
 
 ### Demo
 ```tsx
@@ -63,7 +63,7 @@ export default () =>
 |data|显示数据| array | [] |
 |label|指定节点显示文本为节点对象的某个属性值| string |label|
 |subNode|指定子树为节点对象的某个属性值|string|children|
-|uniqueKey|标志项唯一的字段名|string|id|
+|uniqueKey|标志项唯一的字段名（父子节点关联选中必须设置）|string|id|
 |indent|层级缩进距离|number|32|
 |pl|左边缩进距离|number|0|
 |className|类名|string|-|
@@ -77,5 +77,5 @@ export default () =>
 |onClick|点击节点|function( {node, event} )|-|
 |onExpand|切换节点显示隐藏|function( {expanded, node} )|-|
 |onCheck|点击选中|function( {checked, node} )|-|
-|leftNode|插在文本左边的节点|(item) => ReactNode|-|
-|rightNode|插在文本右边的节点|(item) => ReactNode|-|
+|leftNode|插在文本左边的节点|function(item)|-|
+|rightNode|插在文本右边的节点|function(item)|-|

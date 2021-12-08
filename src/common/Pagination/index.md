@@ -1,10 +1,10 @@
 ---
-title: WPagination 分页
+title: Pagination 分页
 group: 
   title: '通用'
 ---
 
-## WPagination 分页
+## Pagination 分页
 
 ### Demo
 ```tsx

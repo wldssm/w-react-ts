@@ -1,10 +1,10 @@
 ---
-title: WButton 按钮
+title: Button 按钮
 group: 
   title: '通用'
 ---
 
-## WButton 按钮
+## Button 按钮
 
 ### Demo
 ```tsx

@@ -15,7 +15,7 @@ interface Props {
   onClick?: (...param: any) => any, // 单击单元格
 }
 
-class AiTableColumn extends Component<Props> {
+class WTableColumn extends Component<Props> {
   static defaultProps = {
     data: {},
     prop: '',
@@ -33,4 +33,4 @@ class AiTableColumn extends Component<Props> {
   }
 }
 
-export default AiTableColumn;
+export default WTableColumn;

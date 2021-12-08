@@ -1,0 +1,152 @@
+@import "../../../public/css/_variable.less";
+
+// 蒙版背景
+.pop-mask {
+  z-index: 5;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(6, 6, 6, 0.65);
+}
+
+.pop-model {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .p-main {
+    position: relative;
+    z-index: 6;
+    min-width: 260px;
+    max-height: 90%;
+    overflow: auto;
+    border-radius: 4px;
+    background: @aibox-bg4;
+
+    // head
+    .p-head {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 62px;
+      border-bottom: 1px solid rgba(216, 216, 216, .1);
+
+      .title {
+        font-size: 18px;
+        letter-spacing: 2px;
+        color: #fff;
+      }
+
+      .i-close {
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        padding: 20px 16px;
+        font-size: 22px;
+        color: #fff;
+      }
+    }
+
+    // btn
+    .btn-cont {
+      padding: 18px 0;
+      text-align: right;
+
+      .btn-cancel,
+      .btn-sure {
+        width: 100px;
+        height: 32px;
+        margin-right: 18px;
+        font-size: 14px;
+        color: #fff;
+      }
+
+      .btn-cancel {}
+
+      .btn-sure {
+        background: @aibox-bg12;
+      }
+    }
+  }
+
+  // .btn-cont {
+  //   display: flex;
+
+  //   a {
+  //     flex: 1;
+  //     display: flex;
+  //     align-items: center;
+  //     justify-content: center;
+  //     height: 3.2rem;
+  //     font-size: 1.3rem;
+  //     border-radius: 0.4rem;
+  //     @include font-color(font);
+  //     @include bg-color(btn-normal);
+  //     margin-right: 0.8rem;
+
+  //     &:last-child {
+  //       margin-right: 0;
+  //     }
+  //   }
+
+  //   .btn-warn {
+  //     @include bg-color(btn-risk);
+  //   }
+
+  //   .btn-cancel {
+  //     @include bg-color(btn-menu-top);
+  //   }
+  // }
+}
+
+// .pop-line-main {
+//   position: relative;
+//   text-align: left;
+
+//   .multi-cont {
+//     margin: 0.6rem 0;
+//     overflow: hidden;
+//     border-radius: 0.4rem;
+//     @include border-color(input-list-border);
+//   }
+
+//   .i-multi-txt {
+//     height: 13rem;
+//     padding: 0.6rem;
+//     border-radius: 0.4rem;
+//     outline: none;
+//     resize: none;
+//     background: none;
+//     text-align: left;
+//     font-size: @search-s;
+//     @include font-color(font);
+//   }
+
+//   .p-line-txt {
+//     padding: .8rem 1rem 0;
+//     font-size: 1.2rem;
+
+//     &:last-child,
+//     &:first-child {
+//       padding-bottom: .8rem;
+//     }
+//   }
+
+//   .p-line-yellow {
+//     font-size: 1.25rem;
+//     @include font-color(btn-warn);
+//   }
+// }
+// }

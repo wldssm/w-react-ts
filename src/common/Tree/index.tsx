@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import WCheckBox from '../WCheckBox';
-import WIcon from '../WIcon';
+import WCheckBox from '../CheckBox';
+import WIcon from '../Icon';
 import styles from './index.less';
 
 interface Props {

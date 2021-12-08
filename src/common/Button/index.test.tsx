@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import WButton from '../WButton/index';
+import WButton from './index';
 
 describe('<Demo />', () => {
   it('render Foo with dumi', () => {

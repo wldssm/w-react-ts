@@ -1,11 +1,11 @@
 ---
-title: WCheckBox 复选框
+title: CheckBox 复选框
 group: 
   title: '通用'
   
 ---
 
-## WTab 复选框
+## CheckBox 复选框
 
 Demo:
 

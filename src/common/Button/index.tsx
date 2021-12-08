@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import WIcon from '../WIcon/index';
+import WIcon from '../Icon/index';
 import styles from './index.less';
 
 interface Props {

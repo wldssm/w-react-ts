@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import WTableColumn from './WTableColumn';
+import WTableColumn from './TableColumn';
 import styles from './index.less';
 
 interface Props {

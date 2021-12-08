@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import WIcon from '../WIcon';
+import WIcon from '../Icon';
 import './index.less';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
   onChange?: (...param: any) => any,
 }
 
-class AiCheckBox extends Component<Props> {
+class WCheckBox extends Component<Props> {
   static defaultProps = {
     checked: false,
     disabled: false,
@@ -33,4 +33,4 @@ class AiCheckBox extends Component<Props> {
   }
 }
 
-export default AiCheckBox;
+export default WCheckBox;
