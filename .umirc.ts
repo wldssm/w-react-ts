@@ -5,6 +5,9 @@ export default defineConfig({
   favicon: '/img/logo.png',
   logo: '/img/logo.png',
   outputPath: 'dist',
-  publicPath: "./"
+  publicPath: "./",
+  history: {
+    type: 'hash'
+  }
   // more config: https://d.umijs.org/config
 });
