@@ -1,7 +1,6 @@
 {
   "name": "w-react-ts",
   "version": "1.0.0",
-  "author": "wldssm",
   "description": "react-npm",
   "keywords": [
     "react",
@@ -47,5 +46,10 @@
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.1",
     "yorkie": "^2.0.0"
+  },
+  "author": {
+    "name": "wldssm",
+    "email": "281461392@qq.com",
+    "url": "https://github.com/wldssm/w-react-ts"
   }
 }
