@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // 资源
-import img from '../../../public/img/no_data.png';
+import img from '../../assets/img/no_data.png';
 import styles from './index.less';
 
 interface Props {

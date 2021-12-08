@@ -1,3 +1,5 @@
+/// <reference path="../typings.d.ts" />
+
 import '../public/css/reset.css';
 import '../public/css/font.less';
 import '../public/css/common.less';

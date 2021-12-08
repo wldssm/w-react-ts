@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { valFmt } from '../../../public/js/utils';
+import { valFmt } from '../../assets/js/utils';
 import styles from './index.less';
 
 interface Props {
