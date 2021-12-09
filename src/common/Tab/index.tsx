@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
 
 import WTabPane from './WTabPane';
-import styles from './index.less';
+import './index.less';
 
 interface Props {
-  initTag: string,
-  className?: string,
-  onClick?: (...param: any) => any,
+  initTag: string;
+  className?: string;
+  onClick?: (...param: any) => any;
 }
 
 class WTab extends Component<Props> {
   static defaultProps = {
     initTag: '',
     className: '',
-    onClick: () => { }
+    onClick: () => {},
   };
 
   state = {
-    curTag: ''
-  }
+    curTag: '',
+  };
 
   componentDidMount() {
     if (this.props.initTag) {
-      this.setState({ curTag: this.props.initTag })
+      this.setState({ curTag: this.props.initTag });
     } else {
-      let childs: any = this.props.children
-      childs && this.setState({ curTag: childs[0]?.props.tag })
+      let childs: any = this.props.children;
+      childs && this.setState({ curTag: childs[0]?.props.tag });
     }
   }
 
@@ -37,25 +37,27 @@ class WTab extends Component<Props> {
   render() {
     let { children, className } = this.props;
     return (
-      <div className={styles['tab-box']}>
-        <div className={`${styles["t-top"]} ${className}`}>
-          {
-            React.Children.map(children, (item: any, i) => {
-              let { label, tag } = item.props;
-              return <div className={`${styles["item"]} ${tag === this.state.curTag ? styles["on"] : ''}`} onClick={this.click.bind(this, tag, i, item)} key={i}>
+      <div className="tab-box">
+        <div className={`t-top ${className}`}>
+          {React.Children.map(children, (item: any, i) => {
+            let { label, tag } = item.props;
+            return (
+              <div
+                className={`item ${tag === this.state.curTag ? 'on' : ''}`}
+                onClick={this.click.bind(this, tag, i, item)}
+                key={i}
+              >
                 {typeof label === 'function' ? label() : label}
-              </div>;
-            })
-          }
+              </div>
+            );
+          })}
         </div>
-        {
-          React.Children.map(children, (child: any, index) => {
-            return React.cloneElement(child, {
-              index: index,
-              curTag: this.state.curTag
-            });
-          })
-        }
+        {React.Children.map(children, (child: any, index) => {
+          return React.cloneElement(child, {
+            index: index,
+            curTag: this.state.curTag,
+          });
+        })}
       </div>
     );
   }

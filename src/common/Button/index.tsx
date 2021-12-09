@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 
 import WIcon from '../Icon/index';
-import styles from './index.less';
+import './index.less';
 
 interface Props {
-  icon?: string,
-  showLoading?: boolean,
-  disabled?: boolean,
-  className?: string,
-  onClick?: (e: Event) => any,
+  icon?: string;
+  showLoading?: boolean;
+  disabled?: boolean;
+  className?: string;
+  onClick?: (e: Event) => any;
 }
 
 class WButton extends Component<Props> {
   static defaultProps = {
     onClick: () => [],
-    icon: '',  // 图标code
+    icon: '', // 图标code
     showLoading: false,
     disabled: false,
-    className: ''
+    className: '',
   };
 
   // 单击触发
@@ -30,9 +30,13 @@ class WButton extends Component<Props> {
   render() {
     let { children, showLoading, icon, disabled, className } = this.props;
     return (
-      <button type="button" className={`${styles["ai-btn"]} ${className} ${disabled ? styles["disabled"] : ''}`} onClick={this.click.bind(this)}>
-        {(!showLoading && icon) && <WIcon className="btn-icon" code={icon} />}
-        {showLoading && <WIcon className={`${styles["loading"]} ${styles["btn-icon"]}`} code="&#xe8fd;" />}
+      <button
+        type="button"
+        className={`ai-btn ${className} ${disabled ? 'disabled' : ''}`}
+        onClick={this.click.bind(this)}
+      >
+        {!showLoading && icon && <WIcon className="btn-icon" code={icon} />}
+        {showLoading && <WIcon className="loading btn-icon" code="&#xe8fd;" />}
         {children}
       </button>
     );

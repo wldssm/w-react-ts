@@ -1,16 +1,16 @@
-@import "../../../public/css/_variable.less";
+@import '../../assets/css/_variable.less';
 
 .tree-box {
   .tree-branch {
     width: 100%;
 
     .tree-name {
-      cursor: pointer;
       display: flex;
       align-items: center;
       height: 28px;
       margin-bottom: 5px;
       padding-left: var(--var-pl);
+      cursor: pointer;
 
       &:hover,
       &.on {
@@ -19,23 +19,23 @@
 
       .tree-txt {
         flex: 1;
-        font-size: 14px;
-        letter-spacing: 1px;
 
         overflow: hidden;
+        font-size: 14px;
+        letter-spacing: 1px;
+        white-space: nowrap;
         text-overflow: ellipsis;
-        white-space: nowrap
       }
 
-      :global(.icon-arrow) {
+      .icon-arrow {
         margin-right: 10px;
       }
 
-      :global(.icon-check) {
+      .icon-check {
         margin-right: 10px;
       }
 
-      :global(.iconfont) {
+      .iconfont {
         font-size: 14px;
       }
     }

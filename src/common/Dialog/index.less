@@ -1,27 +1,27 @@
-@import "../../../public/css/_variable.less";
+@import '../../assets/css/_variable.less';
 
 // 蒙版背景
 .pop-mask {
-  z-index: 5;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: 5;
   background: rgba(6, 6, 6, 0.65);
 }
 
 .pop-model {
-  z-index: 100;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: hidden;
+  z-index: 100;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  overflow: hidden;
 
   .p-main {
     position: relative;
@@ -29,8 +29,8 @@
     min-width: 260px;
     max-height: 90%;
     overflow: auto;
-    border-radius: 4px;
     background: @aibox-bg4;
+    border-radius: 4px;
 
     // head
     .p-head {
@@ -39,23 +39,23 @@
       align-items: center;
       justify-content: center;
       height: 62px;
-      border-bottom: 1px solid rgba(216, 216, 216, .1);
+      border-bottom: 1px solid rgba(216, 216, 216, 0.1);
 
       .title {
+        color: #fff;
         font-size: 18px;
         letter-spacing: 2px;
-        color: #fff;
       }
 
       .i-close {
-        cursor: pointer;
         position: absolute;
         top: 0;
         right: 0;
         height: 100%;
         padding: 20px 16px;
-        font-size: 22px;
         color: #fff;
+        font-size: 22px;
+        cursor: pointer;
       }
     }
 
@@ -69,11 +69,12 @@
         width: 100px;
         height: 32px;
         margin-right: 18px;
-        font-size: 14px;
         color: #fff;
+        font-size: 14px;
       }
 
-      .btn-cancel {}
+      .btn-cancel {
+      }
 
       .btn-sure {
         background: @aibox-bg12;

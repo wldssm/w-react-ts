@@ -1,8 +1,8 @@
 /// <reference path="../typings.d.ts" />
 
-import '../public/css/reset.css';
-import '../public/css/font.less';
-import '../public/css/common.less';
+import './assets/css/reset.css';
+import './assets/css/font.less';
+import './assets/css/common.less';
 
 export { default as WIcon } from './common/Icon';
 export { default as WButton } from './common/Button';

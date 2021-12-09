@@ -1,11 +1,11 @@
-@import "../../../public/css/_variable.less";
+@import '../../assets/css/_variable.less';
 
 .page-cont {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  font-size: 14px;
   color: #fff;
+  font-size: 14px;
 
   .total {
     margin: 0 6px 0;
@@ -16,40 +16,40 @@
   }
 
   .arrow {
-    cursor: pointer;
     width: 20px;
     margin: 0 6px 0 2px;
-    text-align: center;
-    font-size: 12px;
     color: #fff;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
 
     &:hover {
-      color: #2378DE;
+      color: #2378de;
     }
 
-    &:global(.disabled) {
-      cursor: default;
+    &.disabled {
       color: @aibox-bg3;
+      cursor: default;
     }
   }
 
   .num {
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 32px;
     height: 32px;
-    font-size: 14px;
     color: #fff;
+    font-size: 14px;
+    cursor: pointer;
 
     &:hover {
-      color: #2378DE;
+      color: #2378de;
       font-weight: bold;
     }
 
     &.active {
-      background: #2378DE;
+      background: #2378de;
       border-radius: 2px;
 
       &:hover {
@@ -63,14 +63,14 @@
 
     input {
       display: inline-block;
-      min-width: 0;
       width: 44px;
+      min-width: 0;
       height: 32px;
       margin: 0 8px;
       padding: 0 8px;
-      font-size: 14px;
       color: #fff;
-      background: #1D508D;
+      font-size: 14px;
+      background: #1d508d;
       border-radius: 2px;
     }
   }

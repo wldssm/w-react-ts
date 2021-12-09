@@ -1,64 +1,63 @@
-@import "../../../public/css/_variable.less";
+@import '../../assets/css/_variable.less';
 
 .el-dropdown {
-  min-width: 0;
-  cursor: pointer;
   position: relative;
   display: flex;
   align-items: center;
+  min-width: 0;
   // width: 200px;
   height: 40px;
   font-size: 14px;
-  background: #193C66;
+  background: #193c66;
+  border: 1px solid #2378de;
   border-radius: 2px;
-  border: 1px solid #2378DE;
+  cursor: pointer;
 
   .i-txt {
     flex: 1;
-    min-width: 0;
     width: 100%;
+    min-width: 0;
     padding: 0 15px;
+    overflow: hidden;
+    color: #fff;
     font-size: 14px;
     letter-spacing: 1px;
-    color: #fff;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
+    text-overflow: ellipsis;
 
     &.i-txt-place {
-      color: #9DA5AC;
+      color: #9da5ac;
     }
   }
 
-  :global(.icon-arrow) {
+  .icon-arrow {
     display: flex;
     align-items: center;
     height: 100%;
     padding: 0 14px 0 0;
-    font-size: 14px;
     color: #fff;
+    font-size: 14px;
   }
 
   // 下拉菜单
   .s-i-box {
-    z-index: 10;
     position: absolute;
     top: calc(100% + 5px);
     left: 0;
+    z-index: 10;
     width: 100%;
     max-height: 200px;
-    overflow: auto;
     padding: 8px 0;
-    background: #193C66;
+    overflow: auto;
+    background: #193c66;
+    border: 1px solid #2378de;
     border-radius: 2px;
-    border: 1px solid #2378DE;
-
 
     .dd-item {
       padding: 8px 20px;
-      line-height: 20px;
-      font-size: 14px;
       color: #fff;
+      font-size: 14px;
+      line-height: 20px;
       letter-spacing: 1px;
 
       &:hover,

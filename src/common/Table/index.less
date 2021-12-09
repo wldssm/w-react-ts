@@ -1,23 +1,23 @@
-@import "../../../public/css/_variable.less";
+@import '../../assets/css/_variable.less';
 
 // 表格
 .table-container {
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
 
   .col {
-    float: left;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    float: left;
     width: 100%;
     min-height: 70px;
     padding: 0 2px;
-    word-break: break-all;
+    color: #fff;
     font-size: 14px;
     letter-spacing: 2px;
-    color: #fff;
+    word-break: break-all;
 
     &.multi {
       white-space: pre-wrap;
@@ -32,9 +32,9 @@
 
     .col {
       min-height: 48px;
+      color: #fff;
       font-size: 14px;
       letter-spacing: 1px;
-      color: #fff;
     }
   }
 

@@ -1,9 +1,8 @@
-@import "./_variable.less";
+@import './_variable.less';
 // @import '~antd/dist/antd.css';
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 #root {
@@ -12,15 +11,15 @@ code {
 
   &:after,
   &:before {
-    content: " ";
-    display: table
+    display: table;
+    content: ' ';
   }
 
   &:after {
     clear: both;
-    visibility: hidden;
+    height: 0;
     font-size: 0;
-    height: 0
+    visibility: hidden;
   }
 }
 
@@ -30,11 +29,11 @@ code {
 }
 
 .adm-toast-mask .adm-toast-wrap {
-  font-size: 14px;
   color: #fff;
-  background: #0B2443;
-  box-shadow: 0px 5px 10px 0px #081D36;
+  font-size: 14px;
+  background: #0b2443;
   border-radius: 4px;
+  box-shadow: 0px 5px 10px 0px #081d36;
 }
 
 // 主体
@@ -88,7 +87,7 @@ code {
 }
 
 .border-b-search {
-  border-bottom: 1px solid rgba(216, 216, 216, .1);
+  border-bottom: 1px solid rgba(216, 216, 216, 0.1);
 }
 
 .bg-gray {
@@ -116,8 +115,8 @@ code {
 }
 
 .el-col-3 {
-  max-width: 33.3333% !important;
   width: 33.3333% !important;
+  max-width: 33.3333% !important;
 
   &:nth-child(3n) {
     width: 33.3334% !important;
@@ -141,8 +140,8 @@ code {
   .s-item,
   .s-item-2 {
     display: inline-flex;
-    align-items: center;
     flex-wrap: nowrap;
+    align-items: center;
   }
 
   .s-item {
@@ -157,10 +156,10 @@ code {
 
   .label {
     margin-left: 28px;
-    white-space: nowrap;
+    color: #fff;
     font-size: 14px;
     letter-spacing: 2px;
-    color: #fff;
+    white-space: nowrap;
 
     &.c-label {
       margin: 0 12px;
@@ -168,8 +167,8 @@ code {
   }
 
   .s-i-box {
-    min-width: 100px;
     flex: 1;
+    min-width: 100px;
     max-width: 280px;
   }
 }
@@ -202,11 +201,11 @@ code {
 
   .p-tip-txt {
     width: 90%;
-    padding: 30px 0;
     margin: 0 auto;
-    text-align: center;
-    font-size: 16px;
+    padding: 30px 0;
     color: #fff;
+    font-size: 16px;
+    text-align: center;
   }
 }
 
@@ -224,10 +223,10 @@ code {
       // flex: 1;
       margin-bottom: 15px;
       padding: 0 5px;
+      color: #fff;
       font-size: 16px;
       letter-spacing: 2px;
       word-break: break-all;
-      color: #fff;
     }
   }
 

@@ -1,17 +1,23 @@
 {
   "name": "w-react-ts",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "react-npm",
   "keywords": [
     "react",
     "ts"
   ],
   "main": "es/index.ts",
+  "files": [
+    "es",
+    "src",
+    "typings.d.ts"
+  ],
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
     "docs:deploy": "gh-pages -d dist",
     "build": "father-build",
+    "build:dev": "father-build -w",
     "deploy": "npm run docs:build && npm run docs:deploy",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "test": "umi-test",

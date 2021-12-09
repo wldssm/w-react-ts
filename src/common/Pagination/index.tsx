@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 
 import WIcon from '../Icon';
-import styles from './index.less';
+import './index.less';
 
 interface Props {
-  showTotal: boolean,  // 显示总页数
-  total: number,
-  pageSize: number,  // 每页显示条数
-  curPage: number,  // 当前页
-  className: '',
-  showNum: number,  // 可见页码数，超出显示...。最小7，最大9
-  onChange?: (...param: any) => any
+  showTotal: boolean; // 显示总页数
+  total: number;
+  pageSize: number; // 每页显示条数
+  curPage: number; // 当前页
+  className: '';
+  showNum: number; // 可见页码数，超出显示...。最小7，最大9
+  onChange?: (...param: any) => any;
 }
 
 class WPagination extends Component<Props> {
@@ -54,21 +54,21 @@ class WPagination extends Component<Props> {
       for (let i = 0; i < showNum; i++) {
         pageArr.push(i + 1);
       }
-      return [...pageArr, "...", this.pageNum];
+      return [...pageArr, '...', this.pageNum];
     }
     if (curPage > this.pageNum - showNum) {
       // 当前页在后
       for (let i = 0; i < showNum; i++) {
         pageArr.push(this.pageNum - showNum + i + 1);
       }
-      return pageArr = [1, "...", ...pageArr];
+      return (pageArr = [1, '...', ...pageArr]);
     }
     // 显示两个...
     showNum = showNum - 2;
     for (let i = 0; i < showNum; i++) {
       pageArr.push(curPage - (showNum - 1) / 2 + i);
     }
-    return [1, "...", ...pageArr, "...", this.pageNum];
+    return [1, '...', ...pageArr, '...', this.pageNum];
   };
 
   prev = () => {
@@ -88,7 +88,7 @@ class WPagination extends Component<Props> {
 
   // 页码跳转
   go = (...param: any) => {
-    let [page, index, pageArr] = [...param]
+    let [page, index, pageArr] = [...param];
     if (page === '...' && pageArr) {
       page = Math.floor((pageArr[index - 1] + pageArr[index + 1]) / 2);
     }
@@ -122,18 +122,52 @@ class WPagination extends Component<Props> {
     let pageArr = this.getPageBtn();
     let { showTotal, total, curPage, className } = this.props;
     return (
-      <div className={`${styles["page-cont"]} ${className}`} >
-        {showTotal && <p className={styles["total"]}> 共<span>{total}</span>条</p>}
-        {this.pageNum > 0 && <WIcon onClick={this.prev} code="&#xe660;" className={`${styles["arrow"]} ${curPage === 1 ? "disabled" : ""}`} />}
+      <div className={`page-cont ${className}`}>
+        {showTotal && (
+          <p className="total">
+            {' '}
+            共<span>{total}</span>条
+          </p>
+        )}
+        {this.pageNum > 0 && (
+          <WIcon
+            onClick={this.prev}
+            code="&#xe660;"
+            className={`arrow ${curPage === 1 ? 'disabled' : ''}`}
+          />
+        )}
         {pageArr.map((item, index) => {
           return (
-            <span onClick={this.go.bind(this, item, index, pageArr)} key={Math.random().toString(36).substr(2)} className={`${styles["num"]} ${item === curPage ? styles["active"] : ''}`}>{item}</span>
+            <span
+              onClick={this.go.bind(this, item, index, pageArr)}
+              key={Math.random().toString(36).substr(2)}
+              className={`num ${item === curPage ? 'active' : ''}`}
+            >
+              {item}
+            </span>
           );
         })}
-        {this.pageNum > 0 && <WIcon onClick={this.next} code="&#xe65f;" className={`${styles["arrow"]} ${curPage === this.pageNum ? "disabled" : ""}`} />}
-        {this.pageNum > 1 && <div className={styles["jumper"]}>
-          跳至<input type="text" onChange={this.change} value={this.state.num} autoComplete="off" name="num" onKeyPress={this.keyPress} />页
-        </div>}
+        {this.pageNum > 0 && (
+          <WIcon
+            onClick={this.next}
+            code="&#xe65f;"
+            className={`arrow ${curPage === this.pageNum ? 'disabled' : ''}`}
+          />
+        )}
+        {this.pageNum > 1 && (
+          <div className="jumper">
+            跳至
+            <input
+              type="text"
+              onChange={this.change}
+              value={this.state.num}
+              autoComplete="off"
+              name="num"
+              onKeyPress={this.keyPress}
+            />
+            页
+          </div>
+        )}
       </div>
     );
   }

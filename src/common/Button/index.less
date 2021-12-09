@@ -1,4 +1,4 @@
-@import "../../../public/css/_variable.less";
+@import '../../assets/css/_variable.less';
 
 @keyframes loading {
   from {
@@ -16,20 +16,20 @@
   justify-content: center;
   width: 180px;
   height: 40px;
-  font-size: 14px;
-  white-space: nowrap;
   color: #fff;
-  border-radius: 2px;
-  background: @aibox-bg2;
+  font-size: 14px;
   letter-spacing: 2px;
+  white-space: nowrap;
+  background: @aibox-bg2;
+  border-radius: 2px;
 
   &.disabled {
+    color: @aibox-color-a2 !important;
+    background: @aibox-bg3 !important;
     cursor: not-allowed;
-    background: @aibox-bg3  !important;
-    color: @aibox-color-a2  !important;
   }
 
-  :global(.btn-icon) {
+  .btn-icon {
     margin-right: 10px;
   }
 
