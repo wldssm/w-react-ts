@@ -15,3 +15,5 @@ export { default as WDropDown } from './common/DropDown';
 export { default as WNoData } from './common/NoData';
 export { default as WInput } from './common/Input';
 export { default as WDialog } from './common/Dialog';
+export { default as WImgZoomin } from './common/ImgZoomin';
+export { default as WToast } from './common/Toast';

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 
 import './index.less';
 
@@ -10,6 +10,7 @@ interface Props {
   maxLength: number;
   placeholder: string;
   autoComplete: string; // 是否记住密码
+  disabled: boolean;
   width: string;
   className: string;
   onChange: (...param: any) => any; // 输入事件
@@ -29,6 +30,8 @@ class WInput extends Component<Props> {
     onEnter: () => {},
   };
 
+  inputRef: React.RefObject<HTMLInputElement> = createRef();
+
   // 双向绑定数据
   change = (e: any) => {
     const target = e.target,
@@ -44,6 +47,11 @@ class WInput extends Component<Props> {
     }
   };
 
+  // 获取焦点
+  focus = () => {
+    this.inputRef?.current?.focus();
+  };
+
   render() {
     let {
       value,
@@ -56,11 +64,16 @@ class WInput extends Component<Props> {
       leftNode,
       rightNode,
       width,
+      disabled,
     } = this.props;
     return (
-      <div className={`i-txt-box ${className}`} style={{ width: width }}>
+      <div
+        className={`i-txt-box ${className} ${disabled ? 'disabled' : ''}`}
+        style={{ width: width }}
+      >
         {leftNode}
         <input
+          ref={this.inputRef}
           type={type && !showPwd ? type : 'text'}
           value={value}
           autoComplete={autoComplete}
@@ -69,6 +82,7 @@ class WInput extends Component<Props> {
           onKeyPress={this.keyPress}
           maxLength={maxLength}
           placeholder={placeholder}
+          disabled={disabled}
         />
         {rightNode}
       </div>

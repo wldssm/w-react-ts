@@ -11,6 +11,7 @@ interface Props {
   showBtn: boolean;
   btnLoading: boolean;
   btnDisabled: boolean;
+  maskClickable: boolean; // 点击背景关闭
   className: string;
   headNode: any; // 头部插槽
   onClose: () => any;
@@ -26,10 +27,12 @@ class WDialog extends Component<Props> {
     btnLoading: false,
     btnDisabled: false,
     className: '',
+    maskClickable: false,
   };
 
   // 关闭弹框
-  close = () => {
+  close = (type: any) => {
+    if (type === 'mask' && !this.props.maskClickable) return false;
     this.props.onClose();
   };
   // 弹框确定
@@ -57,14 +60,14 @@ class WDialog extends Component<Props> {
               <div className="p-head">
                 {headNode}
                 <p className="title">{title}</p>
-                <WIcon className="i-close" onClick={this.close} code="&#xe600;" />
+                {!btnDisabled && <WIcon className="i-close" onClick={this.close} code="&#xe600;" />}
               </div>
             )}
             {/* mian */}
             {children}
             {showBtn && (
               <div className="btn-cont">
-                <WButton className="btn-cancel" onClick={this.close}>
+                <WButton className="btn-cancel" disabled={btnDisabled} onClick={this.close}>
                   取消
                 </WButton>
                 <WButton
@@ -78,7 +81,7 @@ class WDialog extends Component<Props> {
               </div>
             )}
           </div>
-          <div className="pop-mask"></div>
+          <div className="pop-mask" onClick={this.close.bind(this, 'mask')}></div>
         </div>
       )
     );

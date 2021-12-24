@@ -18,6 +18,7 @@ interface Props {
   className: string;
   leftNode?: any; // 输入框左边插槽
   rightNode?: any; // 输入框右边插槽
+  onClick: (...param: any) => any; // 单击下拉菜单
   onSelect: (...param: any) => any; // 选中下拉菜单选项
   onChange: (...param: any) => any; // 输入事件
   onEnter: (...param: any) => any; // 回车事件
@@ -34,6 +35,7 @@ class WDropDown extends Component<Props> {
     disabled: false,
     canInput: false,
     className: '',
+    onClick: () => {},
     onChange: () => {},
     onEnter: () => {},
     onSelect: () => {},
@@ -44,6 +46,19 @@ class WDropDown extends Component<Props> {
   state = {
     ifExpanded: true,
   };
+
+  // 当前显示的curIndex
+  get curIndex() {
+    let { options, curIndex } = this.props,
+      len = options?.length || 0;
+    if (len === 0) {
+      return -1;
+    }
+    if (curIndex > len - 1) {
+      return len - 1;
+    }
+    return curIndex;
+  }
 
   componentDidMount() {
     let { expanded } = this.props;
@@ -79,8 +94,12 @@ class WDropDown extends Component<Props> {
 
   // 整体点击
   click = (status: boolean, e: any) => {
+    let { options, name } = this.props;
     e.preventDefault();
     if (this.props.disabled) return false;
+    let curStatus = options?.length <= 0 ? status : !status;
+    this.props.onClick(name, curStatus, options);
+    if (options?.length <= 0) return false;
     this.toggle(status, e);
   };
   // 切换显示隐藏
@@ -100,7 +119,6 @@ class WDropDown extends Component<Props> {
     let { ifExpanded } = this.state;
     let {
       value,
-      curIndex,
       placeholder,
       maxLength,
       className,
@@ -112,22 +130,23 @@ class WDropDown extends Component<Props> {
       prop,
       optionLeft,
       optionRight,
+      disabled,
     } = this.props;
     return (
       <div
-        className={`el-dropdown ${className}`}
+        className={`el-dropdown ${className} ${disabled ? 'disabled' : ''}`}
         style={{ width: width }}
         onClick={this.click.bind(this, ifExpanded)}
       >
         {leftNode}
         {!canInput ? (
-          <div className={`i-txt ${curIndex < 0 ? 'i-txt-place' : ''}`}>
-            {curIndex >= 0
-              ? prop && options[curIndex]
-                ? options[curIndex][prop]
-                : typeof options[curIndex] === 'object'
-                ? JSON.stringify(options[curIndex])
-                : options[curIndex]
+          <div className={`i-txt ${this.curIndex < 0 ? 'i-txt-place' : ''}`}>
+            {this.curIndex >= 0
+              ? prop && options[this.curIndex]
+                ? options[this.curIndex][prop]
+                : typeof options[this.curIndex] === 'object'
+                ? JSON.stringify(options[this.curIndex])
+                : options[this.curIndex]
               : placeholder}
           </div>
         ) : (
@@ -154,7 +173,7 @@ class WDropDown extends Component<Props> {
             {options.map((item, index) => {
               return (
                 <div
-                  className={`dd-item ${index === curIndex ? 'active' : ''}`}
+                  className={`dd-item ${index === this.curIndex ? 'active' : ''}`}
                   key={Math.random().toString(36).substr(2)}
                   onClick={this.select.bind(this, item, index)}
                 >

@@ -1,13 +1,14 @@
 import { defineConfig } from 'dumi';
 
 export default defineConfig({
+  hash: true,
   title: 'w-react-ts',
-  favicon: './img/logo.png',
-  logo: './img/logo.png',
+  favicon: './logo.png',
+  logo: './logo.png',
   outputPath: 'dist',
-  publicPath: "./",
+  publicPath: './',
   history: {
-    type: 'hash'
-  }
+    type: 'hash',
+  },
   // more config: https://d.umijs.org/config
 });

@@ -1,0 +1,62 @@
+// 蒙版背景
+.toast-mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0);
+}
+
+.toast-model {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  overflow: hidden;
+
+  .toast-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    min-width: 96px;
+    max-width: 70%;
+    max-height: 70%;
+    padding: 15px 25px;
+    color: #fff;
+    font-size: 14px;
+    word-break: break-all;
+    background: #0b2443;
+    border-radius: 4px;
+    box-shadow: 0px 5px 10px 0px #081d36;
+    transform: translate(-50%, -50%);
+  }
+
+  .toast-icon {
+    margin: 10px 0;
+    color: #fff;
+    font-size: 36px;
+
+    .iconfont {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      margin: 0 auto;
+    }
+
+    .t-icon-fail {
+      font-size: 28px;
+    }
+
+    .t-icon-loading {
+      font-size: 28px;
+      animation: loading 1s linear 0s infinite;
+    }
+  }
+}

@@ -1,4 +1,3 @@
-
 // 字段格式化
 export function valFmt(val: any, sep: any = '-') {
   if (val == null || val === '') {
@@ -10,20 +9,28 @@ export function valFmt(val: any, sep: any = '-') {
 // 默认加密，type为1则解密
 export function handleCode(value: any, type?: number) {
   if (value == null || value === '') return;
-  return type === 1 ? decodeURIComponent(window.atob(value)) : window.btoa(encodeURIComponent(value));
+  return type === 1
+    ? decodeURIComponent(window.atob(value))
+    : window.btoa(encodeURIComponent(value));
 }
 
 // 获取刷新状态
 export const isRefresh = (history: any) => {
   if (!history || history.action === 'POP') {
-    sessionStorage.setItem('IS_REFRESH', "true");
+    sessionStorage.setItem('IS_REFRESH', 'true');
   } else {
-    sessionStorage.setItem('IS_REFRESH', "false");
+    sessionStorage.setItem('IS_REFRESH', 'false');
   }
 };
 
 // 数据结构转换（平级转树形）
-export const flatToTree = (data: [], rootId: any, key = 'id', pKey = 'parentId', childKay: string = 'children') => {
+export const flatToTree = (
+  data: [],
+  rootId: any,
+  key = 'id',
+  pKey = 'parentId',
+  childKay: string = 'children',
+) => {
   let newArr: any[] = [];
   for (let i = 0; i < data.length; i++) {
     if (data[i][pKey] === rootId) {
@@ -51,15 +58,15 @@ export const treeToFlat = (data: any, childKay = 'children') => {
 };
 
 // 对象数组字段查找
-export function getIndex(arr: any, val: any, key: any) {
+export function getIndex(arr: any, val: any, key?: any) {
   return arr.findIndex((item: any) => {
-    return key ? (item[key] === val) : (item === val);
+    return key ? item[key] === val : item === val;
   });
 }
 
 // 初始化序号（自动补0）
 export function setNum(index: any, len: number) {
-  return (Array(len).join("0") + index).slice(-len);
+  return (Array(len).join('0') + index).slice(-len);
 }
 
 // 递归遍历
@@ -77,24 +84,25 @@ export const deepClone = (source: any) => {
 
 // 对象属性深层合并
 export const deepExtend = (target: any, ...options: any) => {
-  options && options.forEach((option: any) => {
-    for (let key in option) {
-      if (typeof option[key] === 'object') {
-        if (typeof target[key] !== 'object') {
-          target[key] = Array.isArray(option[key]) ? [] : {};
+  options &&
+    options.forEach((option: any) => {
+      for (let key in option) {
+        if (typeof option[key] === 'object') {
+          if (typeof target[key] !== 'object') {
+            target[key] = Array.isArray(option[key]) ? [] : {};
+          }
+          target[key] = deepExtend(target[key], option[key]);
+        } else {
+          target[key] = option[key];
         }
-        target[key] = deepExtend(target[key], option[key]);
-      } else {
-        target[key] = option[key];
       }
-    }
-  });
+    });
   return target;
 };
 
 // 链式取值
 export const $t = (data: object, str: string) => {
-  return str.split(".").reduce(function (pre: any, cur) {
+  return str.split('.').reduce(function (pre: any, cur) {
     return pre[cur];
   }, data);
 };

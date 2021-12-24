@@ -125,7 +125,6 @@ class WPagination extends Component<Props> {
       <div className={`page-cont ${className}`}>
         {showTotal && (
           <p className="total">
-            {' '}
             共<span>{total}</span>条
           </p>
         )}

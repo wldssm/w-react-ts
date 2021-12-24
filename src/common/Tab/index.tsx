@@ -25,7 +25,10 @@ class WTab extends Component<Props> {
       this.setState({ curTag: this.props.initTag });
     } else {
       let childs: any = this.props.children;
-      childs && this.setState({ curTag: childs[0]?.props.tag });
+      if (childs) {
+        let curTag = Array.isArray(childs) ? childs[0]?.props.tag : childs.props.tag;
+        this.setState({ curTag: curTag });
+      }
     }
   }
 

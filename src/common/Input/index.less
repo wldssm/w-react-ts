@@ -10,7 +10,11 @@
   background: #193c66;
   border: 1px solid #2378de;
   border-radius: 2px;
+
   // box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  &.disabled {
+    cursor: not-allowed;
+  }
 
   .i-txt {
     width: 100%;
@@ -20,5 +24,6 @@
     color: #fff;
     font-size: 14px;
     letter-spacing: 1px;
+    cursor: inherit;
   }
 }
