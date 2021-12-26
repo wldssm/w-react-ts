@@ -1,10 +1,10 @@
 ---
-title: Pagination 分页
+title: Slider 滑块
 group:
   title: '通用'
 ---
 
-## Pagination 分页
+## Slider 滑块
 
 ### Demo
 

@@ -17,3 +17,4 @@ export { default as WInput } from './common/Input';
 export { default as WDialog } from './common/Dialog';
 export { default as WImgZoomin } from './common/ImgZoomin';
 export { default as WToast } from './common/Toast';
+// export { default as WSlider } from './common/Slider';

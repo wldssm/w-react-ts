@@ -8,7 +8,7 @@ interface Props {
   total: number;
   pageSize: number; // 每页显示条数
   curPage: number; // 当前页
-  className: '';
+  className: string;
   showNum: number; // 可见页码数，超出显示...。最小7，最大9
   onChange?: (...param: any) => any;
 }
