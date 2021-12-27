@@ -57,9 +57,7 @@ class AiToast extends Component<Props> {
     return (
       <div
         className={`toast-model ${className}`}
-        style={{
-          pointerEvents: maskClickable ? 'none' : 'all',
-        }}
+        style={{ pointerEvents: maskClickable ? 'none' : 'all' }}
       >
         <div className="toast-content" style={{ top: this.posi }}>
           {this.iconRender()}

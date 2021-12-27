@@ -1,35 +1,119 @@
 @import '../../assets/css/_variable.less';
 
+@slider-height: 4px;
+@slider-br: 2px;
+
 .slider-box {
+  .slider-label {
+    margin-bottom: 20px;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  .slider-cont {
+    display: flex;
+    align-items: center;
+  }
+
+  // main
+  .slider-main {
+    position: relative;
+    flex: 1;
+  }
+
+  // runway
   .slider-runway {
     position: relative;
-    height: 4px;
+    width: 100%;
+    height: @slider-height;
     background: #dcdee0;
-    border-radius: 2px;
+    border-radius: @slider-br;
     cursor: pointer;
+
+    &.disabled {
+      cursor: not-allowed;
+
+      .slider-bar {
+        background: @aibox-bg3;
+      }
+
+      .slider-dot-box {
+        cursor: not-allowed;
+      }
+
+      .slider-dot {
+        border: 2px solid @aibox-bg3;
+      }
+    }
   }
 
   .slider-bar {
     position: absolute;
     top: 0;
-    width: 20%;
-    height: 4px;
+    left: 0;
+    z-index: 1;
+    width: 0;
+    height: @slider-height;
+    margin-left: -0.5px;
     background: @aibox-bg2;
-    border-radius: 2px 0 0 2px;
+    border-radius: @slider-br 0 0 @slider-br;
   }
 
-  .slider-dot {
+  .slider-dot-box {
     position: absolute;
     top: 50%;
-    left: 20%;
+    left: 0;
     z-index: 2;
-    width: 14px;
-    height: 14px;
-    background: #fff;
-    border: 2px solid @aibox-bg2;
-    border-radius: 50%;
+    padding: 10px;
     transform: translate(-50%, -50%);
     cursor: grab;
     user-select: none;
+
+    .slider-dot {
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border: 2px solid @aibox-bg2;
+      border-radius: 50%;
+    }
+  }
+
+  // mark
+  .mark-box {
+    position: absolute;
+    top: calc(@slider-height + 10px);
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    span {
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .m-left {
+      transform: translate(-50%, 0);
+    }
+
+    .m-right {
+      transform: translate(50%, 0);
+    }
+  }
+
+  // input
+  input {
+    display: inline-block;
+    width: 60px;
+    min-width: 0;
+    height: 34px;
+    margin: 0 0 0 40px;
+    padding: 0 10px;
+    color: #323233;
+    font-size: 14px;
+    background: #fff;
+    border: 1px solid #c8c9cc;
+    border-radius: 2px;
   }
 }
