@@ -31,12 +31,10 @@ function show(param: any) {
         window.clearTimeout(timer);
       };
     }, []);
-    // return /*#__PURE__*/ React.createElement(InnerToast, Object.assign({}, props));
     return <InnerToast {...props} />;
   };
 
   ReactDOM.render(<TempToast />, container);
-  // ReactDOM.render(/*#__PURE__*/ React.createElement(TempToast, null), container);
 }
 // 清除
 function clear() {

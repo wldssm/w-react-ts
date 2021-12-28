@@ -23,18 +23,18 @@ class Slider extends Component<Props> {
     min: 0,
     max: 100,
     step: 1,
-    label: '3434',
-    showRange: true,
+    showRange: false,
+    showInput: false,
     disabled: false,
     className: '',
   };
   state = {
     newPosi: 0, // 当前位置
+    newValue: 0, // 当前value值
   };
   runwayRef: React.RefObject<HTMLInputElement> = createRef();
   runwayWidth = 0;
   startPageX = 0; // 鼠标相对页面的位置（鼠标按下圆点）
-  newValue = 0; // 当前value值
   isDrag = false; // 拖动中
 
   // 获取圆点当前位置
@@ -53,7 +53,10 @@ class Slider extends Component<Props> {
   }
 
   componentDidMount() {
-    this.setState({ newPosi: this.curPosi });
+    this.setState({
+      newPosi: this.curPosi,
+      newValue: this.props.value,
+    });
   }
   componentWillUnmount() {
     window.removeEventListener('mousemove', this.draging);
@@ -71,7 +74,7 @@ class Slider extends Component<Props> {
     let newPosi = ((e.pageX - runwayPosi?.left) / this.runwayWidth) * 100;
 
     this.calcStep(newPosi);
-    this.props.onChange && this.props.onChange(this.newValue);
+    this.props.onChange && this.props.onChange(this.state.newValue);
   };
   // 鼠标按下圆点
   mouseDown = (e: any) => {
@@ -102,7 +105,7 @@ class Slider extends Component<Props> {
   // 停止拖动
   dragEnd = () => {
     this.isDrag = false;
-    this.props.onChange && this.props.onChange(this.newValue);
+    this.props.onChange && this.props.onChange(this.state.newValue);
     window.removeEventListener('mousemove', this.draging);
     window.removeEventListener('mouseup', this.dragEnd);
   };
@@ -120,8 +123,10 @@ class Slider extends Component<Props> {
       value = curStep * step + min;
     value = parseFloat(value.toFixed(this.precision));
 
-    this.newValue = value;
-    this.setState({ newPosi: curStep * stepLen });
+    this.setState({
+      newPosi: curStep * stepLen,
+      newValue: value,
+    });
     this.props.onInput && this.props.onInput(value);
   };
 
@@ -129,24 +134,36 @@ class Slider extends Component<Props> {
   change = (e: any) => {
     const target = e.target,
       value = target.type === 'checkbox' ? target.checked : target.value;
-    // this.props.change(this.props.name, value);
+    this.setState({ newValue: value });
   };
   // 回车提交
   keyPress = (e: any) => {
     let curKey = e.keyCode || e.which || e.charCode;
     if (curKey === 13) {
-      // this.props.onEnter(this.props.name);
+      let { min, max } = this.props,
+        curValue = this.state.newValue,
+        curPosi = 0;
+      if (curValue > max) {
+        curValue = max;
+      } else if (curValue < min) {
+        curValue = min;
+      }
+      curPosi = ((curValue - min) / (max - min)) * 100;
+      this.setState({
+        newPosi: curPosi,
+        newValue: curValue,
+      });
+      this.props.onChange && this.props.onChange(curValue);
     }
   };
 
   render() {
-    let { newPosi } = this.state,
-      { disabled, min, max, label, className, showRange, value } = this.props;
+    let { newPosi, newValue } = this.state,
+      { disabled, min, max, label, className, showRange, showInput } = this.props;
     return (
       <div className={`slider-box ${className ? className : ''}`}>
-        <p className="slider-label">{label}</p>
+        {label && <p className="slider-label">{label}</p>}
         <div className="slider-cont">
-          {/* main */}
           <div className="slider-main">
             {/* runway */}
             <div
@@ -158,6 +175,7 @@ class Slider extends Component<Props> {
               <div
                 className="slider-dot-box"
                 style={{ left: newPosi + '%' }}
+                title={'' + newValue}
                 onMouseDown={this.mouseDown}
               >
                 <div className="slider-dot"></div>
@@ -171,14 +189,15 @@ class Slider extends Component<Props> {
               </div>
             )}
           </div>
-          {/* input */}
-          <input
-            type="text"
-            onChange={this.change}
-            value={this.newValue}
-            autoComplete="off"
-            onKeyPress={this.keyPress}
-          />
+          {showInput && (
+            <input
+              type="text"
+              onChange={this.change}
+              value={newValue}
+              autoComplete="off"
+              onKeyPress={this.keyPress}
+            />
+          )}
         </div>
       </div>
     );

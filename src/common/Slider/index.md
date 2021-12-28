@@ -14,28 +14,31 @@ group:
  * background: "#081D36"
  */
 import React, { useState } from 'react';
-import { WPagination } from 'w-react-ts';
+import { WSlider } from 'w-react-ts';
 
-let [curPage, setCurPage] = useState(1),
-  total = 21;
+let [curValue, setCurValue] = useState(50);
 
-const getListByPage = (page) => {
-  page = page || 1;
-  setCurPage(page);
-  // ... 根据页码获取数据
+const change = (value) => {
+  setCurValue(value);
 };
 
-export default () => <WPagination total={total} curPage={curPage} onChange={getListByPage} />;
+export default () => (
+  <WSlider value={curValue} label="滑块文本" showInput={true} showRange={true} onChange={change} />
+);
 ```
 
 ### API
 
-| 参数      | 说明         | 类型           | 默认值 |
-| --------- | ------------ | -------------- | ------ |
-| showTotal | 显示总页数   | boolean        | true   |
-| total     | 数据总条数   | number         | 0      |
-| pageSize  | 每页显示条数 | number         | 5      |
-| curPage   | 当前页码     | number         | 1      |
-| showNum   | 可见页码数   | number         | 7      |
-| className | 类名         | string         | -      |
-| onChange  | 切换页码     | function(page) | -      |
+| 参数      | 说明                                         | 类型               | 默认值 |
+| --------- | -------------------------------------------- | ------------------ | ------ |
+| value     | 绑定值                                       | number             | 0      |
+| min       | 最小值                                       | number             | 0      |
+| max       | 最大值                                       | number             | 100    |
+| step      | 步长                                         | number             | 1      |
+| label     | 文本 label                                   | string             | -      |
+| disabled  | 禁用                                         | boolean            | false  |
+| showRange | 显示最大值最小值                             | boolean            | false  |
+| showInput | 显示输入框                                   | boolean            | false  |
+| className | 类名                                         | string             | -      |
+| onChange  | 值改变时触发（松开鼠标后）、输入框回车时触发 | function(curValue) | -      |
+| onInput   | 拖拽时实时触发                               | function(curValue) | -      |

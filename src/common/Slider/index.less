@@ -12,12 +12,10 @@
 
   .slider-cont {
     display: flex;
-    align-items: center;
   }
 
   // main
   .slider-main {
-    position: relative;
     flex: 1;
   }
 
@@ -80,13 +78,11 @@
 
   // mark
   .mark-box {
-    position: absolute;
-    top: calc(@slider-height + 10px);
-    left: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    margin-top: 10px;
 
     span {
       color: #fff;
@@ -115,5 +111,6 @@
     background: #fff;
     border: 1px solid #c8c9cc;
     border-radius: 2px;
+    transform: translate(0, -50%);
   }
 }
