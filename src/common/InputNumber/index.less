@@ -1,0 +1,37 @@
+@import '../../assets/css/_variable.less';
+
+.zoomin-box {
+  display: flex;
+  align-items: center;
+
+  .icom-zoomin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: #fff;
+    font-size: 22px;
+    background: @aibox-color2;
+    border-radius: 100%;
+    cursor: pointer;
+
+    &.disabled {
+      background: @aibox-bg3;
+      cursor: not-allowed;
+    }
+  }
+
+  input {
+    display: inline-block;
+    width: 64px;
+    min-width: 0;
+    height: 34px;
+    margin: 0 10px;
+    padding: 0 8px;
+    color: #fff;
+    font-size: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 2px;
+  }
+}
