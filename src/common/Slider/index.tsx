@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react';
-// import { WTooltip } from '../Tooltip/index';
+import WTooltip from '../Tooltip/index';
 
 import './index.less';
 
@@ -9,6 +9,7 @@ interface Props {
   max: number; // 最大值
   step: number; // 步长
   label?: string; // label文本
+  showTip: boolean; // 显示tooltip
   showRange: boolean; // 显示最大值最小值
   showInput: boolean; // 显示输入框
   disabled: boolean; // 禁用
@@ -23,6 +24,7 @@ class Slider extends Component<Props> {
     min: 0,
     max: 100,
     step: 1,
+    showTip: true,
     showRange: false,
     showInput: false,
     disabled: false,
@@ -73,8 +75,10 @@ class Slider extends Component<Props> {
     this.runwayWidth = runwayPosi?.right - runwayPosi?.left;
     let newPosi = ((e.pageX - runwayPosi?.left) / this.runwayWidth) * 100;
 
-    this.calcStep(newPosi);
-    this.props.onChange && this.props.onChange(this.state.newValue);
+    this.setState({ ...this.calcStep(newPosi) }, () => {
+      this.props.onInput && this.props.onInput(this.state.newValue);
+      this.props.onChange && this.props.onChange(this.state.newValue);
+    });
   };
   // 鼠标按下圆点
   mouseDown = (e: any) => {
@@ -99,7 +103,10 @@ class Slider extends Component<Props> {
     if (this.isDrag) {
       let diffX = ((e.pageX - this.startPageX) / this.runwayWidth) * 100,
         newPosi = this.curPosi + diffX;
-      this.calcStep(newPosi);
+
+      this.setState({ ...this.calcStep(newPosi) }, () => {
+        this.props.onInput && this.props.onInput(this.state.newValue);
+      });
     }
   };
   // 停止拖动
@@ -123,11 +130,10 @@ class Slider extends Component<Props> {
       value = curStep * step + min;
     value = parseFloat(value.toFixed(this.precision));
 
-    this.setState({
+    return {
       newPosi: curStep * stepLen,
       newValue: value,
-    });
-    this.props.onInput && this.props.onInput(value);
+    };
   };
 
   // 双向绑定数据
@@ -157,9 +163,18 @@ class Slider extends Component<Props> {
     }
   };
 
+  // 圆点渲染
+  dotRender = (newPosi: any) => {
+    return (
+      <div className="slider-dot-box" style={{ left: newPosi + '%' }} onMouseDown={this.mouseDown}>
+        <div className="slider-dot"></div>
+      </div>
+    );
+  };
+
   render() {
     let { newPosi, newValue } = this.state,
-      { disabled, min, max, label, className, showRange, showInput } = this.props;
+      { disabled, min, max, label, className, showRange, showInput, showTip } = this.props;
     return (
       <div className={`slider-box ${className ? className : ''}`}>
         {label && <p className="slider-label">{label}</p>}
@@ -172,14 +187,11 @@ class Slider extends Component<Props> {
               onMouseDown={this.clickRunway}
             >
               <div className="slider-bar" style={{ width: newPosi + '%' }}></div>
-              <div
-                className="slider-dot-box"
-                style={{ left: newPosi + '%' }}
-                title={'' + newValue}
-                onMouseDown={this.mouseDown}
-              >
-                <div className="slider-dot"></div>
-              </div>
+              {showTip ? (
+                <WTooltip content={newValue}>{this.dotRender(newPosi)}</WTooltip>
+              ) : (
+                this.dotRender(newPosi)
+              )}
             </div>
             {/* mark */}
             {showRange && (

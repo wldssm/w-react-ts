@@ -1,81 +1,237 @@
-import React, { Component, createRef, ReactNode } from 'react';
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import ReactDOM from 'react-dom';
-import InnerTooltip from './tooltip';
 
-interface Props {
-  content: string;
-  dir: string; // 气泡框剪头方向：top、bottom、right、left
-}
+import './index.less';
 
-// const Test = React.forwardRef((props: any, ref: any) => (
-//   <button ref={ref} className="FancyButton">
-//     {props.children}
-//   </button>
-// ));
+// 定位tip位置
+const setPosi = (childNode: any, refNode: any, props: any) => {
+  if (!childNode || !refNode) return false;
 
-const TempTooltip = (props: any) => {
-  console.log(props);
+  let { dir } = props,
+    childPosi = childNode.getBoundingClientRect(),
+    refPosi = refNode.getBoundingClientRect(),
+    refW = refPosi.right - refPosi.left,
+    refH = refPosi.bottom - refPosi.top,
+    childW = childPosi.right - childPosi.left,
+    childH = childPosi.bottom - childPosi.top,
+    tipX = 0,
+    tipY = 0,
+    scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+  if (dir === 'bottom') {
+    tipX = childPosi.left + childW / 2 - refW / 2;
+    tipY = childPosi.bottom + 8 + 6 + scrollTop;
+  } else if (dir === 'left') {
+    tipX = childPosi.left - refW - 8 - 6;
+    tipY = childPosi.top + childH / 2 - refH / 2 + scrollTop;
+  } else if (dir === 'right') {
+    tipX = childPosi.right + 8 + 6;
+    tipY = childPosi.top + childH / 2 - refH / 2 + scrollTop;
+  } else {
+    // top
+    tipX = childPosi.left + childW / 2 - refW / 2;
+    tipY = childPosi.top - refH - 8 - 6 + scrollTop;
+  }
+  // console.log("childPosi", childPosi);
+  // console.log("refPosi", refNode);
+  // console.log("refPosi", refPosi);
+  // console.log(tipX, tipY);
 
-  const container = document.createElement('div');
-  document.body.appendChild(container);
-  return ReactDOM.createPortal(<InnerTooltip {...props} />, container);
-
-  //  return   ReactDOM.render(<InnerTooltip {...this.props} />, container)
+  refNode.style.left = tipX + 'px';
+  refNode.style.top = tipY + 'px';
 };
 
-class Tooltip extends Component<Props> {
-  static defaultProps = {
-    content: '2323',
-    dir: 'top',
-    className: '',
-  };
+// 需要tooltip的容器
+let TooltipChild = (props: any, ref: any): any => {
+  return (
+    <>
+      {React.Children.map(props.children, (child: any) => {
+        return React.cloneElement(child, {
+          ref: ref,
+          // ref: props.childRef,
+          className: [child.props.className, 'tooltip-wrap'].join(' '),
+          onMouseDown: (e: MouseEvent) => {
+            props.mouseDown(e);
+            child.props.onMouseDown && child.props.onMouseDown(e);
+          },
+          onMouseEnter: (e: MouseEvent) => {
+            props.mouseEnter(e);
+            child.props.onMouseEnter && child.props.onMouseEnter(e);
+          },
+          onMouseLeave: (e: MouseEvent) => {
+            props.mouseLeave(e);
+            child.props.onMouseLeave && child.props.onMouseLeave(e);
+          },
+        });
+      })}
+    </>
+  );
+};
+TooltipChild = forwardRef(TooltipChild);
 
-  state = {
-    show: false,
-  };
-  timer = null;
-  runwayRef: React.RefObject<HTMLInputElement> = createRef();
-
-  componentWillUnmount() {
-    if (this.timer) clearTimeout(this.timer);
+let InnerTooltip = (props: any): any => {
+  let dirClass = 'top',
+    { dir } = props;
+  if (['top', 'bottom', 'right', 'left'].includes(dir)) {
+    dirClass = dir;
   }
+  return (
+    <div
+      className={`tooltip-box dir-${dirClass} ${props.className}`}
+      ref={props.tooltipRef}
+      onMouseLeave={props.mouseLeave}
+      onMouseEnter={props.mouseEnter}
+    >
+      {props.content}
+    </div>
+  );
+};
 
-  mouseEnter = (e: any) => {
-    console.log(1);
-    this.setState({ show: true });
-    setTimeout(() => {
-      console.log('显示');
-      // this.test()
-      console.log(<TempTooltip />);
-    }, 10);
+// tooltip内容
+let TooltipCont = (props: any) => {
+  useEffect(() => {
+    if (!props.tooltipRef.current) return;
+    // console.log('只第一次执行');
+    setPosi(props.childNode, props.tooltipRef.current, props);
+    // return () => {
+    //   props.tooltipRef.current && document.body.removeChild(props.tooltipRef.current);
+    // }
+  }, [props.node]);
+
+  useEffect(() => {
+    if (!props.node) return;
+    if (!props.show) {
+      props.tooltipRef.current.style.display = 'none';
+    } else {
+      props.tooltipRef.current.style.removeProperty('display');
+      // props.tooltipRef.current.removeAttribute("style");
+      setPosi(props.childNode, props.tooltipRef.current, props);
+    }
+  }, [props.show]);
+  return (
+    props.node &&
+    ReactDOM.createPortal(
+      <InnerTooltip
+        {...props}
+        tooltipRef={props.tooltipRef}
+        mouseLeave={props.mouseLeave}
+        mouseEnter={props.mouseEnter}
+      />,
+      document.body,
+    )
+  );
+};
+
+const Tooltip = (props: any) => {
+  let [show, setShow] = useState(false),
+    [node, setNode] = useState(false),
+    [isDrag, setIsDrag] = useState(false), // 拖动中
+    [isLeave, setIsLeave] = useState(true), // 是否离开
+    tooltipRef = useRef(null),
+    childRef = useRef(null),
+    showTimer: any = null,
+    hideTimer: any = null;
+
+  // show
+  useEffect(() => {
+    if (!show) return;
+    if (!node) {
+      setNode(true); // 第一次的时候新增节点
+    }
+    return () => {
+      window.clearTimeout(showTimer);
+      window.clearTimeout(hideTimer);
+    };
+  }, [show]);
+  // isDrag
+  useEffect(() => {
+    if (isDrag) {
+      window.addEventListener('mousemove', draging);
+      window.addEventListener('mouseup', dragEnd);
+    } else {
+      window.removeEventListener('mousemove', draging);
+      window.removeEventListener('mouseup', dragEnd);
+      if (isLeave) {
+        hide();
+      }
+    }
+    return () => {
+      window.removeEventListener('mousemove', draging);
+      window.removeEventListener('mouseup', dragEnd);
+    };
+  }, [isDrag, isLeave]);
+
+  const mouseDown = () => {
+    // console.log('mouseDown');
+    setIsDrag(true);
   };
-  mouseLeave = (e: any) => {
-    console.log(2);
-    if (this.timer) clearTimeout(this.timer);
-    this.setState({ show: false });
+  const draging = () => {
+    // console.log('mousemove');
+    if (isDrag) {
+      if (hideTimer) window.clearTimeout(hideTimer);
+      setPosi(childRef.current, tooltipRef.current, props);
+    }
   };
-  render() {
-    let { children } = this.props,
-      { show } = this.state;
-    return (
-      <>
-        {React.Children.map(children, (child: any) => {
-          return React.cloneElement(child, {
-            className: [child.props.className, 'tooltip-wrap'].join(' '),
-            onMouseEnter: (e: MouseEvent) => {
-              this.mouseEnter(e);
-              child.props.onMouseEnter && child.props.onMouseEnter(e);
-            },
-            onMouseLeave: (e: MouseEvent) => {
-              this.mouseLeave(e);
-              child.props.mouseLeave && child.props.mouseLeave(e);
-            },
-          });
-        })}
-        <TempTooltip {...this.props} />
-      </>
-    );
-  }
-}
+  const dragEnd = () => {
+    // console.log('mouseup');
+    setIsDrag(false);
+  };
+  // mouseEnter
+  const mouseEnter = () => {
+    // console.log('mouseEnter');
+    if (!isDrag) {
+      setIsLeave(false);
+    }
+    if (showTimer) window.clearTimeout(showTimer);
+    if (hideTimer) window.clearTimeout(hideTimer);
+    showTimer = window.setTimeout(() => {
+      setShow(true);
+    }, 200);
+  };
+  // mouseLeave
+  const mouseLeave = () => {
+    // console.log('mouseLeave');
+    if (!isDrag) {
+      hide();
+    } else {
+      setIsLeave(true);
+    }
+  };
+  // 隐藏
+  const hide = () => {
+    if (showTimer) clearTimeout(showTimer);
+    if (hideTimer) clearTimeout(hideTimer);
+    hideTimer = window.setTimeout(() => {
+      // console.log('隐藏');
+      setShow(false);
+    }, 200);
+  };
+
+  return (
+    <>
+      <TooltipChild
+        ref={childRef}
+        {...props}
+        mouseLeave={mouseLeave}
+        mouseEnter={mouseEnter}
+        mouseDown={mouseDown}
+      />
+      <TooltipCont
+        tooltipRef={tooltipRef}
+        childNode={childRef.current}
+        {...props}
+        show={show}
+        node={node}
+        mouseLeave={mouseLeave}
+        mouseEnter={mouseEnter}
+      />
+    </>
+  );
+};
+
+Tooltip.defaultProps = {
+  content: '',
+  dir: 'top', // top、bottom、left、right
+  className: '',
+};
 
 export default Tooltip;

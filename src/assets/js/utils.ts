@@ -106,3 +106,15 @@ export const $t = (data: object, str: string) => {
     return pre[cur];
   }, data);
 };
+
+// 防抖
+export const debounce = (func: any, gap: number) => {
+  let timer: any = null;
+
+  return function (...args: any) {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.apply(null, args);
+    }, gap);
+  };
+};

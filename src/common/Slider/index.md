@@ -37,6 +37,7 @@ export default () => (
 | step      | 步长                                         | number             | 1      |
 | label     | 文本 label                                   | string             | -      |
 | disabled  | 禁用                                         | boolean            | false  |
+| showTip   | 显示 tooltip                                 | boolean            | true   |
 | showRange | 显示最大值最小值                             | boolean            | false  |
 | showInput | 显示输入框                                   | boolean            | false  |
 | className | 类名                                         | string             | -      |
