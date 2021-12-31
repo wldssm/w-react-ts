@@ -16,28 +16,29 @@ const setPosi = (childNode: any, refNode: any, props: any) => {
     childH = childPosi.bottom - childPosi.top,
     tipX = 0,
     tipY = 0,
-    scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+    scrollTop = document.body.scrollTop || document.documentElement.scrollTop,
+    scrolleft = document.body.scrollLeft || document.documentElement.scrollLeft;
   if (dir === 'bottom') {
     tipX = childPosi.left + childW / 2 - refW / 2;
-    tipY = childPosi.bottom + 8 + 6 + scrollTop;
+    tipY = childPosi.bottom + 8 + 6;
   } else if (dir === 'left') {
     tipX = childPosi.left - refW - 8 - 6;
-    tipY = childPosi.top + childH / 2 - refH / 2 + scrollTop;
+    tipY = childPosi.top + childH / 2 - refH / 2;
   } else if (dir === 'right') {
     tipX = childPosi.right + 8 + 6;
-    tipY = childPosi.top + childH / 2 - refH / 2 + scrollTop;
+    tipY = childPosi.top + childH / 2 - refH / 2;
   } else {
     // top
     tipX = childPosi.left + childW / 2 - refW / 2;
-    tipY = childPosi.top - refH - 8 - 6 + scrollTop;
+    tipY = childPosi.top - refH - 8 - 6;
   }
   // console.log("childPosi", childPosi);
   // console.log("refPosi", refNode);
   // console.log("refPosi", refPosi);
   // console.log(tipX, tipY);
 
-  refNode.style.left = tipX + 'px';
-  refNode.style.top = tipY + 'px';
+  refNode.style.left = tipX + scrolleft + 'px';
+  refNode.style.top = tipY + scrollTop + 'px';
 };
 
 // 需要tooltip的容器

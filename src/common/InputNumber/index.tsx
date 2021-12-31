@@ -4,7 +4,7 @@ import WIcon from '../Icon';
 import './index.less';
 
 interface Props {
-  value: string;
+  value?: string; // (不能写默认值，不然dumi会刷新)
   name: string;
   className: string;
   change: (...param: any) => any; // 输入框改变
@@ -15,7 +15,6 @@ interface Props {
 
 class InputNumber extends Component<Props> {
   static defaultProps = {
-    value: '',
     name: '',
     className: '',
     change: () => {},

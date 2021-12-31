@@ -15,7 +15,7 @@ class AiToast extends Component<Props> {
   static defaultProps = {
     content: '',
     position: 'center',
-    maskClickable: false,
+    maskClickable: true,
     className: '',
   };
 

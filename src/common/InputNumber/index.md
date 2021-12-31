@@ -22,10 +22,10 @@ const change = (name, val) => {
   setValue(val);
 };
 const add = () => {
-  setValue(value + 1);
+  setValue((Number(value) || 0) + 1);
 };
 const minus = () => {
-  setValue(value - 1);
+  setValue((Number(value) || 0) - 1);
 };
 
 export default () => <WInputNumber value={value} change={change} enlarge={add} narrow={minus} />;
