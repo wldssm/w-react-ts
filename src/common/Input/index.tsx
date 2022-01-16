@@ -68,7 +68,7 @@ class WInput extends Component<Props> {
     } = this.props;
     return (
       <div
-        className={`i-txt-box ${className} ${disabled ? 'disabled' : ''}`}
+        className={`i-txt-box ${className}${disabled ? ' disabled' : ''}`}
         style={{ width: width }}
       >
         {leftNode}

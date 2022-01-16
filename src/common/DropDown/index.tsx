@@ -134,7 +134,7 @@ class WDropDown extends Component<Props> {
     } = this.props;
     return (
       <div
-        className={`el-dropdown ${className} ${disabled ? 'disabled' : ''}`}
+        className={`el-dropdown ${className}${disabled ? ' disabled' : ''}`}
         style={{ width: width }}
         onClick={this.click.bind(this, ifExpanded)}
       >

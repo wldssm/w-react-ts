@@ -12,7 +12,7 @@ let containers: any[] = [],
 
 // 显示
 function show(param: any) {
-  let props = deepExtend(defaultProps, typeof param === 'string' ? { content: param } : param);
+  let props = deepExtend({}, defaultProps, typeof param === 'string' ? { content: param } : param);
   clear();
   const container = document.createElement('div');
   document.body.appendChild(container);

@@ -33,17 +33,13 @@ class Slider extends Component<Props> {
   state = {
     newPosi: 0, // 当前位置
     newValue: 0, // 当前value值
+    initPosi: 0, // 初始posi
   };
   runwayRef: React.RefObject<HTMLInputElement> = createRef();
   runwayWidth = 0;
   startPageX = 0; // 鼠标相对页面的位置（鼠标按下圆点）
   isDrag = false; // 拖动中
 
-  // 获取圆点当前位置
-  get curPosi() {
-    let { value, min, max } = this.props;
-    return ((value - min) / (max - min)) * 100;
-  }
   // 获取小数位个数
   get precision() {
     let { min, max, step } = this.props;
@@ -55,15 +51,43 @@ class Slider extends Component<Props> {
   }
 
   componentDidMount() {
-    this.setState({
-      newPosi: this.curPosi,
-      newValue: this.props.value,
-    });
+    this.initUpdate();
+  }
+
+  componentDidUpdate(prevProps: any) {
+    if (this.props.value !== prevProps.value) {
+      this.initUpdate();
+    }
   }
   componentWillUnmount() {
     window.removeEventListener('mousemove', this.draging);
     window.removeEventListener('mouseup', this.dragEnd);
   }
+
+  initUpdate = () => {
+    let { value, min, max } = this.props;
+    if (value < min) {
+      value = min;
+    } else if (value > max) {
+      value = max;
+    }
+    value = parseFloat((+value).toFixed(this.precision));
+    this.setState({
+      newPosi: this.getCurPosi(value),
+      newValue: value,
+    });
+  };
+
+  // 获取圆点当前位置
+  getCurPosi = (value: any) => {
+    let { min, max } = this.props;
+    if (value < min) {
+      value = min;
+    } else if (value > max) {
+      value = max;
+    }
+    return ((value - min) / (max - min)) * 100;
+  };
 
   // 点击跑道选择
   clickRunway = (e: any) => {
@@ -91,6 +115,9 @@ class Slider extends Component<Props> {
     this.isDrag = true;
     this.startPageX = e.pageX;
 
+    this.setState({
+      initPosi: this.getCurPosi(this.props.value),
+    });
     let runwayPosi: any = this.runwayRef?.current?.getBoundingClientRect();
     this.runwayWidth = runwayPosi?.right - runwayPosi?.left;
 
@@ -99,10 +126,11 @@ class Slider extends Component<Props> {
   };
   // 拖动中
   draging = (e: any) => {
+    let { initPosi } = this.state;
     e.preventDefault();
     if (this.isDrag) {
       let diffX = ((e.pageX - this.startPageX) / this.runwayWidth) * 100,
-        newPosi = this.curPosi + diffX;
+        newPosi = initPosi + diffX;
 
       this.setState({ ...this.calcStep(newPosi) }, () => {
         this.props.onInput && this.props.onInput(this.state.newValue);
@@ -112,6 +140,7 @@ class Slider extends Component<Props> {
   // 停止拖动
   dragEnd = () => {
     this.isDrag = false;
+    this.setState({ initPosi: this.state.newPosi });
     this.props.onChange && this.props.onChange(this.state.newValue);
     window.removeEventListener('mousemove', this.draging);
     window.removeEventListener('mouseup', this.dragEnd);
@@ -146,17 +175,9 @@ class Slider extends Component<Props> {
   keyPress = (e: any) => {
     let curKey = e.keyCode || e.which || e.charCode;
     if (curKey === 13) {
-      let { min, max } = this.props,
-        curValue = this.state.newValue,
-        curPosi = 0;
-      if (curValue > max) {
-        curValue = max;
-      } else if (curValue < min) {
-        curValue = min;
-      }
-      curPosi = ((curValue - min) / (max - min)) * 100;
+      let curValue = this.state.newValue;
       this.setState({
-        newPosi: curPosi,
+        newPosi: this.getCurPosi(curValue),
         newValue: curValue,
       });
       this.props.onChange && this.props.onChange(curValue);

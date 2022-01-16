@@ -1,0 +1,54 @@
+.radio-box {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+
+  &.on {
+    .radio-dot {
+      position: relative;
+      border: 1px solid #206ecb;
+
+      &::before {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: #206ecb;
+        border-radius: 100%;
+        content: '';
+      }
+    }
+  }
+
+  .radio-dot {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #c6c6c6;
+    border-radius: 100%;
+
+    &:hover {
+      border: 1px solid #206ecb;
+    }
+  }
+
+  .title {
+    color: #fff;
+    font-size: 15px;
+    letter-spacing: 2px;
+
+    &.t-l {
+      margin-right: 10px;
+    }
+
+    &.t-r {
+      margin-left: 10px;
+    }
+  }
+}

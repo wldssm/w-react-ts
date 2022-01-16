@@ -194,7 +194,7 @@ class WImgZoomin extends Component<Props> {
       case 'enlarge':
         // console.log('enlarge', curScale);
         speed = (maxScale - curScale) / 20;
-        speed = speed > 1 ? speed : 1;
+        speed = speed > 1 ? speed : 2;
         curScale = curScale + speed;
         curScale = curScale < maxScale ? curScale : maxScale;
         break;

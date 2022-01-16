@@ -21,7 +21,7 @@ class WNoData extends Component<Props> {
     return (
       <div className={`no-data-box ${className}`}>
         <img className="img" src={img} alt="" />
-        <p className="title">{title}</p>
+        <div className="title">{title}</div>
       </div>
     );
   }

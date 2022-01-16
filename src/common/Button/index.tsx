@@ -7,6 +7,7 @@ interface Props {
   icon?: string;
   showLoading?: boolean;
   disabled?: boolean;
+  width?: string;
   className?: string;
   onClick?: (e: Event) => any;
 }
@@ -28,11 +29,12 @@ class WButton extends Component<Props> {
   };
 
   render() {
-    let { children, showLoading, icon, disabled, className } = this.props;
+    let { children, showLoading, icon, disabled, className, width } = this.props;
     return (
       <button
         type="button"
         className={`ai-btn ${className} ${disabled ? 'disabled' : ''}`}
+        style={{ width: width }}
         onClick={this.click.bind(this)}
       >
         {!showLoading && icon && <WIcon className="btn-icon" code={icon} />}
