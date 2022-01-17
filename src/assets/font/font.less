@@ -1,0 +1,24 @@
+// 不加http打包后会无法加载字体资源，变成file协议。
+@font-face {
+  font-family: 'iconfont';
+  /* Project id 2890846 */
+  src: url('http://at.alicdn.com/t/font_2890846_wp7e5avw1d.woff2?t=1642320579882') format('woff2'),
+    url('http://at.alicdn.com/t/font_2890846_wp7e5avw1d.woff?t=1642320579882') format('woff'),
+    url('http://at.alicdn.com/t/font_2890846_wp7e5avw1d.ttf?t=1642320579882') format('truetype');
+}
+
+// @font-face {
+//   font-family: 'iconfont';
+//   src: url('iconfont.woff2?t=1642396525622') format('woff2'),
+//     url('iconfont.woff?t=1642396525622') format('woff'),
+//     url('iconfont.ttf?t=1642396525622') format('truetype');
+// }
+
+.iconfont {
+  font-size: 24rpx;
+  font-family: 'iconfont' !important;
+  font-style: normal;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

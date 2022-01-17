@@ -1,7 +1,7 @@
 /// <reference path="../typings.d.ts" />
 
 import './assets/css/reset.css';
-import './assets/css/font.less';
+import './assets/font/font.less';
 import './assets/css/common.less';
 
 export { default as WIcon } from './common/Icon';
