@@ -2,7 +2,6 @@
 
 import './assets/css/reset.css';
 import './assets/font/font.less';
-import './assets/css/common.less';
 
 export { default as WIcon } from './common/Icon';
 export { default as WButton } from './common/Button';
