@@ -9,6 +9,7 @@ interface Props {
   maxScale: string | number;
   className: string;
   onZoomin: (...param: any) => any; // 放大缩小
+  onClick: (...param: any) => any; // 单击
 }
 
 interface size {
@@ -25,6 +26,7 @@ class WImgZoomin extends Component<Props> {
     maxScale: 400,
     className: '',
     onZoomin: () => {}, // 放大缩小
+    onClick: () => {},
   };
 
   state = {
@@ -42,6 +44,9 @@ class WImgZoomin extends Component<Props> {
   pageX = 0; // 鼠标相对页面的位置（鼠标移动）
   pageY = 0;
   isDrag = false; // 拖动中
+  clickTimer = 0;
+  startTime = 0;
+  endTime = 0;
 
   // 当前图片缩放比例
   get imgScale(): number {
@@ -65,6 +70,7 @@ class WImgZoomin extends Component<Props> {
     this.imgBoxRef?.current?.addEventListener('wheel', this.wheelImg, { passive: false });
   }
   componentWillUnmount() {
+    clearTimeout(this.clickTimer);
     this.imgBoxRef?.current?.removeEventListener('click', this.wheelImg);
   }
 
@@ -131,6 +137,8 @@ class WImgZoomin extends Component<Props> {
     this.isDrag = true;
     this.startX = e.pageX;
     this.startY = e.pageY;
+    if (this.clickTimer) clearTimeout(this.clickTimer);
+    this.startTime = Date.now();
   };
   // 鼠标移动
   mouseMove = (e: any) => {
@@ -163,6 +171,15 @@ class WImgZoomin extends Component<Props> {
     }
   };
   // 鼠标抬起、离开
+  mouseUp = () => {
+    this.isDrag = false;
+    this.endTime = Date.now();
+    if (this.endTime - this.startTime < 200) {
+      this.clickTimer = setTimeout(() => {
+        this.props.onClick();
+      }, 200);
+    }
+  };
   stopMove = () => {
     this.isDrag = false;
   };
@@ -252,7 +269,7 @@ class WImgZoomin extends Component<Props> {
         onMouseDown={this.mouseDown}
         onMouseMove={this.mouseMove}
         onMouseEnter={this.mouseEnter}
-        onMouseUp={this.stopMove}
+        onMouseUp={this.mouseUp}
         onMouseLeave={this.stopMove}
         onWheel={this.wheelImg}
       >
