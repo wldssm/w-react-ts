@@ -8,6 +8,7 @@ interface Props {
   title: string; // 显示的文本
   className?: string;
   img?: any; // 图片
+  middle?: boolean; // 是否垂直居中
 }
 
 class WNoData extends Component<Props> {
@@ -15,11 +16,12 @@ class WNoData extends Component<Props> {
     title: '暂无数据',
     className: '',
     img: img,
+    middle: false,
   };
   render() {
-    let { title, className } = this.props;
+    let { title, className, middle } = this.props;
     return (
-      <div className={`no-data-box ${className}`}>
+      <div className={`no-data-box ${className}${middle ? ' middle' : ''}`}>
         <img className="img" src={img} alt="" />
         <div className="title">{title}</div>
       </div>

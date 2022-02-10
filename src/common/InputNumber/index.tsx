@@ -7,6 +7,7 @@ interface Props {
   value?: string; // (不能写默认值，不然dumi会刷新)
   name: string;
   className: string;
+  suffix: string; // 后缀（例：%）
   change: (...param: any) => any; // 输入框改变
   onEnter: (...param: any) => any; // 输入框回车
   enlarge: (...param: any) => any; // 点击放大
@@ -17,6 +18,7 @@ class InputNumber extends Component<Props> {
   static defaultProps = {
     name: '',
     className: '',
+    suffix: '',
     change: () => {},
     onEnter: () => {},
     enlarge: () => {},
@@ -25,9 +27,14 @@ class InputNumber extends Component<Props> {
 
   // 双向绑定数据
   change = (e: any) => {
-    const target = e.target,
-      value = target.type === 'checkbox' ? target.checked : target.value;
-    this.props.change(this.props.name, value);
+    let target = e.target,
+      value = target.type === 'checkbox' ? target.checked : target.value,
+      { name, suffix } = this.props;
+    if (suffix) {
+      let reg = new RegExp(`${suffix}$`);
+      value = ('' + value).replace(reg, '');
+    }
+    this.props.change(name, value);
   };
   // 回车提交
   keyPress = (e: any) => {
@@ -45,14 +52,14 @@ class InputNumber extends Component<Props> {
     this.props.narrow();
   };
   render() {
-    let { className, value, name } = this.props;
+    let { className, value, name, suffix } = this.props;
     return (
       <div className={`zoomin-box ${className}`}>
         <WIcon className="icom-zoomin" onClick={this.narrow} code="&#xe68a;" />
         <input
           type="text"
           onChange={this.change}
-          value={value}
+          value={value + suffix}
           autoComplete="off"
           name={name}
           onKeyPress={this.keyPress}
