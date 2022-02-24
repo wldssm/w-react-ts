@@ -65,6 +65,7 @@ class WInput extends Component<Props> {
       rightNode,
       width,
       disabled,
+      name,
     } = this.props;
     return (
       <div
@@ -78,11 +79,13 @@ class WInput extends Component<Props> {
           value={value}
           autoComplete={autoComplete}
           className="i-txt"
+          name={name}
           onChange={this.change}
           onKeyPress={this.keyPress}
           maxLength={maxLength}
           placeholder={placeholder}
           disabled={disabled}
+          spellCheck={false}
         />
         {rightNode}
       </div>

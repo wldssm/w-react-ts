@@ -4,6 +4,7 @@ import './index.less';
 
 interface Props {
   value: boolean;
+  name: string;
   disabled: boolean;
   width?: string;
   className: string;
@@ -13,6 +14,7 @@ interface Props {
 class Switch extends Component<Props> {
   static defaultProps = {
     value: false,
+    name: '',
     disabled: false,
     className: '',
     change: () => {},
@@ -35,7 +37,7 @@ class Switch extends Component<Props> {
         };
       },
       () => {
-        this.props.change(this.state.curValue);
+        this.props.change(this.props.name, this.state.curValue);
       },
     );
   };
