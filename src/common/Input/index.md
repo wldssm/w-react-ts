@@ -30,6 +30,7 @@ export default () => <WInput width="200px" />;
 | placeholder  | 输入框提示文字                    | string                | 请输入 |
 | disabled     | 禁用                              | boolean               | false  |
 | autoComplete | 输入框的自动完成功能              | on/off                | off    |
+| autoSize     | 输入款宽度自适应                  | boolean               | false  |
 | width        | 宽度                              | string                | -      |
 | className    | 类名                              | string                | -      |
 | leftNode     | 插入输入框左边内容                | any                   | -      |

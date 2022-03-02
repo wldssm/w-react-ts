@@ -1,6 +1,7 @@
 @import '../../assets/css/_variable.less';
 
 .i-txt-box {
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
@@ -29,5 +30,19 @@
     font-size: 14px;
     letter-spacing: 1px;
     cursor: inherit;
+
+    &.i-txt-abs {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    &.i-txt-place {
+      color: rgba(255, 255, 255, 0);
+      white-space: pre;
+      opacity: 0;
+      pointer-events: none;
+    }
   }
 }

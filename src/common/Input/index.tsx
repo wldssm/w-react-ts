@@ -12,6 +12,7 @@ interface Props {
   autoComplete: string; // 是否记住密码
   disabled: boolean;
   width: string;
+  autoSize: boolean; // 宽度自适应
   className: string;
   onChange: (...param: any) => any; // 输入事件
   onEnter: (...param: any) => any; // 回车事件
@@ -26,6 +27,7 @@ class WInput extends Component<Props> {
     className: '',
     placeholder: '请输入',
     autoComplete: 'off',
+    autoSize: false,
     onChange: () => {},
     onEnter: () => {},
   };
@@ -66,6 +68,7 @@ class WInput extends Component<Props> {
       width,
       disabled,
       name,
+      autoSize,
     } = this.props;
     return (
       <div
@@ -73,12 +76,13 @@ class WInput extends Component<Props> {
         style={{ width: width }}
       >
         {leftNode}
+        {autoSize && <span className="i-txt i-txt-place">{value}</span>}
         <input
           ref={this.inputRef}
           type={type && !showPwd ? type : 'text'}
           value={value}
           autoComplete={autoComplete}
-          className="i-txt"
+          className={`i-txt${autoSize ? ' i-txt-abs' : ''}`}
           name={name}
           onChange={this.change}
           onKeyPress={this.keyPress}
