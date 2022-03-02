@@ -33,12 +33,24 @@ class WInput extends Component<Props> {
   };
 
   inputRef: React.RefObject<HTMLInputElement> = createRef();
+  cnFlag: boolean = false;
 
+  // 输中文时触发
+  compositionstart = () => {
+    this.cnFlag = true;
+  };
+  compositionend = () => {
+    this.cnFlag = false;
+  };
   // 双向绑定数据
   change = (e: any) => {
     const target = e.target,
       value = target.type === 'checkbox' ? target.checked : target.value;
-    this.props.onChange(this.props.name, value);
+    setTimeout(() => {
+      if (!this.cnFlag) {
+        this.props.onChange(this.props.name, value);
+      }
+    }, 0);
   };
 
   // 回车提交
@@ -85,6 +97,8 @@ class WInput extends Component<Props> {
           className={`i-txt${autoSize ? ' i-txt-abs' : ''}`}
           name={name}
           onChange={this.change}
+          onCompositionStart={this.compositionstart}
+          onCompositionEnd={this.compositionend}
           onKeyPress={this.keyPress}
           maxLength={maxLength}
           placeholder={placeholder}
