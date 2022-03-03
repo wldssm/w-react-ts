@@ -23,3 +23,4 @@ export { default as WSwitch } from './common/Switch';
 export { default as WInputNumber } from './common/InputNumber';
 export { default as WRadio } from './common/Radio';
 export { default as WCollapse } from './common/Collapse';
+export { default as WUpload } from './common/Upload';

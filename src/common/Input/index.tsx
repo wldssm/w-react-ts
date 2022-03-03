@@ -23,6 +23,7 @@ interface Props {
 class WInput extends Component<Props> {
   static defaultProps = {
     type: 'text',
+    value: '',
     showPwd: false,
     className: '',
     placeholder: '请输入',
@@ -31,26 +32,40 @@ class WInput extends Component<Props> {
     onChange: () => {},
     onEnter: () => {},
   };
-
+  state = {
+    curValue: '',
+  };
   inputRef: React.RefObject<HTMLInputElement> = createRef();
   cnFlag: boolean = false;
+
+  componentDidMount() {
+    this.setState({ curValue: this.props.value });
+  }
+
+  componentDidUpdate() {
+    if (!this.cnFlag && this.props.value !== this.state.curValue) {
+      this.setState({ curValue: this.props.value });
+    }
+  }
 
   // 输中文时触发
   compositionstart = () => {
     this.cnFlag = true;
   };
-  compositionend = () => {
+  compositionend = (e: any) => {
+    const value = e.target?.value;
+    this.setState({ curValue: value });
+    this.props.onChange(this.props.name, value);
     this.cnFlag = false;
   };
   // 双向绑定数据
   change = (e: any) => {
-    const target = e.target,
-      value = target.type === 'checkbox' ? target.checked : target.value;
-    setTimeout(() => {
-      if (!this.cnFlag) {
-        this.props.onChange(this.props.name, value);
-      }
-    }, 0);
+    let value = e.target?.value;
+    this.setState({ curValue: value });
+    if (this.cnFlag) {
+      value = this.props.value;
+    }
+    this.props.onChange(this.props.name, value);
   };
 
   // 回车提交
@@ -82,6 +97,7 @@ class WInput extends Component<Props> {
       name,
       autoSize,
     } = this.props;
+    let { curValue } = this.state;
     return (
       <div
         className={`i-txt-box ${className}${disabled ? ' disabled' : ''}`}
@@ -92,7 +108,7 @@ class WInput extends Component<Props> {
         <input
           ref={this.inputRef}
           type={type && !showPwd ? type : 'text'}
-          value={value}
+          value={curValue}
           autoComplete={autoComplete}
           className={`i-txt${autoSize ? ' i-txt-abs' : ''}`}
           name={name}

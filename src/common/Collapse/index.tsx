@@ -10,7 +10,8 @@ interface Props {
   checked: boolean;
   className: string; // 类名
   insertHead?: any; // 插入头部的内容
-  change: (...param: any) => any; // 折叠、选中状态改变时
+  change: (...param: any) => any; // 折叠状态改变时
+  check: (...param: any) => any; // 选中状态改变时
 }
 class Collapse extends Component<Props> {
   static defaultProps = {
@@ -19,12 +20,18 @@ class Collapse extends Component<Props> {
     checked: false,
     className: '',
     change: () => {},
+    check: () => {},
   };
 
-  // 切换折叠、选中
-  switch = (type: string, val: boolean, e: any) => {
+  // 切换折叠
+  change = (type: string, val: boolean, e: any) => {
     e.stopPropagation();
-    this.props.change && this.props.change(type, val, e);
+    this.props.change && this.props.change(val, e);
+  };
+  // 切换选中
+  check = (type: string, val: boolean, e: any) => {
+    e.stopPropagation();
+    this.props.check && this.props.check(val, e);
   };
 
   render() {
@@ -35,11 +42,11 @@ class Collapse extends Component<Props> {
           className ? className : ''
         }`}
       >
-        <div className="fold-switch" onClick={this.switch.bind(this, 'fold', !fold)}>
+        <div className="fold-switch" onClick={this.change.bind(this, 'fold', !fold)}>
           <WCheckBox
             className="f-s-check"
             checked={checked}
-            onChange={this.switch.bind(this, 'checked')}
+            onChange={this.check.bind(this, 'checked')}
           />
           <span className="f-s-title">{title}</span>
           {insertHead}
