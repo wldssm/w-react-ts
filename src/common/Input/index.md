@@ -35,5 +35,5 @@ export default () => <WInput width="200px" />;
 | className    | 类名                              | string                | -      |
 | leftNode     | 插入输入框左边内容                | any                   | -      |
 | rightNode    | 插入输入框右边内容                | any                   | -      |
-| onChange     | 图标单击事件                      | function(name, value) | -      |
-| onEnter      | 图标单击事件                      | function(name)        | -      |
+| onChange     | 输入框改变时触发                  | function(name, value) | -      |
+| onEnter      | 输入框回车时触发                  | function(name)        | -      |
