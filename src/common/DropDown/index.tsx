@@ -116,22 +116,22 @@ class WDropDown extends Component<Props> {
   };
 
   render() {
-    let { ifExpanded } = this.state;
-    let {
-      value,
-      placeholder,
-      maxLength,
-      className,
-      leftNode,
-      rightNode,
-      options,
-      canInput,
-      width,
-      prop,
-      optionLeft,
-      optionRight,
-      disabled,
-    } = this.props;
+    let { ifExpanded } = this.state,
+      {
+        value,
+        placeholder,
+        maxLength,
+        className,
+        leftNode,
+        rightNode,
+        options,
+        canInput,
+        width,
+        prop,
+        optionLeft,
+        optionRight,
+        disabled,
+      } = this.props;
     return (
       <div
         className={`el-dropdown ${className}${disabled ? ' disabled' : ''}`}
@@ -174,7 +174,7 @@ class WDropDown extends Component<Props> {
               return (
                 <div
                   className={`dd-item ${index === this.curIndex ? 'active' : ''}`}
-                  key={Math.random().toString(36).substr(2)}
+                  key={Math.random().toString(36).substring(2)}
                   onClick={this.select.bind(this, item, index)}
                 >
                   {optionLeft(item, index)}

@@ -39,7 +39,7 @@ class WTable extends Component<Props> {
                 onClick={this.clickThCol.bind(this, index, label)}
                 className="col"
                 style={{ width: width }}
-                key={Math.random().toString(36).substr(2)}
+                key={Math.random().toString(36).substring(2)}
               >
                 {typeof label === 'function' ? label(index) : label}
               </div>
@@ -53,7 +53,7 @@ class WTable extends Component<Props> {
               <div
                 onClick={this.clickRow.bind(this, item, index)}
                 className="tb-row"
-                key={Math.random().toString(36).substr(2)}
+                key={Math.random().toString(36).substring(2)}
               >
                 {React.Children.map(children, (child: any) => {
                   return React.cloneElement(child, {

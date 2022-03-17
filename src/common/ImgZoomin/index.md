@@ -27,14 +27,16 @@ export default () => (
 
 ### API
 
-| 参数      | 说明              | 类型             | 默认值             |
-| --------- | ----------------- | ---------------- | ------------------ |
-| src       | 图片 src 地址     | string           | -                  |
-| scale     | 初始缩放比例%     | string \| number | 最大不超过容器宽高 |
-| minScale  | 最小缩放比例%     | string \| number | 2，即（2%）        |
-| maxScale  | 最大缩放比例%     | string \| number | 400，即（400%）    |
-| className | 类名              | string           | -                  |
-| onZoomin  | 获取当前缩放比例% | function(scale)  | -                  |
+| 参数        | 说明              | 类型             | 默认值             |
+| ----------- | ----------------- | ---------------- | ------------------ |
+| src         | 图片 src 地址     | string           | -                  |
+| scale       | 初始缩放比例%     | string \| number | 最大不超过容器宽高 |
+| minScale    | 最小缩放比例%     | string \| number | 2，即（2%）        |
+| maxScale    | 最大缩放比例%     | string \| number | 400，即（400%）    |
+| className   | 类名              | string           | -                  |
+| onZoomin    | 获取当前缩放比例% | function(scale)  | -                  |
+| onImgLoaded | 图片加载成功触发  | function(e)      | -                  |
+| onImgError  | 图片加载失败触发  | function(e)      | -                  |
 
 ### Event
 

@@ -32,7 +32,7 @@ class WUpload extends Component<Props> {
   change = (e: any) => {
     let curEl = e.srcElement || e.target,
       files = curEl.files;
-    this.props.onChange(files, this.props.name);
+    this.props.onChange(files, this.props.name, e);
   };
 
   render() {

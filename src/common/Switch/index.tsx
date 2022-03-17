@@ -26,6 +26,11 @@ class Switch extends Component<Props> {
   componentDidMount() {
     this.setState({ curValue: this.props.value });
   }
+  componentDidUpdate(prevProps: any) {
+    if (this.props.value !== prevProps.value) {
+      this.setState({ curValue: this.props.value });
+    }
+  }
 
   // 切换状态
   switch = () => {
@@ -47,7 +52,7 @@ class Switch extends Component<Props> {
     return (
       <span
         className={`switch-box${curValue ? ' on' : ''}${disabled ? ' disabled' : ''} ${
-          className ? className : ''
+          className || ''
         }`}
         style={{ width: width }}
         onClick={this.switch}

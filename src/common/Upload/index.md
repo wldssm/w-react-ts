@@ -31,4 +31,4 @@ export default () => (
 | disabled  | 是否禁用       | boolean                                            | false  |
 | multiple  | 可否多选       | boolean                                            | false  |
 | className | 类名           | string                                             | -      |
-| onChange  | 选中文件后     | function(fileArr, name)                            | -      |
+| onChange  | 选中文件后     | function(fileArr, name, e)                         | -      |

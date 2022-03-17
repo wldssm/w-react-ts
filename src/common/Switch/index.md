@@ -21,11 +21,11 @@ export default () => <WSwitch />;
 
 ### API
 
-| 参数      | 说明               | 类型               | 默认值 |
-| --------- | ------------------ | ------------------ | ------ |
-| value     | 绑定值             | boolean            | false  |
-| name      | 绑定名称           | string             | -      |
-| disabled  | 禁用               | boolean            | false  |
-| width     | 宽度               | string             | -      |
-| className | 类名               | string             | -      |
-| change    | 点击状态改变时触发 | function(curValue) | -      |
+| 参数      | 说明               | 类型                  | 默认值 |
+| --------- | ------------------ | --------------------- | ------ |
+| value     | 绑定值             | boolean               | false  |
+| name      | 绑定名称           | string                | -      |
+| disabled  | 禁用               | boolean               | false  |
+| width     | 宽度               | string                | -      |
+| className | 类名               | string                | -      |
+| change    | 点击状态改变时触发 | function(name, value) | -      |

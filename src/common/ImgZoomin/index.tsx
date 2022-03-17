@@ -10,6 +10,8 @@ interface Props {
   className: string;
   onZoomin: (...param: any) => any; // 放大缩小
   onClick: (...param: any) => any; // 单击
+  onImgLoaded: (...param: any) => any; // 图片加载成功
+  onImgError: (...param: any) => any; // 图片加载失败
 }
 
 interface size {
@@ -27,6 +29,8 @@ class WImgZoomin extends Component<Props> {
     className: '',
     onZoomin: () => {}, // 放大缩小
     onClick: () => {},
+    onImgLoaded: () => {},
+    onImgError: () => {},
   };
 
   state = {
@@ -68,6 +72,11 @@ class WImgZoomin extends Component<Props> {
   componentDidMount() {
     this.loadImg();
     this.imgBoxRef?.current?.addEventListener('wheel', this.wheelImg, { passive: false });
+  }
+  componentDidUpdate(prevProps: any) {
+    if (this.props.src !== prevProps.src) {
+      this.loadImg();
+    }
   }
   componentWillUnmount() {
     clearTimeout(this.clickTimer);
@@ -258,6 +267,15 @@ class WImgZoomin extends Component<Props> {
     };
   };
 
+  // 图片加载成功
+  onImgLoaded = (e: any) => {
+    this.props.onImgLoaded(e);
+  };
+  // 图片加载失败
+  onImgError = (e: any) => {
+    this.props.onImgError(e);
+  };
+
   render() {
     // onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouseUp onWheel
     let { src, className } = this.props;
@@ -281,6 +299,8 @@ class WImgZoomin extends Component<Props> {
             height: `${curImgH}px`,
             transform: `translate(${curLeft}px, ${curTop}px)`,
           }}
+          onLoad={this.onImgLoaded}
+          onError={this.onImgError}
         />
       </div>
     );

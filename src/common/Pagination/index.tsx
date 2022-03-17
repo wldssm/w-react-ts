@@ -139,7 +139,7 @@ class WPagination extends Component<Props> {
           return (
             <span
               onClick={this.go.bind(this, item, index, pageArr)}
-              key={Math.random().toString(36).substr(2)}
+              key={Math.random().toString(36).substring(2)}
               className={`num ${item === curPage ? 'active' : ''}`}
             >
               {item}

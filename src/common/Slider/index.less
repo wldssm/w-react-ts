@@ -4,6 +4,39 @@
 @slider-br: 2px;
 
 .slider-box {
+  &.disabled {
+    user-select: none;
+
+    .slider-label,
+    .mark-box span {
+      color: #999;
+    }
+
+    .slider-runway,
+    input,
+    .slider-dot-box {
+      cursor: not-allowed;
+    }
+
+    .slider-runway {
+      background: #999;
+
+      .slider-bar {
+        background: #999;
+      }
+
+      .slider-dot {
+        background: #666;
+        border: 2px solid #999;
+      }
+    }
+
+    input {
+      background: #999;
+      border: 1px solid #999;
+    }
+  }
+
   .slider-label {
     margin-bottom: 8px;
     color: #fff;
@@ -28,22 +61,6 @@
     background: #dcdee0;
     border-radius: @slider-br;
     cursor: pointer;
-
-    &.disabled {
-      cursor: not-allowed;
-
-      .slider-bar {
-        background: @aibox-bg3;
-      }
-
-      .slider-dot-box {
-        cursor: not-allowed;
-      }
-
-      .slider-dot {
-        border: 2px solid @aibox-bg3;
-      }
-    }
   }
 
   .slider-bar {

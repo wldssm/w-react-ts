@@ -18,7 +18,7 @@ class AiTabPane extends Component<Props> {
     let { children, tag, curTag, className } = this.props;
     return (
       curTag === tag && (
-        <div className={`t-main ${className}`} key={Math.random().toString(36).substr(2)}>
+        <div className={`t-main ${className}`} key={Math.random().toString(36).substring(2)}>
           {children}
         </div>
       )

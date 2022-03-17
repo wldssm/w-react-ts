@@ -165,7 +165,7 @@ class WTree extends Component<Props> {
       data &&
       data.map((item) => {
         return (
-          <div className="tree-branch" key={Math.random().toString(36).substr(2)}>
+          <div className="tree-branch" key={Math.random().toString(36).substring(2)}>
             <div
               className={`tree-name ${selectable(item) ? 'on' : ''}`}
               data-node-dept={nodeDepth}

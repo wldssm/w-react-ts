@@ -9,6 +9,7 @@ interface Props {
   max: number; // 最大值
   step: number; // 步长
   label?: string; // label文本
+  name?: string;
   showTip: boolean; // 显示tooltip
   showRange: boolean; // 显示最大值最小值
   showInput: boolean; // 显示输入框
@@ -28,6 +29,7 @@ class Slider extends Component<Props> {
     showRange: false,
     showInput: false,
     disabled: false,
+    name: '',
     className: '',
   };
   state = {
@@ -100,8 +102,8 @@ class Slider extends Component<Props> {
     let newPosi = ((e.pageX - runwayPosi?.left) / this.runwayWidth) * 100;
 
     this.setState({ ...this.calcStep(newPosi) }, () => {
-      this.props.onInput && this.props.onInput(this.state.newValue);
-      this.props.onChange && this.props.onChange(this.state.newValue);
+      this.props.onInput && this.props.onInput(this.props.name, this.state.newValue);
+      this.props.onChange && this.props.onChange(this.props.name, this.state.newValue);
     });
   };
   // 鼠标按下圆点
@@ -133,7 +135,7 @@ class Slider extends Component<Props> {
         newPosi = initPosi + diffX;
 
       this.setState({ ...this.calcStep(newPosi) }, () => {
-        this.props.onInput && this.props.onInput(this.state.newValue);
+        this.props.onInput && this.props.onInput(this.props.name, this.state.newValue);
       });
     }
   };
@@ -141,7 +143,7 @@ class Slider extends Component<Props> {
   dragEnd = () => {
     this.isDrag = false;
     this.setState({ initPosi: this.state.newPosi });
-    this.props.onChange && this.props.onChange(this.state.newValue);
+    this.props.onChange && this.props.onChange(this.props.name, this.state.newValue);
     window.removeEventListener('mousemove', this.draging);
     window.removeEventListener('mouseup', this.dragEnd);
   };
@@ -169,7 +171,11 @@ class Slider extends Component<Props> {
   change = (e: any) => {
     const target = e.target,
       value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({ newValue: value });
+    this.setState({
+      newPosi: this.getCurPosi(value),
+      newValue: value,
+    });
+    this.props.onInput && this.props.onInput(this.props.name, value);
   };
   // 回车提交
   keyPress = (e: any) => {
@@ -180,7 +186,7 @@ class Slider extends Component<Props> {
         newPosi: this.getCurPosi(curValue),
         newValue: curValue,
       });
-      this.props.onChange && this.props.onChange(curValue);
+      this.props.onChange && this.props.onChange(this.props.name, curValue);
     }
   };
 
@@ -197,16 +203,12 @@ class Slider extends Component<Props> {
     let { newPosi, newValue } = this.state,
       { disabled, min, max, label, className, showRange, showInput, showTip } = this.props;
     return (
-      <div className={`slider-box ${className ? className : ''}`}>
+      <div className={`slider-box ${className || ''}${disabled ? ' disabled' : ''}`}>
         {label && <p className="slider-label">{label}</p>}
         <div className="slider-cont">
           <div className="slider-main">
             {/* runway */}
-            <div
-              className={`slider-runway ${disabled ? 'disabled' : ''}`}
-              ref={this.runwayRef}
-              onMouseDown={this.clickRunway}
-            >
+            <div className="slider-runway" ref={this.runwayRef} onMouseDown={this.clickRunway}>
               <div className="slider-bar" style={{ width: newPosi + '%' }}></div>
               {showTip ? (
                 <WTooltip content={newValue}>{this.dotRender(newPosi)}</WTooltip>
@@ -228,6 +230,7 @@ class Slider extends Component<Props> {
               onChange={this.change}
               value={newValue}
               autoComplete="off"
+              disabled={disabled}
               onKeyPress={this.keyPress}
             />
           )}
