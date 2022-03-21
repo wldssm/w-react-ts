@@ -42,7 +42,7 @@ class WDropDown extends Component<Props> {
     optionRight: () => {},
     optionLeft: () => {},
   };
-
+  updateTimer: any = null;
   state = {
     ifExpanded: true,
   };
@@ -69,6 +69,7 @@ class WDropDown extends Component<Props> {
     document.addEventListener('click', this.hide);
   }
   componentWillUnmount() {
+    if (this.updateTimer) clearTimeout(this.updateTimer);
     document.removeEventListener('click', this.hide);
   }
   // 点击其他区域隐藏
@@ -105,9 +106,11 @@ class WDropDown extends Component<Props> {
   // 切换显示隐藏
   toggle = (status: boolean, e: any) => {
     if (this.props.disabled) return false;
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation(); // 阻止冒泡，防止触发全局事件
-    this.setState({ ifExpanded: !status });
+    // e.stopPropagation();
+    // e.nativeEvent.stopImmediatePropagation(); // 阻止冒泡，防止触发全局事件
+    this.updateTimer = setTimeout(() => {
+      this.setState({ ifExpanded: !status });
+    }, 0);
   };
 
   // 单击选项
@@ -169,7 +172,7 @@ class WDropDown extends Component<Props> {
         />
         {/* options */}
         {ifExpanded && options.length > 0 && (
-          <div className="s-i-box">
+          <div className="s-dd-box">
             {options.map((item, index) => {
               return (
                 <div

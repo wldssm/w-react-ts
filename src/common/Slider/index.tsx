@@ -36,8 +36,10 @@ class Slider extends Component<Props> {
     newPosi: 0, // 当前位置
     newValue: 0, // 当前value值
     initPosi: 0, // 初始posi
+    dotActive: false, // 点是否激活状态
   };
   runwayRef: React.RefObject<HTMLInputElement> = createRef();
+  dotRef: React.RefObject<HTMLDivElement> = createRef();
   runwayWidth = 0;
   startPageX = 0; // 鼠标相对页面的位置（鼠标按下圆点）
   isDrag = false; // 拖动中
@@ -66,6 +68,7 @@ class Slider extends Component<Props> {
     window.removeEventListener('mouseup', this.dragEnd);
   }
 
+  // 初始数据更新位置
   initUpdate = () => {
     let { value, min, max } = this.props;
     if (value < min) {
@@ -117,9 +120,15 @@ class Slider extends Component<Props> {
     this.isDrag = true;
     this.startPageX = e.pageX;
 
-    this.setState({
-      initPosi: this.getCurPosi(this.props.value),
-    });
+    this.setState(
+      {
+        initPosi: this.getCurPosi(this.props.value),
+        dotActive: true,
+      },
+      () => {
+        this.dotRef?.current?.focus();
+      },
+    );
     let runwayPosi: any = this.runwayRef?.current?.getBoundingClientRect();
     this.runwayWidth = runwayPosi?.right - runwayPosi?.left;
 
@@ -178,7 +187,7 @@ class Slider extends Component<Props> {
     this.props.onInput && this.props.onInput(this.props.name, value);
   };
   // 回车提交
-  keyPress = (e: any) => {
+  pressSubmit = (e: any) => {
     let curKey = e.keyCode || e.which || e.charCode;
     if (curKey === 13) {
       let curValue = this.state.newValue;
@@ -190,17 +199,46 @@ class Slider extends Component<Props> {
     }
   };
 
+  // 左右按键位移
+  keyPress = (e: any) => {
+    let curKey = e.keyCode || e.which || e.charCode,
+      { step } = this.props,
+      curValue = this.state.newValue;
+
+    if (curKey === 37 || curKey === 40) {
+      // 左移
+      curValue -= step;
+    } else if (curKey === 38 || curKey === 39) {
+      // 右
+      curValue += step;
+    }
+    this.setState({
+      newPosi: this.getCurPosi(curValue),
+      newValue: curValue,
+    });
+    this.props.onChange && this.props.onChange(this.props.name, curValue);
+  };
+  // 点击其他区域圆点失去焦点
+  dotBlur = () => {
+    this.setState({ dotActive: false });
+  };
   // 圆点渲染
-  dotRender = (newPosi: any) => {
+  dotRender = (newPosi: any, dotActive: any) => {
     return (
       <div className="slider-dot-box" style={{ left: newPosi + '%' }} onMouseDown={this.mouseDown}>
-        <div className="slider-dot"></div>
+        <div
+          ref={this.dotRef}
+          className={`slider-dot${dotActive ? ' on' : ''}`}
+          onKeyDown={this.keyPress}
+          onBlur={this.dotBlur}
+          tabIndex={-1}
+        ></div>
       </div>
     );
   };
 
   render() {
-    let { newPosi, newValue } = this.state,
+    let { newPosi, newValue, dotActive } = this.state,
       { disabled, min, max, label, className, showRange, showInput, showTip } = this.props;
     return (
       <div className={`slider-box ${className || ''}${disabled ? ' disabled' : ''}`}>
@@ -211,9 +249,9 @@ class Slider extends Component<Props> {
             <div className="slider-runway" ref={this.runwayRef} onMouseDown={this.clickRunway}>
               <div className="slider-bar" style={{ width: newPosi + '%' }}></div>
               {showTip ? (
-                <WTooltip content={newValue}>{this.dotRender(newPosi)}</WTooltip>
+                <WTooltip content={newValue}>{this.dotRender(newPosi, dotActive)}</WTooltip>
               ) : (
-                this.dotRender(newPosi)
+                this.dotRender(newPosi, dotActive)
               )}
             </div>
             {/* mark */}
@@ -231,7 +269,8 @@ class Slider extends Component<Props> {
               value={newValue}
               autoComplete="off"
               disabled={disabled}
-              onKeyPress={this.keyPress}
+              spellCheck={false}
+              onKeyPress={this.pressSubmit}
             />
           )}
         </div>

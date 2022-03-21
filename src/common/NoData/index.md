@@ -21,9 +21,10 @@ export default () => <WNoData />;
 
 ### API
 
-| 参数      | 说明         | 类型             | 默认值   |
-| --------- | ------------ | ---------------- | -------- |
-| title     | 显示的文本   | string           | 暂无数据 |
-| img       | 显示的图片   | url \| ReactNode | default  |
-| middle    | 是否垂直居中 | boolean          | false    |
-| className | 类名         | string           | -        |
+| 参数      | 说明           | 类型             | 默认值   |
+| --------- | -------------- | ---------------- | -------- |
+| title     | 显示的文本     | string           | 暂无数据 |
+| img       | 显示的图片     | url \| ReactNode | default  |
+| middle    | 是否垂直居中   | boolean          | false    |
+| loading   | 是否加 loading | boolean          | false    |
+| className | 类名           | string           | -        |
