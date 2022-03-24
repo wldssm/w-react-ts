@@ -70,27 +70,31 @@ class Slider extends Component<Props> {
 
   // 初始数据更新位置
   initUpdate = () => {
-    let { value, min, max } = this.props;
-    if (value < min) {
-      value = min;
-    } else if (value > max) {
-      value = max;
-    }
+    let { value } = this.props;
     value = parseFloat((+value).toFixed(this.precision));
+    value = this.getCurValue(value);
+
     this.setState({
       newPosi: this.getCurPosi(value),
       newValue: value,
     });
   };
 
-  // 获取圆点当前位置
-  getCurPosi = (value: any) => {
+  // 获取当前值
+  getCurValue = (value: any) => {
     let { min, max } = this.props;
     if (value < min) {
       value = min;
     } else if (value > max) {
       value = max;
     }
+    return value;
+  };
+
+  // 获取圆点当前位置
+  getCurPosi = (value: any) => {
+    let { min, max } = this.props;
+    value = this.getCurValue(value);
     return ((value - min) / (max - min)) * 100;
   };
 
@@ -178,8 +182,10 @@ class Slider extends Component<Props> {
 
   // 双向绑定数据
   change = (e: any) => {
-    const target = e.target,
+    let target = e.target,
       value = target.type === 'checkbox' ? target.checked : target.value;
+
+    value = this.getCurValue(value);
     this.setState({
       newPosi: this.getCurPosi(value),
       newValue: value,
@@ -214,7 +220,7 @@ class Slider extends Component<Props> {
     }
     this.setState({
       newPosi: this.getCurPosi(curValue),
-      newValue: curValue,
+      newValue: this.getCurValue(curValue),
     });
     this.props.onChange && this.props.onChange(this.props.name, curValue);
   };

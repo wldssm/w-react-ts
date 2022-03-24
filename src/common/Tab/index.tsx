@@ -43,7 +43,8 @@ class WTab extends Component<Props> {
       <div className="tab-box">
         <div className={`t-top ${className}`}>
           {React.Children.map(children, (item: any, i) => {
-            let { label, tag } = item.props;
+            if (!item) return;
+            let { label, tag } = item?.props;
             return (
               <div
                 className={`item ${tag === this.state.curTag ? 'on' : ''}`}
@@ -56,6 +57,7 @@ class WTab extends Component<Props> {
           })}
         </div>
         {React.Children.map(children, (child: any, index) => {
+          if (!child) return;
           return React.cloneElement(child, {
             index: index,
             curTag: this.state.curTag,
