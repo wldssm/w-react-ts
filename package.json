@@ -1,6 +1,6 @@
 {
   "name": "w-react-ts",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "react-npm",
   "keywords": [
     "react",
@@ -9,7 +9,6 @@
   "main": "es/index.ts",
   "files": [
     "es",
-    "src",
     "typings.d.ts"
   ],
   "scripts": {

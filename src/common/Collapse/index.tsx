@@ -10,7 +10,7 @@ interface Props {
   checked: boolean;
   className: string; // 类名
   insertHead?: any; // 插入头部的内容
-  showArrow: boolean; // 显示下箭头
+  showArrow: boolean; // 没有子节点是否显示下箭头占位
   change: (...param: any) => any; // 折叠状态改变时
   check: (...param: any) => any; // 选中状态改变时
 }

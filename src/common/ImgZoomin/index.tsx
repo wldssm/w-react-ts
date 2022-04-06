@@ -70,7 +70,9 @@ class WImgZoomin extends Component<Props> {
   }
 
   componentDidMount() {
-    this.loadImg();
+    setTimeout(() => {
+      this.loadImg();
+    }, 0);
     this.imgBoxRef?.current?.addEventListener('wheel', this.wheelImg, { passive: false });
   }
   componentDidUpdate(prevProps: any) {
