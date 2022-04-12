@@ -1,0 +1,25 @@
+.icon-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 20%;
+  height: 120px;
+  cursor: pointer;
+  margin: 0 -1px -1px 0;
+  color: #666;
+  border: 1px solid #eee;
+}
+
+.icon-item:hover {
+  color: #2378de;
+}
+
+.icon-font {
+  font-size: 28px;
+}
+
+.icon-txt {
+  margin: 10px 0 0 0;
+  font-size: 16px;
+}

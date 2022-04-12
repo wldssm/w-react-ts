@@ -177,7 +177,7 @@ class WTree extends Component<Props> {
                 <WIcon
                   className="icon-arrow"
                   onClick={this.toggleNode.bind(this, item)}
-                  code={item.expanded ? '&#xeb6d;' : '&#xeb6f;'}
+                  code={item.expanded ? '&#xeb6d;' : '&#xe609;'}
                 />
               )}
               {this.props.showCheck && (
