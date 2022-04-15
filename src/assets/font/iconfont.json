@@ -6,6 +6,20 @@
   "description": "心鉴智控",
   "glyphs": [
     {
+      "icon_id": "5729578",
+      "name": "自动",
+      "font_class": "zidong",
+      "unicode": "e7ee",
+      "unicode_decimal": 59374
+    },
+    {
+      "icon_id": "6326748",
+      "name": "重置",
+      "font_class": "zhongzhi",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
       "icon_id": "5203488",
       "name": "help-fill",
       "font_class": "help-fill",
