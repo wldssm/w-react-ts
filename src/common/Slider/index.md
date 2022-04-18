@@ -42,5 +42,5 @@ export default () => (
 | showRange | 显示最大值最小值 | boolean | false |
 | showInput | 显示输入框 | boolean | false |
 | className | 类名 | string | - |
-| onChange | 值改变时触发（松开鼠标后）、输入框回车时触发、上下左右键触发 | function(name, value) | - |
-| onInput | 拖拽时实时触发 | function(name, value) | - |
+| onChange | 值改变时触发（松开鼠标后）、输入框回车时触发、上下左右键触发 | function(value, name) | - |
+| onInput | 拖拽时实时触发 | function(value, name) | - |

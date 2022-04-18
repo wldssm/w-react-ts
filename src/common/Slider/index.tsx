@@ -109,8 +109,8 @@ class Slider extends Component<Props> {
     let newPosi = ((e.pageX - runwayPosi?.left) / this.runwayWidth) * 100;
 
     this.setState({ ...this.calcStep(newPosi) }, () => {
-      this.props.onInput && this.props.onInput(this.props.name, this.state.newValue);
-      this.props.onChange && this.props.onChange(this.props.name, this.state.newValue);
+      this.props.onInput && this.props.onInput(this.state.newValue, this.props.name);
+      this.props.onChange && this.props.onChange(this.state.newValue, this.props.name);
     });
   };
   // 鼠标按下圆点
@@ -148,7 +148,7 @@ class Slider extends Component<Props> {
         newPosi = initPosi + diffX;
 
       this.setState({ ...this.calcStep(newPosi) }, () => {
-        this.props.onInput && this.props.onInput(this.props.name, this.state.newValue);
+        this.props.onInput && this.props.onInput(this.state.newValue, this.props.name);
       });
     }
   };
@@ -156,7 +156,7 @@ class Slider extends Component<Props> {
   dragEnd = () => {
     this.isDrag = false;
     this.setState({ initPosi: this.state.newPosi });
-    this.props.onChange && this.props.onChange(this.props.name, this.state.newValue);
+    this.props.onChange && this.props.onChange(this.state.newValue, this.props.name);
     window.removeEventListener('mousemove', this.draging);
     window.removeEventListener('mouseup', this.dragEnd);
   };
@@ -190,7 +190,7 @@ class Slider extends Component<Props> {
       newPosi: this.getCurPosi(value),
       newValue: value,
     });
-    this.props.onInput && this.props.onInput(this.props.name, value);
+    this.props.onInput && this.props.onInput(value, this.props.name);
   };
   // 回车提交
   pressSubmit = (e: any) => {
@@ -201,7 +201,7 @@ class Slider extends Component<Props> {
         newPosi: this.getCurPosi(curValue),
         newValue: curValue,
       });
-      this.props.onChange && this.props.onChange(this.props.name, curValue);
+      this.props.onChange && this.props.onChange(curValue, this.props.name);
     }
   };
 
@@ -222,7 +222,7 @@ class Slider extends Component<Props> {
       newPosi: this.getCurPosi(curValue),
       newValue: this.getCurValue(curValue),
     });
-    this.props.onChange && this.props.onChange(this.props.name, curValue);
+    this.props.onChange && this.props.onChange(curValue, this.props.name);
   };
   // 点击其他区域圆点失去焦点
   dotBlur = () => {

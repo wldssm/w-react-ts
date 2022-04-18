@@ -82,7 +82,7 @@ class WDropDown extends Component<Props> {
   change = (e: any) => {
     const target = e.target,
       value = target.type === 'checkbox' ? target.checked : target.value;
-    this.props.onChange(this.props.name, value);
+    this.props.onChange(value, this.props.name);
   };
 
   // 回车提交

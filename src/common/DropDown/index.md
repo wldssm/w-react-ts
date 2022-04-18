@@ -56,7 +56,7 @@ export default () => (
 | rightNode   | 插入输入框右边内容             | any                             | -      |
 | onClick     | 单击下拉菜单                   | function(name, status, options) | -      |
 | onSelect    | 选中下拉菜单选项事件           | function(index, name, item)     | -      |
-| onChange    | 输入事件                       | function(name, value)           | -      |
+| onChange    | 输入事件                       | function(value, name)           | -      |
 | onEnter     | 回车事件                       | function(name)                  | -      |
 | optionRight | 插入选项右边内容               | function(item, index)           | -      |
 | optionLeft  | 插入选项左边内容               | function(item, index)           | -      |
