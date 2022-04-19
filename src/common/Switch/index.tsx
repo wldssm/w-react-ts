@@ -42,7 +42,7 @@ class Switch extends Component<Props> {
         };
       },
       () => {
-        this.props.change(this.props.name, this.state.curValue);
+        this.props.change(this.state.curValue, this.props.name);
       },
     );
   };

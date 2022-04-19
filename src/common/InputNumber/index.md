@@ -18,7 +18,7 @@ import { WInputNumber } from 'w-react-ts';
 
 const [value, setValue] = useState(10);
 
-const change = (name, val) => {
+const change = (val) => {
   setValue(val);
 };
 const add = () => {
@@ -39,7 +39,7 @@ export default () => <WInputNumber value={value} change={change} enlarge={add} n
 | name      | 绑定输入框 name   | string                 | -      |
 | suffix    | 携带后缀（例：%） | string                 | -      |
 | className | 头部类名          | string                 | -      |
-| change    | 输入框改变时触发  | function(name, value)) | -      |
+| change    | 输入框改变时触发  | function(value, name)) | -      |
 | onEnter   | 输入框回车时触发  | function(name)         | -      |
 | enlarge   | 点击放大时触发    | function()             | -      |
 | narrow    | 点击缩小时触发    | function()             | -      |

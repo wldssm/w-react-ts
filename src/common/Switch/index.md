@@ -28,4 +28,4 @@ export default () => <WSwitch />;
 | disabled  | 禁用               | boolean               | false  |
 | width     | 宽度               | string                | -      |
 | className | 类名               | string                | -      |
-| change    | 点击状态改变时触发 | function(name, value) | -      |
+| change    | 点击状态改变时触发 | function(value, name) | -      |

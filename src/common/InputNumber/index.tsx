@@ -34,7 +34,7 @@ class InputNumber extends Component<Props> {
       let reg = new RegExp(`${suffix}$`);
       value = ('' + value).replace(reg, '');
     }
-    this.props.change(name, value);
+    this.props.change(value, name);
   };
   // 回车提交
   keyPress = (e: any) => {
