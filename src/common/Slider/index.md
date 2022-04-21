@@ -18,7 +18,7 @@ import { WSlider } from 'w-react-ts';
 
 let [curValue, setCurValue] = useState(50);
 
-const change = (name, value) => {
+const change = (value) => {
   setCurValue(value);
 };
 
@@ -43,4 +43,4 @@ export default () => (
 | showInput | 显示输入框 | boolean | false |
 | className | 类名 | string | - |
 | onChange | 值改变时触发（松开鼠标后）、输入框回车时触发、上下左右键触发 | function(value, name) | - |
-| onInput | 拖拽时实时触发 | function(value, name) | - |
+| onInput | 拖拽时、输入框输入时实时触发 | function(value, name) | - |

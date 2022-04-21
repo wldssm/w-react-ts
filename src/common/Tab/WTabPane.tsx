@@ -7,18 +7,20 @@ interface Props {
   tag: string;
   curTag: string;
   className?: string;
+  index?: string;
 }
 
 class AiTabPane extends Component<Props> {
   static defaultProps = {
     label: '标题',
     className: '',
+    index: Math.random().toString(36).substring(2),
   };
   render() {
-    let { children, tag, curTag, className } = this.props;
+    let { children, tag, curTag, className, index } = this.props;
     return (
       curTag === tag && (
-        <div className={`t-main ${className}`} key={Math.random().toString(36).substring(2)}>
+        <div className={`t-main ${className}`} key={index}>
           {children}
         </div>
       )

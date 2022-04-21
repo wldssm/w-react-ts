@@ -55,7 +55,7 @@ class WInput extends Component<Props> {
   compositionend = (e: any) => {
     const value = e.target?.value;
     this.setState({ curValue: value });
-    this.props.onChange(value, this.props.name);
+    this.props.onChange(value, this.props.name, e);
     this.cnFlag = false;
   };
   // 双向绑定数据
@@ -65,14 +65,14 @@ class WInput extends Component<Props> {
     if (this.cnFlag) {
       value = this.props.value;
     }
-    this.props.onChange(value, this.props.name);
+    this.props.onChange(value, this.props.name, e);
   };
 
   // 回车提交
   keyPress = (e: any) => {
     let curKey = e.keyCode || e.which || e.charCode;
     if (curKey === 13) {
-      this.props.onEnter(this.state.curValue, this.props.name);
+      this.props.onEnter(this.state.curValue, this.props.name, e);
     }
   };
 

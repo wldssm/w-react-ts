@@ -38,8 +38,9 @@ class Slider extends Component<Props> {
     initPosi: 0, // 初始posi
     dotActive: false, // 点是否激活状态
   };
-  runwayRef: React.RefObject<HTMLInputElement> = createRef();
+  runwayRef: React.RefObject<HTMLDivElement> = createRef();
   dotRef: React.RefObject<HTMLDivElement> = createRef();
+  inputRef: React.RefObject<HTMLInputElement> = createRef();
   runwayWidth = 0;
   startPageX = 0; // 鼠标相对页面的位置（鼠标按下圆点）
   isDrag = false; // 拖动中
@@ -126,7 +127,10 @@ class Slider extends Component<Props> {
 
     this.setState(
       {
-        initPosi: this.getCurPosi(this.props.value),
+        initPosi:
+          this.inputRef?.current === document.activeElement
+            ? this.state.newPosi
+            : this.getCurPosi(this.props.value),
         dotActive: true,
       },
       () => {
@@ -183,25 +187,48 @@ class Slider extends Component<Props> {
   // 双向绑定数据
   change = (e: any) => {
     let target = e.target,
-      value = target.type === 'checkbox' ? target.checked : target.value;
+      realValue = target.type === 'checkbox' ? target.checked : target.value;
+    if (!/^-?[0-9]*$|^-?[0-9]+(\.[0-9]*)?$/.test(realValue)) {
+      return false;
+    }
 
-    value = this.getCurValue(value);
-    this.setState({
-      newPosi: this.getCurPosi(value),
-      newValue: value,
-    });
-    this.props.onInput && this.props.onInput(value, this.props.name);
+    let value = this.getCurValue(realValue);
+    if (realValue === value) {
+      this.setState({
+        newPosi: this.getCurPosi(value),
+        newValue: realValue,
+      });
+
+      this.props.onInput && this.props.onInput(value, this.props.name);
+    } else {
+      this.setState({
+        newValue: realValue,
+      });
+    }
   };
   // 回车提交
   pressSubmit = (e: any) => {
     let curKey = e.keyCode || e.which || e.charCode;
     if (curKey === 13) {
-      let curValue = this.state.newValue;
+      let curValue = this.getCurValue(this.state.newValue);
       this.setState({
         newPosi: this.getCurPosi(curValue),
         newValue: curValue,
       });
       this.props.onChange && this.props.onChange(curValue, this.props.name);
+    }
+  };
+  // 输入框失去焦点
+  inputBlur = () => {
+    let { newValue, dotActive } = this.state,
+      { name } = this.props;
+    if (dotActive) {
+      return false;
+    }
+    let value = this.getCurValue(newValue);
+    if (value !== newValue) {
+      this.props.onInput && this.props.onInput(value, name);
+      this.props.onChange && this.props.onChange(value, name);
     }
   };
 
@@ -270,6 +297,7 @@ class Slider extends Component<Props> {
           </div>
           {showInput && (
             <input
+              ref={this.inputRef}
               type="text"
               onChange={this.change}
               value={newValue}
@@ -277,6 +305,7 @@ class Slider extends Component<Props> {
               disabled={disabled}
               spellCheck={false}
               onKeyPress={this.pressSubmit}
+              onBlur={this.inputBlur}
             />
           )}
         </div>

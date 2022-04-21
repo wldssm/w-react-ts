@@ -21,6 +21,10 @@
     .slider-runway {
       background: #999;
 
+      &:hover {
+        background: #999;
+      }
+
       .slider-bar {
         background: #999;
       }
@@ -58,9 +62,13 @@
     position: relative;
     width: 100%;
     height: @slider-height;
-    background: #dcdee0;
+    background: rgba(220, 222, 224, 0.8); // #dcdee0;
     border-radius: @slider-br;
     cursor: pointer;
+
+    &:hover {
+      background: #dcdee0;
+    }
   }
 
   .slider-bar {
