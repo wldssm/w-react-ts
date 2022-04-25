@@ -24,3 +24,4 @@ export { default as WInputNumber } from './common/InputNumber';
 export { default as WRadio } from './common/Radio';
 export { default as WCollapse } from './common/Collapse';
 export { default as WUpload } from './common/Upload';
+// export { default as WVirtualScroll } from './common/VirtualScroll';
