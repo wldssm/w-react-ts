@@ -16,16 +16,17 @@ group:
 import React, { useState } from 'react';
 import { WPagination } from 'w-react-ts';
 
-let [curPage, setCurPage] = useState(1),
-  total = 21;
+export default () => {
+  let [curPage, setCurPage] = useState(1),
+    total = 21;
 
-const getListByPage = (page) => {
-  page = page || 1;
-  setCurPage(page);
-  // ... 根据页码获取数据
+  const getListByPage = (page) => {
+    page = page || 1;
+    setCurPage(page);
+    // ... 根据页码获取数据
+  };
+  return <WPagination total={total} curPage={curPage} onChange={getListByPage} />;
 };
-
-export default () => <WPagination total={total} curPage={curPage} onChange={getListByPage} />;
 ```
 
 ### API

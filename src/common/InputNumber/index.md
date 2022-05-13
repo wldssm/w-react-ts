@@ -16,19 +16,19 @@ Demo:
 import React, { useState } from 'react';
 import { WInputNumber } from 'w-react-ts';
 
-const [value, setValue] = useState(10);
-
-const change = (val) => {
-  setValue(val);
+export default () => {
+  const [value, setValue] = useState(10);
+  const change = (val) => {
+    setValue(val);
+  };
+  const add = () => {
+    setValue((Number(value) || 0) + 1);
+  };
+  const minus = () => {
+    setValue((Number(value) || 0) - 1);
+  };
+  return <WInputNumber value={value} change={change} enlarge={add} narrow={minus} />;
 };
-const add = () => {
-  setValue((Number(value) || 0) + 1);
-};
-const minus = () => {
-  setValue((Number(value) || 0) - 1);
-};
-
-export default () => <WInputNumber value={value} change={change} enlarge={add} narrow={minus} />;
 ```
 
 ### API

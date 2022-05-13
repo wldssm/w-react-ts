@@ -12,10 +12,16 @@ group:
 /**
  * defaultShowCode: true
  */
-import React from 'react';
+import React, { useState } from 'react';
 import { WInput } from 'w-react-ts';
 
-export default () => <WInput width="200px" />;
+export default () => {
+  const [value, setValue] = useState();
+  const change = (value) => {
+    setValue(value);
+  };
+  return <WInput width="200px" value={value} onChange={change} />;
+};
 ```
 
 ### API
@@ -37,3 +43,11 @@ export default () => <WInput width="200px" />;
 | rightNode    | 插入输入框右边内容                | any                      | -      |
 | onChange     | 输入框改变时触发                  | function(value, name, e) | -      |
 | onEnter      | 输入框回车时触发                  | function(value, name, e) | -      |
+| onFocus      | 输入框获得焦点时触发              | function(value, name, e) | -      |
+| onBlur       | 输入框失去焦点时触发              | function(value, name, e) | -      |
+
+### Ref
+
+| 参数  | 说明           | 类型       |
+| ----- | -------------- | ---------- |
+| focus | 输入框获取焦点 | () => void |

@@ -24,7 +24,7 @@ import { WIcon } from 'w-react-ts';
 import React from 'react';
 import { WIcon, WToast } from 'w-react-ts';
 import fonts from '../../assets/font/iconfont.json';
-import '../../assets/font/demo.css';
+import '../../assets/css/demo.css';
 
 // 拷贝
 function copyUnicode(cont) {

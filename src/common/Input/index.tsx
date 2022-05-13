@@ -16,6 +16,8 @@ interface Props {
   className: string;
   onChange: (...param: any) => any; // 输入事件
   onEnter: (...param: any) => any; // 回车事件
+  onFocus: (...param: any) => any; // 获得焦点事件
+  onBlur: (...param: any) => any; // 失去焦点事件
   leftNode?: any; // 输入框左边插槽
   rightNode?: any; // 输入框右边插槽
 }
@@ -31,6 +33,8 @@ class WInput extends Component<Props> {
     autoSize: false,
     onChange: () => {},
     onEnter: () => {},
+    onFocus: () => {},
+    onBlur: () => {},
   };
   state = {
     curValue: '',
@@ -76,9 +80,19 @@ class WInput extends Component<Props> {
     }
   };
 
-  // 获取焦点
+  // 让输入框获得焦点
   focus = () => {
     this.inputRef?.current?.focus();
+  };
+
+  // 获得焦点
+  focusFunc = (e: any) => {
+    this.props.onFocus(this.state.curValue, this.props.name, e);
+  };
+
+  // 失去焦点
+  blur = (e: any) => {
+    this.props.onBlur(this.state.curValue, this.props.name, e);
   };
 
   render() {
@@ -116,6 +130,8 @@ class WInput extends Component<Props> {
           onCompositionStart={this.compositionstart}
           onCompositionEnd={this.compositionend}
           onKeyPress={this.keyPress}
+          onFocus={this.focusFunc}
+          onBlur={this.blur}
           maxLength={maxLength}
           placeholder={placeholder}
           disabled={disabled}
