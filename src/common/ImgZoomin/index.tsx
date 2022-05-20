@@ -40,7 +40,7 @@ class WImgZoomin extends Component<Props> {
     curLeft: 0, // 图片左边偏移量
     curTop: 0,
   };
-  imgBoxRef: React.RefObject<HTMLInputElement> = createRef();
+  imgBoxRef: React.RefObject<HTMLDivElement> = createRef();
   imgSize: size = { w: 0, h: 0 }; // 图片原始宽、高
   boxSize: size = { w: 0, h: 0 }; // 容器宽、高
   startX = 0; // 鼠标相对页面的位置（鼠标按下）
@@ -83,6 +83,9 @@ class WImgZoomin extends Component<Props> {
   componentWillUnmount() {
     clearTimeout(this.clickTimer);
     this.imgBoxRef?.current?.removeEventListener('click', this.wheelImg);
+    this.setState = () => {
+      return;
+    };
   }
 
   // 加载图片

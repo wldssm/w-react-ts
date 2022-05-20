@@ -159,8 +159,12 @@ class Slider extends Component<Props> {
   // 停止拖动
   dragEnd = () => {
     this.isDrag = false;
-    this.setState({ initPosi: this.state.newPosi });
-    this.props.onChange && this.props.onChange(this.state.newValue, this.props.name);
+    let { newValue, newPosi } = this.state,
+      { value, name } = this.props;
+    if (newValue !== value) {
+      this.setState({ initPosi: newPosi });
+      this.props.onChange && this.props.onChange(newValue, name);
+    }
     window.removeEventListener('mousemove', this.draging);
     window.removeEventListener('mouseup', this.dragEnd);
   };
@@ -221,21 +225,27 @@ class Slider extends Component<Props> {
   // 输入框失去焦点
   inputBlur = () => {
     let { newValue, dotActive } = this.state,
-      { name } = this.props;
+      { name, value } = this.props;
     if (dotActive) {
       return false;
     }
-    let value = this.getCurValue(newValue);
-    if (value !== newValue) {
-      this.props.onInput && this.props.onInput(value, name);
-      this.props.onChange && this.props.onChange(value, name);
+    let realValue = this.getCurValue(newValue);
+    if (realValue !== newValue) {
+      this.setState({
+        newPosi: this.getCurPosi(realValue),
+        newValue: realValue,
+      });
+    }
+    if (realValue !== value) {
+      this.props.onInput && this.props.onInput(realValue, name);
+      this.props.onChange && this.props.onChange(realValue, name);
     }
   };
 
   // 左右按键位移
   keyPress = (e: any) => {
     let curKey = e.keyCode || e.which || e.charCode,
-      { step } = this.props,
+      { step, name } = this.props,
       curValue = this.state.newValue;
 
     if (curKey === 37 || curKey === 40) {
@@ -245,11 +255,14 @@ class Slider extends Component<Props> {
       // 右
       curValue += step;
     }
-    this.setState({
-      newPosi: this.getCurPosi(curValue),
-      newValue: this.getCurValue(curValue),
-    });
-    this.props.onChange && this.props.onChange(curValue, this.props.name);
+    curValue = this.getCurValue(curValue);
+    if (curValue !== this.state.newValue) {
+      this.setState({
+        newPosi: this.getCurPosi(curValue),
+        newValue: curValue,
+      });
+      this.props.onChange && this.props.onChange(curValue, name);
+    }
   };
   // 点击其他区域圆点失去焦点
   dotBlur = () => {
