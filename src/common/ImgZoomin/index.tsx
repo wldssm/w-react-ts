@@ -7,6 +7,7 @@ interface Props {
   scale: string | number; // 当前比例%
   minScale: string | number; // 最小比例%
   maxScale: string | number;
+  center: boolean; // 切换src后是否保持居中
   className: string;
   onZoomin: (...param: any) => any; // 放大缩小
   onClick: (...param: any) => any; // 单击
@@ -26,6 +27,7 @@ class WImgZoomin extends Component<Props> {
     scale: '', // 当前比例%
     minScale: 2, // 最小比例%
     maxScale: 400,
+    center: true,
     className: '',
     onZoomin: () => {}, // 放大缩小
     onClick: () => {},
@@ -77,7 +79,7 @@ class WImgZoomin extends Component<Props> {
   }
   componentDidUpdate(prevProps: any) {
     if (this.props.src !== prevProps.src) {
-      this.loadImg();
+      this.loadImg(false);
     }
   }
   componentWillUnmount() {
@@ -89,7 +91,7 @@ class WImgZoomin extends Component<Props> {
   }
 
   // 加载图片
-  loadImg = () => {
+  loadImg = (init = true) => {
     let { src, scale } = this.props;
     if (!src) return false;
     let imgBox: any = this.imgBoxRef.current,
@@ -102,8 +104,8 @@ class WImgZoomin extends Component<Props> {
         imgH = e.target.height,
         curImgW = imgW,
         curImgH = imgH,
-        curLeft = 0,
-        curTop = 0;
+        { center } = this.props,
+        { curLeft, curTop } = this.state;
 
       this.imgSize = { w: imgW, h: imgH };
       this.boxSize = { w: boxW, h: boxH };
@@ -124,8 +126,11 @@ class WImgZoomin extends Component<Props> {
           curImgH = curImgW / imgRatio;
         }
       }
-      curLeft = (boxW - curImgW) / 2;
-      curTop = (boxH - curImgH) / 2;
+      if (init || center) {
+        curLeft = (boxW - curImgW) / 2;
+        curTop = (boxH - curImgH) / 2;
+      }
+
       this.setState(
         {
           curImgW,
