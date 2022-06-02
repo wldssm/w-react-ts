@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react';
+import { isTouchDevice } from '../../assets/js/utils';
 
 import './index.less';
 
@@ -49,6 +50,7 @@ class WImgZoomin extends Component<Props> {
   startY = 0;
   pageX = 0; // 鼠标相对页面的位置（鼠标移动）
   pageY = 0;
+  startDist = 0; // 初始两指距离
   isDrag = false; // 拖动中
   clickTimer = 0;
   startTime = 0;
@@ -151,20 +153,54 @@ class WImgZoomin extends Component<Props> {
 
   // 鼠标按下
   mouseDown = (e: any) => {
+    if (isTouchDevice() && e.type !== 'touchstart') return false;
     e?.persist();
-    e.preventDefault();
+    e?.preventDefault();
     this.isDrag = true;
-    this.startX = e.pageX;
-    this.startY = e.pageY;
+    if (e.type === 'touchstart') {
+      let touch = e.touches[0];
+      if (e.touches.length > 1) {
+        let touch2 = e.touches[1],
+          diffX = Math.abs(touch.pageX - touch2.pageX),
+          diffY = Math.abs(touch.pageY - touch2.pageY);
+
+        this.startDist = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2)); // 两点之间的距离
+        this.startX = (touch.pageX + touch2.pageX) / 2;
+        this.startY = (touch.pageY + touch2.pageY) / 2;
+      } else {
+        this.startX = touch.pageX;
+        this.startY = touch.pageY;
+      }
+    } else {
+      this.startX = e.pageX;
+      this.startY = e.pageY;
+    }
     if (this.clickTimer) clearTimeout(this.clickTimer);
     this.startTime = Date.now();
   };
   // 鼠标移动
   mouseMove = (e: any) => {
     e?.persist(); // 兼容react，否则无法获取pageX等属性
-    e.preventDefault();
-    this.pageX = e.pageX;
-    this.pageY = e.pageY;
+    e?.preventDefault();
+    if (e.type === 'touchmove') {
+      let touch = e.touches[0];
+      if (e.touches.length > 1) {
+        let touch2 = e.touches[1],
+          diffX = Math.abs(touch.pageX - touch2.pageX),
+          diffY = Math.abs(touch.pageY - touch2.pageY),
+          curDist = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2)), // 两点之间的距离
+          curScale = parseInt((curDist / this.startDist) * 100 + '');
+        this.pageX = (touch.pageX + touch2.pageX) / 2;
+        this.pageY = (touch.pageY + touch2.pageY) / 2;
+        this.zoominImg(curScale, true);
+      } else {
+        this.pageX = touch.pageX;
+        this.pageY = touch.pageY;
+      }
+    } else {
+      this.pageX = e.pageX;
+      this.pageY = e.pageY;
+    }
     if (this.isDrag) {
       let diffX = this.pageX - this.startX,
         diffY = this.pageY - this.startY;
@@ -176,8 +212,8 @@ class WImgZoomin extends Component<Props> {
           };
         },
         () => {
-          this.startX = e.pageX;
-          this.startY = e.pageY;
+          this.startX = this.pageX;
+          this.startY = this.pageY;
         },
       );
     }
@@ -205,14 +241,14 @@ class WImgZoomin extends Component<Props> {
 
   // 滚轮放大缩小e.deltaY>0下滚，<0上滚
   wheelImg = (e: any) => {
-    e.preventDefault();
+    e?.preventDefault();
     e?.nativeEvent?.stopImmediatePropagation(); // 阻止冒泡，防止触发全局事件
     e.stopPropagation();
     let type = e.deltaY > 0 ? 'narrow' : 'enlarge';
     this.zoominImg(type, true);
   };
-  // 放大缩小图片(narrow缩小，enlarge放大)(isMouseEvent是否鼠标操作)
-  zoominImg = (type?: string, isMouseEvent?: boolean) => {
+  // 放大缩小图片(narrow缩小，enlarge放大)(isHandEvent是否手动操作)
+  zoominImg = (type?: string | number, isHandEvent?: boolean) => {
     let minScale = Number(this.props.minScale),
       maxScale = Number(this.props.maxScale),
       curScale = this.imgScale,
@@ -235,7 +271,11 @@ class WImgZoomin extends Component<Props> {
         curScale = curScale < maxScale ? curScale : maxScale;
         break;
       default:
-        curScale = this.initScale;
+        if (typeof type === 'number') {
+          curScale = type;
+        } else {
+          curScale = this.initScale;
+        }
         break;
     }
     curImgW = (curScale / 100) * this.imgSize.w;
@@ -246,7 +286,7 @@ class WImgZoomin extends Component<Props> {
       {
         curImgW,
         curImgH,
-        ...this.calcTranslate(curScale, isMouseEvent),
+        ...this.calcTranslate(curScale, isHandEvent),
       },
       () => {
         if (type === 'narrow' || type === 'enlarge') {
@@ -256,7 +296,7 @@ class WImgZoomin extends Component<Props> {
     );
   };
   // 计算图片偏移量
-  calcTranslate = (curScale: number, isMouseEvent?: boolean) => {
+  calcTranslate = (curScale: number, isHandEvent?: boolean) => {
     curScale = curScale || this.imgScale;
     let { curImgW, curImgH, curLeft, curTop } = this.state,
       boxPosi: any = this.imgBoxRef?.current?.getBoundingClientRect() || {},
@@ -266,7 +306,7 @@ class WImgZoomin extends Component<Props> {
       // 位置比例
       posiXRatio = 1 / 2,
       posiYRatio = 1 / 2;
-    if (isMouseEvent) {
+    if (isHandEvent) {
       // 鼠标位置相对容器的左右、上下比例
       posiXRatio = (this.pageX - boxPosi.left) / (boxPosi.right - boxPosi.left);
       posiYRatio = (this.pageY - boxPosi.top) / (boxPosi.bottom - boxPosi.top);
@@ -295,9 +335,12 @@ class WImgZoomin extends Component<Props> {
         className={`img-box ${className}`}
         ref={this.imgBoxRef}
         onMouseDown={this.mouseDown}
+        onTouchStart={this.mouseDown}
         onMouseMove={this.mouseMove}
+        onTouchMove={this.mouseMove}
         onMouseEnter={this.mouseEnter}
         onMouseUp={this.mouseUp}
+        onTouchEnd={this.mouseUp}
         onMouseLeave={this.stopMove}
         onWheel={this.wheelImg}
       >

@@ -1,5 +1,6 @@
 import React, { Component, createRef } from 'react';
 import WTooltip from '../Tooltip/index';
+import { isTouchDevice } from '../../assets/js/utils';
 
 import './index.less';
 
@@ -66,7 +67,12 @@ class Slider extends Component<Props> {
   }
   componentWillUnmount() {
     window.removeEventListener('mousemove', this.draging);
+    window.removeEventListener('touchmove', this.draging);
     window.removeEventListener('mouseup', this.dragEnd);
+    window.removeEventListener('touchend', this.dragEnd);
+    this.setState = () => {
+      return;
+    };
   }
 
   // 初始数据更新位置
@@ -101,10 +107,14 @@ class Slider extends Component<Props> {
 
   // 点击跑道选择
   clickRunway = (e: any) => {
+    if (isTouchDevice() && e.type !== 'touchstart') return false;
     if (this.props.disabled) return false;
     e?.persist();
-    e.preventDefault();
+    e?.preventDefault();
 
+    if (e.type === 'touchstart') {
+      e = e.touches[0];
+    }
     let runwayPosi: any = this.runwayRef?.current?.getBoundingClientRect();
     this.runwayWidth = runwayPosi?.right - runwayPosi?.left;
     let newPosi = ((e.pageX - runwayPosi?.left) / this.runwayWidth) * 100;
@@ -116,14 +126,19 @@ class Slider extends Component<Props> {
   };
   // 鼠标按下圆点
   mouseDown = (e: any) => {
+    if (isTouchDevice() && e.type !== 'touchstart') return false;
     if (this.props.disabled) return false;
     e?.persist();
-    e.preventDefault();
+    e?.preventDefault();
     e?.nativeEvent?.stopImmediatePropagation(); // 阻止冒泡，防止触发全局事件
     e.stopPropagation();
 
     this.isDrag = true;
-    this.startPageX = e.pageX;
+    if (e.type === 'touchstart') {
+      this.startPageX = e.touches[0].pageX;
+    } else {
+      this.startPageX = e.pageX;
+    }
 
     this.setState(
       {
@@ -140,14 +155,20 @@ class Slider extends Component<Props> {
     let runwayPosi: any = this.runwayRef?.current?.getBoundingClientRect();
     this.runwayWidth = runwayPosi?.right - runwayPosi?.left;
 
-    window.addEventListener('mousemove', this.draging);
-    window.addEventListener('mouseup', this.dragEnd);
+    window.addEventListener('mousemove', this.draging, { passive: false });
+    window.addEventListener('touchmove', this.draging, { passive: false });
+    window.addEventListener('mouseup', this.dragEnd, { passive: false });
+    window.addEventListener('touchend', this.dragEnd, { passive: false });
   };
   // 拖动中
   draging = (e: any) => {
     let { initPosi } = this.state;
-    e.preventDefault();
+    e?.preventDefault();
     if (this.isDrag) {
+      if (e.type === 'touchmove') {
+        e = e.touches[0];
+      }
+
       let diffX = ((e.pageX - this.startPageX) / this.runwayWidth) * 100,
         newPosi = initPosi + diffX;
 
@@ -166,7 +187,9 @@ class Slider extends Component<Props> {
       this.props.onChange && this.props.onChange(newValue, name);
     }
     window.removeEventListener('mousemove', this.draging);
+    window.removeEventListener('touchmove', this.draging);
     window.removeEventListener('mouseup', this.dragEnd);
+    window.removeEventListener('touchend', this.dragEnd);
   };
   // 计算当前值
   calcStep = (newPosi: any) => {
@@ -271,7 +294,12 @@ class Slider extends Component<Props> {
   // 圆点渲染
   dotRender = (newPosi: any, dotActive: any) => {
     return (
-      <div className="slider-dot-box" style={{ left: newPosi + '%' }} onMouseDown={this.mouseDown}>
+      <div
+        className="slider-dot-box"
+        style={{ left: newPosi + '%' }}
+        onMouseDown={this.mouseDown}
+        onTouchStart={this.mouseDown}
+      >
         <div
           ref={this.dotRef}
           className={`slider-dot${dotActive ? ' on' : ''}`}
@@ -292,7 +320,12 @@ class Slider extends Component<Props> {
         <div className="slider-cont">
           <div className="slider-main">
             {/* runway */}
-            <div className="slider-runway" ref={this.runwayRef} onMouseDown={this.clickRunway}>
+            <div
+              className="slider-runway"
+              ref={this.runwayRef}
+              onMouseDown={this.clickRunway}
+              onTouchStart={this.clickRunway}
+            >
               <div className="slider-bar" style={{ width: newPosi + '%' }}></div>
               {showTip ? (
                 <WTooltip content={newValue}>{this.dotRender(newPosi, dotActive)}</WTooltip>

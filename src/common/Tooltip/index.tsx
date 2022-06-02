@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import ReactDOM from 'react-dom';
+import { isTouchDevice } from '../../assets/js/utils';
 
 import './index.less';
 
@@ -51,8 +52,18 @@ let TooltipChild = (props: any, ref: any): any => {
           // ref: props.childRef,
           className: [child.props.className, 'tooltip-wrap'].join(' '),
           onMouseDown: (e: MouseEvent) => {
+            if (isTouchDevice() && e.type !== 'touchstart') return false;
             props.mouseDown(e);
             child.props.onMouseDown && child.props.onMouseDown(e);
+          },
+          onTouchStart: (e: TouchEvent) => {
+            props.mouseDown(e);
+            props.mouseEnter(e);
+            child.props.onTouchStart && child.props.onTouchStart(e);
+          },
+          onTouchEnd: (e: TouchEvent) => {
+            props.mouseLeave(e);
+            child.props.onTouchEnd && child.props.onTouchEnd(e);
           },
           onMouseEnter: (e: MouseEvent) => {
             props.mouseEnter(e);
@@ -79,6 +90,7 @@ let InnerTooltip = (props: any): any => {
     <div
       className={`tooltip-box dir-${dirClass} ${props.className}`}
       ref={props.tooltipRef}
+      onClick={props.click}
       onMouseLeave={props.mouseLeave}
       onMouseEnter={props.mouseEnter}
     >
@@ -114,6 +126,7 @@ let TooltipCont = (props: any) => {
       <InnerTooltip
         {...props}
         tooltipRef={props.tooltipRef}
+        click={props.click}
         mouseLeave={props.mouseLeave}
         mouseEnter={props.mouseEnter}
       />,
@@ -147,17 +160,23 @@ const Tooltip = (props: any) => {
   useEffect(() => {
     if (isDrag) {
       window.addEventListener('mousemove', draging);
+      window.addEventListener('touchmove', draging);
       window.addEventListener('mouseup', dragEnd);
+      window.addEventListener('touchend', dragEnd);
     } else {
       window.removeEventListener('mousemove', draging);
+      window.removeEventListener('touchmove', draging);
       window.removeEventListener('mouseup', dragEnd);
+      window.removeEventListener('touchend', dragEnd);
       if (isLeave) {
         hide();
       }
     }
     return () => {
       window.removeEventListener('mousemove', draging);
+      window.removeEventListener('touchmove', draging);
       window.removeEventListener('mouseup', dragEnd);
+      window.removeEventListener('touchend', dragEnd);
     };
   }, [isDrag, isLeave]);
 
@@ -206,6 +225,11 @@ const Tooltip = (props: any) => {
       setShow(false);
     }, 200);
   };
+  // 单击提示内容
+  const clickTip = (e: any) => {
+    e.preventDefault();
+    e && e.stopPropagation();
+  };
 
   return (
     <>
@@ -222,6 +246,7 @@ const Tooltip = (props: any) => {
         {...props}
         show={show}
         node={node}
+        click={clickTip}
         mouseLeave={mouseLeave}
         mouseEnter={mouseEnter}
       />

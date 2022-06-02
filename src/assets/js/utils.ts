@@ -118,3 +118,8 @@ export const debounce = (func: any, gap: number) => {
     }, gap);
   };
 };
+
+// 判断触摸设备
+export const isTouchDevice = () => {
+  return 'ontouchstart' in window || navigator.maxTouchPoints;
+};
