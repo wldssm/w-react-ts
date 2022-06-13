@@ -16,15 +16,21 @@ group:
 import React, { useState } from 'react';
 import { WSlider } from 'w-react-ts';
 
-let [curValue, setCurValue] = useState(50);
-
-const change = (value) => {
-  setCurValue(value);
+export default () => {
+  let [curValue, setCurValue] = useState(50);
+  const change = (value) => {
+    setCurValue(value);
+  };
+  return (
+    <WSlider
+      value={curValue}
+      label="滑块文本"
+      showInput={true}
+      showRange={true}
+      onChange={change}
+    />
+  );
 };
-
-export default () => (
-  <WSlider value={curValue} label="滑块文本" showInput={true} showRange={true} onChange={change} />
-);
 ```
 
 ### API
@@ -42,5 +48,7 @@ export default () => (
 | showRange | 显示最大值最小值 | boolean | false |
 | showInput | 显示输入框 | boolean | false |
 | className | 类名 | string | - |
-| onChange | 值改变时触发（松开鼠标后）、输入框回车时触发、上下左右键触发 | function(value, name) | - |
+| onChange | 值改变时触发（松开鼠标后、输入框回车、失去焦点时、上下左右键） | function(value, name) | - |
 | onInput | 拖拽时、输入框输入时实时触发 | function(value, name) | - |
+| onFocus | 输入框获得焦点时触发 | function(value, name, e) | - |
+| onBlur | 输入框失去焦点时触发 | function(value, name) | - |

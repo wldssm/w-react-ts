@@ -22,6 +22,8 @@ interface Props {
   onSelect: (...param: any) => any; // 选中下拉菜单选项
   onChange: (...param: any) => any; // 输入事件
   onEnter: (...param: any) => any; // 回车事件
+  onFocus?: (...param: any) => any; // 输入框获取焦点时触发
+  onBlur?: (...param: any) => any; // 输入框失去焦点时触发
   optionRight: (...param: any) => any; // 选项插槽
   optionLeft: (...param: any) => any; // 选项插槽
 }
@@ -93,6 +95,15 @@ class WDropDown extends Component<Props> {
     }
   };
 
+  // 获得焦点
+  inputFocus = () => {
+    this.props.onFocus && this.props.onFocus(this.props.name);
+  };
+  // 失去焦点
+  inputBlur = () => {
+    this.props.onBlur && this.props.onBlur(this.props.name);
+  };
+
   // 整体点击
   click = (status: boolean, e: any) => {
     let { options, name } = this.props;
@@ -160,6 +171,8 @@ class WDropDown extends Component<Props> {
             className="i-txt"
             onChange={this.change}
             onKeyPress={this.keyPress}
+            onFocus={this.inputFocus}
+            onBlur={this.inputBlur}
             maxLength={maxLength}
             placeholder={placeholder}
           />

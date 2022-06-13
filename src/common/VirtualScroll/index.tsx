@@ -11,6 +11,7 @@ interface Props {
   fill: boolean; // 初始是否预填充bottom
   boxRef: React.RefObject<HTMLDivElement>; // 外容器ref
   height?: string; // 外容器高度
+  itemClassName?: string;
   className?: string;
   render: (...param: any) => any; // 渲染list内容
   loadMore?: (...param: any) => any; // 无限加载时加载更多数据
@@ -26,6 +27,7 @@ class VirtualScroll extends Component<Props> {
     flexNum: 0,
     fill: false,
     boxRef: createRef(),
+    itemClassName: '',
     className: '',
     // render: () => { }
   };
@@ -50,7 +52,7 @@ class VirtualScroll extends Component<Props> {
   }
 
   componentDidUpdate(prevProps: any) {
-    if (this.props.data !== prevProps.data) {
+    if (this.props.data !== prevProps.data || this.props.height !== prevProps.height) {
       this.init();
       this.getShowList();
     }
@@ -306,7 +308,7 @@ class VirtualScroll extends Component<Props> {
   };
 
   render() {
-    let { className, render, boxRef, height } = this.props,
+    let { className, render, boxRef, height, itemClassName } = this.props,
       { showList, startIndex, paddingTop, paddingBottom } = this.state;
     return (
       <div className={`virtual-box ${className}`} ref={boxRef} style={{ height: height }}>
@@ -317,7 +319,7 @@ class VirtualScroll extends Component<Props> {
         >
           {showList.map((item, index) => {
             return (
-              <div key={startIndex + index} className="item">
+              <div key={startIndex + index} className={`item ${itemClassName}`}>
                 {render(item, startIndex + index)}
               </div>
             );

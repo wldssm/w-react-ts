@@ -58,5 +58,7 @@ export default () => (
 | onSelect    | 选中下拉菜单选项事件           | function(index, name, item)     | -      |
 | onChange    | 输入事件                       | function(value, name)           | -      |
 | onEnter     | 回车事件                       | function(name)                  | -      |
+| onFocus     | 输入框获得焦点时触发           | function(name)                  | -      |
+| onBlur      | 输入框失去焦点时触发           | function(name)                  | -      |
 | optionRight | 插入选项右边内容               | function(item, index)           | -      |
 | optionLeft  | 插入选项左边内容               | function(item, index)           | -      |

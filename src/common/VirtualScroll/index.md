@@ -53,6 +53,7 @@ export default () => {
 | flexNum       | 缓存多少条，越大越流畅      | number                            | 0           |
 | fill          | 初始是否预填充 bottom       | boolean                           | false       |
 | boxRef        | 外容器 ref                  | React.RefObject\<HTMLDivElement\> | createRef() |
+| itemClassName | 每个子项的类名              | string                            | -           |
 | className     | 类名                        | string                            | -           |
 | height        | 外容器高度                  | string                            | 100%        |
 | render        | 渲染 list 内容              | function(item, index)             | -           |

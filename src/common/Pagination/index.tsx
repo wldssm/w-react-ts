@@ -10,7 +10,9 @@ interface Props {
   curPage: number; // 当前页
   className: string;
   showNum: number; // 可见页码数，超出显示...。最小7，最大9
-  onChange?: (...param: any) => any;
+  onChange?: (...param: any) => any; // 切换页码、输入框回车、失去焦点触发
+  onFocus?: (...param: any) => any; // 输入框获取焦点时触发
+  onBlur?: (...param: any) => any; // 输入框失去焦点时触发
 }
 
 class WPagination extends Component<Props> {
@@ -99,6 +101,7 @@ class WPagination extends Component<Props> {
     }
     this.props.onChange && this.props.onChange(page);
     window.scrollTo(0, 0);
+    return page;
   };
 
   // 双向绑定数据
@@ -116,6 +119,18 @@ class WPagination extends Component<Props> {
       let num = this.state.num;
       this.go(Number(num) || 1);
     }
+  };
+
+  // 获得焦点
+  inputFocus = () => {
+    this.props.onFocus && this.props.onFocus();
+  };
+
+  // 失去焦点
+  inputBlur = () => {
+    let num = this.state.num;
+    num = this.go(Number(num) || 1);
+    this.props.onBlur && this.props.onBlur(num);
   };
 
   render() {
@@ -163,6 +178,8 @@ class WPagination extends Component<Props> {
               autoComplete="off"
               name="num"
               onKeyPress={this.keyPress}
+              onFocus={this.inputFocus}
+              onBlur={this.inputBlur}
             />
             页
           </div>

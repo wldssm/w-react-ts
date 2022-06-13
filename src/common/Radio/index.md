@@ -1,10 +1,10 @@
 ---
-title: WRadio 单选
+title: Radio 单选
 group:
   title: '通用'
 ---
 
-## WRadio 单选
+## Radio 单选
 
 ### Demo
 

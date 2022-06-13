@@ -5,6 +5,7 @@ import './index.less';
 
 interface Props {
   data: any[]; // 显示的数据
+  showHeader: boolean; // 显示头部
   className?: string;
   clickRow?: (...param: any) => any; // 单击行
   clickThCol?: (...param: any) => any; // 单击头部单元格
@@ -13,6 +14,7 @@ interface Props {
 class WTable extends Component<Props> {
   static defaultProps = {
     data: [],
+    showHeader: true,
     className: '',
     clickRow: () => {},
     clickThCol: () => {},
@@ -27,25 +29,27 @@ class WTable extends Component<Props> {
   };
 
   render() {
-    let { data, children, className } = this.props;
+    let { data, children, className, showHeader } = this.props;
     return (
       <div className={`table-container ${className}`}>
         {/* thead */}
-        <div className="tb-th" onClick={this.clickRow.bind(this)}>
-          {React.Children.map(children, (item: any, index) => {
-            let { label, width } = item.props;
-            return (
-              <div
-                onClick={this.clickThCol.bind(this, index, label)}
-                className="col"
-                style={{ width: width }}
-                key={Math.random().toString(36).substring(2)}
-              >
-                {typeof label === 'function' ? label(index) : label}
-              </div>
-            );
-          })}
-        </div>
+        {showHeader && (
+          <div className="tb-th" onClick={this.clickRow.bind(this)}>
+            {React.Children.map(children, (item: any, index) => {
+              let { label, width } = item.props;
+              return (
+                <div
+                  onClick={this.clickThCol.bind(this, index, label)}
+                  className="col"
+                  style={{ width: width }}
+                  key={Math.random().toString(36).substring(2)}
+                >
+                  {typeof label === 'function' ? label(index) : label}
+                </div>
+              );
+            })}
+          </div>
+        )}
         {/* tbody */}
         <div className="tb-tbody">
           {data.map((item: any, index) => {

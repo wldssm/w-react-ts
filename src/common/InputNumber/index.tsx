@@ -10,6 +10,8 @@ interface Props {
   suffix: string; // 后缀（例：%）
   change: (...param: any) => any; // 输入框改变
   onEnter: (...param: any) => any; // 输入框回车
+  onFocus?: (...param: any) => any; // 输入框获取焦点时触发
+  onBlur?: (...param: any) => any; // 输入框失去焦点时触发
   enlarge: (...param: any) => any; // 点击放大
   narrow: (...param: any) => any; // 点击缩小
 }
@@ -51,6 +53,15 @@ class InputNumber extends Component<Props> {
   narrow = () => {
     this.props.narrow();
   };
+
+  // 获得焦点
+  inputFocus = () => {
+    this.props.onFocus && this.props.onFocus(this.props.name);
+  };
+  // 失去焦点
+  inputBlur = () => {
+    this.props.onBlur && this.props.onBlur(this.props.name);
+  };
   render() {
     let { className, value, name, suffix } = this.props;
     return (
@@ -63,6 +74,8 @@ class InputNumber extends Component<Props> {
           autoComplete="off"
           name={name}
           onKeyPress={this.keyPress}
+          onFocus={this.inputFocus}
+          onBlur={this.inputBlur}
         />
         <WIcon className="icom-zoomin" onClick={this.enlarge} code="&#xe643;" />
       </div>

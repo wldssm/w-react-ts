@@ -16,10 +16,10 @@ import React, { useState } from 'react';
 import { WInput } from 'w-react-ts';
 
 export default () => {
-  const [value, setValue] = useState();
-  const change = (value) => {
-    setValue(value);
-  };
+  const [value, setValue] = useState(),
+    change = (value) => {
+      setValue(value);
+    };
   return <WInput width="200px" value={value} onChange={change} />;
 };
 ```

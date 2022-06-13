@@ -18,6 +18,8 @@ interface Props {
   className: string;
   onChange?: (...param: any) => any; // 值改变时触发（松开鼠标后）
   onInput?: (...param: any) => any; // 拖拽时触发
+  onFocus?: (...param: any) => any; // 输入框获取焦点时触发
+  onBlur?: (...param: any) => any; // 输入框失去焦点时触发
 }
 
 class Slider extends Component<Props> {
@@ -263,6 +265,12 @@ class Slider extends Component<Props> {
       this.props.onInput && this.props.onInput(realValue, name);
       this.props.onChange && this.props.onChange(realValue, name);
     }
+    this.props.onBlur && this.props.onBlur(realValue, name);
+  };
+  // 输入框获取焦点时
+  inputFocus = (e: any) => {
+    let { name, value } = this.props;
+    this.props.onFocus && this.props.onFocus(value, name, e);
   };
 
   // 左右按键位移
@@ -351,6 +359,7 @@ class Slider extends Component<Props> {
               disabled={disabled}
               spellCheck={false}
               onKeyPress={this.pressSubmit}
+              onFocus={this.inputFocus}
               onBlur={this.inputBlur}
             />
           )}

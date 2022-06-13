@@ -54,6 +54,7 @@ export default () => (
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | data | 数据 | any[] | [] |
+| showHeader | 是否显示头部 | boolean | true |
 | className | 类名 | string | - |
 | clickRow | 单击行 | thead：function(e) <br/> tbody：function(rowData, index, e) | - |
 | clickThCol | 单击头部单元格 | function(index, label, e) | - |
