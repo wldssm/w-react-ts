@@ -11,7 +11,7 @@ interface Props {
   center: boolean; // 切换src后是否保持居中
   className: string;
   onZoomin: (...param: any) => any; // 放大缩小
-  onClick: (...param: any) => any; // 单击
+  onClick: (...param: any) => any; // 单击。为了图片预览单击关闭
   onImgLoaded: (...param: any) => any; // 图片加载成功
   onImgError: (...param: any) => any; // 图片加载失败
 }
@@ -55,6 +55,7 @@ class WImgZoomin extends Component<Props> {
   clickTimer = 0;
   startTime = 0;
   endTime = 0;
+  pointers: any = []; // pointer、touch多指事件
 
   // 当前图片缩放比例
   get imgScale(): number {
@@ -151,33 +152,45 @@ class WImgZoomin extends Component<Props> {
     img.src = src;
   };
 
-  // 鼠标按下
+  // 按下事件
   mouseDown = (e: any) => {
     if (isTouchDevice() && e.type !== 'touchstart') return false;
     e?.persist();
     e?.preventDefault();
     e?.stopPropagation();
     this.isDrag = true;
-    if (e.type === 'touchstart') {
-      let touch = e.touches[0];
-      if (e.touches.length > 1) {
-        let touch2 = e.touches[1],
-          diffX = Math.abs(touch.pageX - touch2.pageX),
-          diffY = Math.abs(touch.pageY - touch2.pageY);
-
-        this.startDist = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2)); // 两点之间的距离
-        this.startX = (touch.pageX + touch2.pageX) / 2;
-        this.startY = (touch.pageY + touch2.pageY) / 2;
-      } else {
-        this.startX = touch.pageX;
-        this.startY = touch.pageY;
-      }
+    if (e.type === 'touchstart' || window.PointerEvent) {
+      // touch事件、pointer事件
+      this.touchDown(e);
     } else {
+      // mouse事件
       this.startX = e.pageX;
       this.startY = e.pageY;
     }
     if (this.clickTimer) clearTimeout(this.clickTimer);
     this.startTime = Date.now();
+  };
+  // 触屏按下
+  touchDown = (e: any) => {
+    if (e.type === 'touchstart') {
+      this.pointers = e.touches;
+    } else {
+      this.pointers.push(e);
+    }
+
+    let pointer = this.pointers[0];
+    if (this.pointers.length > 1) {
+      let pointer2 = this.pointers[1],
+        diffX = Math.abs(pointer.pageX - pointer2.pageX),
+        diffY = Math.abs(pointer.pageY - pointer2.pageY);
+
+      this.startDist = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2)); // 两点之间的距离
+      this.startX = (pointer.pageX + pointer2.pageX) / 2;
+      this.startY = (pointer.pageY + pointer2.pageY) / 2;
+    } else {
+      this.startX = pointer.pageX;
+      this.startY = pointer.pageY;
+    }
   };
   // 鼠标移动
   mouseMove = (e: any) => {
@@ -185,22 +198,10 @@ class WImgZoomin extends Component<Props> {
     e?.preventDefault();
     e?.stopPropagation();
     if (!this.isDrag) return;
-    if (e.type === 'touchmove') {
-      let touch = e.touches[0];
-      if (e.touches.length > 1) {
-        let touch2 = e.touches[1],
-          diffX = Math.abs(touch.pageX - touch2.pageX),
-          diffY = Math.abs(touch.pageY - touch2.pageY),
-          curDist = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2)), // 两点之间的距离
-          curScale = parseInt((curDist / this.startDist) * 100 + '');
-        this.pageX = (touch.pageX + touch2.pageX) / 2;
-        this.pageY = (touch.pageY + touch2.pageY) / 2;
-        this.zoominImg(curScale, true);
-        this.startDist = curDist;
-      } else {
-        this.pageX = touch.pageX;
-        this.pageY = touch.pageY;
-      }
+    if (isTouchDevice() && e.type !== 'touchmove') return false;
+
+    if (e.type === 'touchmove' || window.PointerEvent) {
+      this.touchMove(e);
     } else {
       this.pageX = e.pageX;
       this.pageY = e.pageY;
@@ -220,6 +221,34 @@ class WImgZoomin extends Component<Props> {
       },
     );
   };
+  // 触屏移动
+  touchMove = (e: any) => {
+    if (e.type === 'touchmove') {
+      this.pointers = e.touches;
+    } else {
+      for (let i = 0; i < this.pointers.length; i++) {
+        if (this.pointers[i].pointerId === e.pointerId) {
+          this.pointers[i] = e;
+        }
+      }
+    }
+
+    let pointer = this.pointers[0];
+    if (this.pointers.length > 1) {
+      let pointer2 = this.pointers[1],
+        diffX = Math.abs(pointer.pageX - pointer2.pageX),
+        diffY = Math.abs(pointer.pageY - pointer2.pageY),
+        curDist = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2)), // 两点之间的距离
+        curScale = parseInt((curDist / this.startDist) * 100 + '');
+      this.pageX = (pointer.pageX + pointer2.pageX) / 2;
+      this.pageY = (pointer.pageY + pointer2.pageY) / 2;
+      this.zoominImg(curScale, true);
+      this.startDist = curDist;
+    } else {
+      this.pageX = pointer.pageX;
+      this.pageY = pointer.pageY;
+    }
+  };
   // 鼠标进入
   mouseEnter = (e: any) => {
     e?.persist();
@@ -229,8 +258,19 @@ class WImgZoomin extends Component<Props> {
   };
   // 鼠标抬起、离开
   mouseUp = (e: any) => {
+    e?.persist();
     e?.preventDefault();
     e?.stopPropagation();
+
+    if (isTouchDevice() && e.type !== 'touchend') return false;
+    if (e.type !== 'touchend' && window.PointerEvent) {
+      for (let i = 0; i < this.pointers.length; i++) {
+        if (this.pointers[i].pointerId === e.pointerId) {
+          this.pointers.splice(i, 1);
+        }
+      }
+    }
+
     this.isDrag = false;
     this.endTime = Date.now();
     if (this.endTime - this.startTime < 200) {
@@ -238,6 +278,10 @@ class WImgZoomin extends Component<Props> {
         this.props.onClick();
       }, 200);
     }
+  };
+  // 取消
+  touchCancel = () => {
+    this.pointers = [];
   };
   stopMove = () => {
     this.isDrag = false;
@@ -343,11 +387,16 @@ class WImgZoomin extends Component<Props> {
         ref={this.imgBoxRef}
         onMouseDown={this.mouseDown}
         onTouchStart={this.mouseDown}
+        onPointerDown={this.mouseDown}
         onMouseMove={this.mouseMove}
         onTouchMove={this.mouseMove}
-        onMouseEnter={this.mouseEnter}
+        onPointerMove={this.mouseMove}
         onMouseUp={this.mouseUp}
         onTouchEnd={this.mouseUp}
+        onPointerUp={this.mouseUp}
+        onTouchCancel={this.touchCancel}
+        onPointerCancel={this.touchCancel}
+        onMouseEnter={this.mouseEnter}
         onMouseLeave={this.stopMove}
         onWheel={this.wheelImg}
       >

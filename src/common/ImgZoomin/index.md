@@ -38,6 +38,7 @@ export default () => (
 | onZoomin    | 获取当前缩放比例%       | function(scale)  | -                  |
 | onImgLoaded | 图片加载成功触发        | function(e)      | -                  |
 | onImgError  | 图片加载失败触发        | function(e)      | -                  |
+| onClick     | 单击触发                | function()       | -                  |
 
 ### Event
 
