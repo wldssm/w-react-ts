@@ -156,6 +156,7 @@ class WImgZoomin extends Component<Props> {
     if (isTouchDevice() && e.type !== 'touchstart') return false;
     e?.persist();
     e?.preventDefault();
+    e?.stopPropagation();
     this.isDrag = true;
     if (e.type === 'touchstart') {
       let touch = e.touches[0];
@@ -182,6 +183,8 @@ class WImgZoomin extends Component<Props> {
   mouseMove = (e: any) => {
     e?.persist(); // 兼容react，否则无法获取pageX等属性
     e?.preventDefault();
+    e?.stopPropagation();
+    if (!this.isDrag) return;
     if (e.type === 'touchmove') {
       let touch = e.touches[0];
       if (e.touches.length > 1) {
@@ -193,6 +196,7 @@ class WImgZoomin extends Component<Props> {
         this.pageX = (touch.pageX + touch2.pageX) / 2;
         this.pageY = (touch.pageY + touch2.pageY) / 2;
         this.zoominImg(curScale, true);
+        this.startDist = curDist;
       } else {
         this.pageX = touch.pageX;
         this.pageY = touch.pageY;
@@ -201,22 +205,20 @@ class WImgZoomin extends Component<Props> {
       this.pageX = e.pageX;
       this.pageY = e.pageY;
     }
-    if (this.isDrag) {
-      let diffX = this.pageX - this.startX,
-        diffY = this.pageY - this.startY;
-      this.setState(
-        (pre: any) => {
-          return {
-            curLeft: diffX + pre.curLeft,
-            curTop: diffY + pre.curTop,
-          };
-        },
-        () => {
-          this.startX = this.pageX;
-          this.startY = this.pageY;
-        },
-      );
-    }
+    let diffX = this.pageX - this.startX,
+      diffY = this.pageY - this.startY;
+    this.setState(
+      (pre: any) => {
+        return {
+          curLeft: diffX + pre.curLeft,
+          curTop: diffY + pre.curTop,
+        };
+      },
+      () => {
+        this.startX = this.pageX;
+        this.startY = this.pageY;
+      },
+    );
   };
   // 鼠标进入
   mouseEnter = (e: any) => {
@@ -226,7 +228,9 @@ class WImgZoomin extends Component<Props> {
     }
   };
   // 鼠标抬起、离开
-  mouseUp = () => {
+  mouseUp = (e: any) => {
+    e?.preventDefault();
+    e?.stopPropagation();
     this.isDrag = false;
     this.endTime = Date.now();
     if (this.endTime - this.startTime < 200) {
@@ -273,6 +277,9 @@ class WImgZoomin extends Component<Props> {
       default:
         if (typeof type === 'number') {
           curScale = type;
+          curScale = (curScale / 100) * this.imgScale;
+          curScale = curScale > minScale ? curScale : minScale;
+          curScale = curScale < maxScale ? curScale : maxScale;
         } else {
           curScale = this.initScale;
         }
