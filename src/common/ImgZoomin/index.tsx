@@ -78,6 +78,14 @@ class WImgZoomin extends Component<Props> {
       this.loadImg();
     }, 0);
     this.imgBoxRef?.current?.addEventListener('wheel', this.wheelImg, { passive: false });
+
+    // this.imgBoxRef?.current?.addEventListener('pointerdown', this.mouseDown, { passive: false });
+    // this.imgBoxRef?.current?.addEventListener('mousedown', this.mouseDown, { passive: false });
+    // this.imgBoxRef?.current?.addEventListener('touchstart', this.mouseDown, { passive: false });
+    // this.imgBoxRef?.current?.addEventListener('mousemove', this.mouseMove, { passive: false });
+    // this.imgBoxRef?.current?.addEventListener('touchmove', this.mouseMove, { passive: false });
+    // this.imgBoxRef?.current?.addEventListener('mouseup', this.mouseUp, { passive: false });
+    // this.imgBoxRef?.current?.addEventListener('touchend', this.mouseUp, { passive: false });
   }
   componentDidUpdate(prevProps: any) {
     if (this.props.src !== prevProps.src) {
@@ -184,7 +192,6 @@ class WImgZoomin extends Component<Props> {
     e?.persist(); // 兼容react，否则无法获取pageX等属性
     e?.preventDefault();
     e?.stopPropagation();
-    if (!this.isDrag) return;
     if (e.type === 'touchmove') {
       let touch = e.touches[0];
       if (e.touches.length > 1) {
@@ -205,20 +212,22 @@ class WImgZoomin extends Component<Props> {
       this.pageX = e.pageX;
       this.pageY = e.pageY;
     }
-    let diffX = this.pageX - this.startX,
-      diffY = this.pageY - this.startY;
-    this.setState(
-      (pre: any) => {
-        return {
-          curLeft: diffX + pre.curLeft,
-          curTop: diffY + pre.curTop,
-        };
-      },
-      () => {
-        this.startX = this.pageX;
-        this.startY = this.pageY;
-      },
-    );
+    if (this.isDrag) {
+      let diffX = this.pageX - this.startX,
+        diffY = this.pageY - this.startY;
+      this.setState(
+        (pre: any) => {
+          return {
+            curLeft: diffX + pre.curLeft,
+            curTop: diffY + pre.curTop,
+          };
+        },
+        () => {
+          this.startX = this.pageX;
+          this.startY = this.pageY;
+        },
+      );
+    }
   };
   // 鼠标进入
   mouseEnter = (e: any) => {
@@ -233,10 +242,10 @@ class WImgZoomin extends Component<Props> {
     e?.stopPropagation();
     this.isDrag = false;
     this.endTime = Date.now();
-    if (this.endTime - this.startTime < 200) {
+    if (this.endTime - this.startTime <= 200) {
       this.clickTimer = setTimeout(() => {
         this.props.onClick();
-      }, 200);
+      }, 100);
     }
   };
   stopMove = () => {
@@ -345,9 +354,9 @@ class WImgZoomin extends Component<Props> {
         onTouchStart={this.mouseDown}
         onMouseMove={this.mouseMove}
         onTouchMove={this.mouseMove}
-        onMouseEnter={this.mouseEnter}
         onMouseUp={this.mouseUp}
         onTouchEnd={this.mouseUp}
+        onMouseEnter={this.mouseEnter}
         onMouseLeave={this.stopMove}
         onWheel={this.wheelImg}
       >
@@ -361,6 +370,7 @@ class WImgZoomin extends Component<Props> {
           }}
           onLoad={this.onImgLoaded}
           onError={this.onImgError}
+          draggable="false"
         />
       </div>
     );
