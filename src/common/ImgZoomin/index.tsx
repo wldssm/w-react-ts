@@ -1,5 +1,4 @@
 import React, { Component, createRef } from 'react';
-import { isTouchDevice } from '../../assets/js/utils';
 
 import './index.less';
 
@@ -77,15 +76,19 @@ class WImgZoomin extends Component<Props> {
     setTimeout(() => {
       this.loadImg();
     }, 0);
+    // this.imgBoxRef?.current?.addEventListener('pointerdown', this.mouseDown, { passive: false });
     this.imgBoxRef?.current?.addEventListener('wheel', this.wheelImg, { passive: false });
 
-    // this.imgBoxRef?.current?.addEventListener('pointerdown', this.mouseDown, { passive: false });
-    // this.imgBoxRef?.current?.addEventListener('mousedown', this.mouseDown, { passive: false });
-    // this.imgBoxRef?.current?.addEventListener('touchstart', this.mouseDown, { passive: false });
-    // this.imgBoxRef?.current?.addEventListener('mousemove', this.mouseMove, { passive: false });
-    // this.imgBoxRef?.current?.addEventListener('touchmove', this.mouseMove, { passive: false });
-    // this.imgBoxRef?.current?.addEventListener('mouseup', this.mouseUp, { passive: false });
-    // this.imgBoxRef?.current?.addEventListener('touchend', this.mouseUp, { passive: false });
+    this.imgBoxRef?.current?.addEventListener('touchstart', this.mouseDown, { passive: false });
+    this.imgBoxRef?.current?.addEventListener('touchmove', this.mouseMove, { passive: false });
+    this.imgBoxRef?.current?.addEventListener('touchend', this.mouseUp, { passive: false });
+
+    this.imgBoxRef?.current?.addEventListener('mouseenter', this.mouseEnter, { passive: false });
+    this.imgBoxRef?.current?.addEventListener('mouseleave', this.stopMove, { passive: false });
+
+    this.imgBoxRef?.current?.addEventListener('mousedown', this.mouseDown, { passive: false });
+    this.imgBoxRef?.current?.addEventListener('mousemove', this.mouseMove, { passive: false });
+    this.imgBoxRef?.current?.addEventListener('mouseup', this.mouseUp, { passive: false });
   }
   componentDidUpdate(prevProps: any) {
     if (this.props.src !== prevProps.src) {
@@ -94,7 +97,19 @@ class WImgZoomin extends Component<Props> {
   }
   componentWillUnmount() {
     clearTimeout(this.clickTimer);
-    this.imgBoxRef?.current?.removeEventListener('click', this.wheelImg);
+    this.imgBoxRef?.current?.removeEventListener('wheel', this.wheelImg);
+
+    this.imgBoxRef?.current?.removeEventListener('touchstart', this.mouseDown);
+    this.imgBoxRef?.current?.removeEventListener('touchmove', this.mouseMove);
+    this.imgBoxRef?.current?.removeEventListener('touchend', this.mouseUp);
+
+    this.imgBoxRef?.current?.removeEventListener('mouseenter', this.mouseEnter);
+    this.imgBoxRef?.current?.removeEventListener('mouseleave', this.stopMove);
+
+    this.imgBoxRef?.current?.removeEventListener('mousedown', this.mouseDown);
+    this.imgBoxRef?.current?.removeEventListener('mousemove', this.mouseMove);
+    this.imgBoxRef?.current?.removeEventListener('mouseup', this.mouseUp);
+
     this.setState = () => {
       return;
     };
@@ -161,8 +176,7 @@ class WImgZoomin extends Component<Props> {
 
   // 鼠标按下
   mouseDown = (e: any) => {
-    if (isTouchDevice() && e.type !== 'touchstart') return false;
-    e?.persist();
+    // e?.persist(); // 兼容react合成事件，否则无法获取pageX等属性
     e?.preventDefault();
     e?.stopPropagation();
     this.isDrag = true;
@@ -189,7 +203,6 @@ class WImgZoomin extends Component<Props> {
   };
   // 鼠标移动
   mouseMove = (e: any) => {
-    e?.persist(); // 兼容react，否则无法获取pageX等属性
     e?.preventDefault();
     e?.stopPropagation();
     if (e.type === 'touchmove') {
@@ -231,7 +244,8 @@ class WImgZoomin extends Component<Props> {
   };
   // 鼠标进入
   mouseEnter = (e: any) => {
-    e?.persist();
+    e?.preventDefault();
+    e?.stopPropagation();
     if (e.buttons > 0) {
       this.isDrag = true;
     }
@@ -248,7 +262,9 @@ class WImgZoomin extends Component<Props> {
       }, 100);
     }
   };
-  stopMove = () => {
+  stopMove = (e: any) => {
+    e?.preventDefault();
+    e?.stopPropagation();
     this.isDrag = false;
   };
 
@@ -347,19 +363,7 @@ class WImgZoomin extends Component<Props> {
     let { src, className } = this.props;
     let { curImgW, curImgH, curLeft, curTop } = this.state;
     return (
-      <div
-        className={`img-box ${className}`}
-        ref={this.imgBoxRef}
-        onMouseDown={this.mouseDown}
-        onTouchStart={this.mouseDown}
-        onMouseMove={this.mouseMove}
-        onTouchMove={this.mouseMove}
-        onMouseUp={this.mouseUp}
-        onTouchEnd={this.mouseUp}
-        onMouseEnter={this.mouseEnter}
-        onMouseLeave={this.stopMove}
-        onWheel={this.wheelImg}
-      >
+      <div className={`img-box ${className}`} ref={this.imgBoxRef}>
         <img
           src={src}
           alt=""

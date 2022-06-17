@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import ReactDOM from 'react-dom';
-import { isTouchDevice } from '../../assets/js/utils';
 
 import './index.less';
 
@@ -52,7 +51,6 @@ let TooltipChild = (props: any, ref: any): any => {
           // ref: props.childRef,
           className: [child.props.className, 'tooltip-wrap'].join(' '),
           onMouseDown: (e: MouseEvent) => {
-            if (isTouchDevice() && e.type !== 'touchstart') return false;
             props.mouseDown(e);
             child.props.onMouseDown && child.props.onMouseDown(e);
           },

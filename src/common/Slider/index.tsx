@@ -1,6 +1,5 @@
 import React, { Component, createRef } from 'react';
 import WTooltip from '../Tooltip/index';
-import { isTouchDevice } from '../../assets/js/utils';
 
 import './index.less';
 
@@ -109,7 +108,6 @@ class Slider extends Component<Props> {
 
   // 点击跑道选择
   clickRunway = (e: any) => {
-    if (isTouchDevice() && e.type !== 'touchstart') return false;
     if (this.props.disabled) return false;
     e?.persist();
     e?.preventDefault();
@@ -128,7 +126,6 @@ class Slider extends Component<Props> {
   };
   // 鼠标按下圆点
   mouseDown = (e: any) => {
-    if (isTouchDevice() && e.type !== 'touchstart') return false;
     if (this.props.disabled) return false;
     e?.persist();
     e?.preventDefault();
@@ -305,8 +302,8 @@ class Slider extends Component<Props> {
       <div
         className="slider-dot-box"
         style={{ left: newPosi + '%' }}
-        onMouseDown={this.mouseDown}
         onTouchStart={this.mouseDown}
+        onMouseDown={this.mouseDown}
       >
         <div
           ref={this.dotRef}
@@ -331,8 +328,8 @@ class Slider extends Component<Props> {
             <div
               className="slider-runway"
               ref={this.runwayRef}
-              onMouseDown={this.clickRunway}
               onTouchStart={this.clickRunway}
+              onMouseDown={this.clickRunway}
             >
               <div className="slider-bar" style={{ width: newPosi + '%' }}></div>
               {showTip ? (
