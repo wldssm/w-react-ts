@@ -15,7 +15,7 @@ class WUpload extends Component<Props> {
   static defaultProps = {
     accept: 'img',
     className: '',
-    multiple: true,
+    multiple: false,
     onChange: () => {},
   };
   acceptObj: any = {
@@ -30,9 +30,10 @@ class WUpload extends Component<Props> {
 
   // 双向绑定数据
   change = (e: any) => {
-    let curEl = e.srcElement || e.target,
-      files = curEl.files;
+    let curEl = e.target || e.srcElement,
+      files = [].slice.call(curEl.files);
     this.props.onChange(files, this.props.name, e);
+    curEl.value = '';
   };
 
   render() {

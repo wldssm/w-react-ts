@@ -6,6 +6,20 @@
   "description": "心鉴智控",
   "glyphs": [
     {
+      "icon_id": "10470863",
+      "name": "键盘删除",
+      "font_class": "jp-del",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "15779738",
+      "name": "键盘",
+      "font_class": "jianpan",
+      "unicode": "e706",
+      "unicode_decimal": 59142
+    },
+    {
       "icon_id": "580096",
       "name": "help",
       "font_class": "help-copy",

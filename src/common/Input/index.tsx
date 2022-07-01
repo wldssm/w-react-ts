@@ -13,6 +13,7 @@ interface Props {
   disabled: boolean;
   width: string;
   autoSize: boolean; // 宽度自适应
+  inputRef: React.RefObject<HTMLInputElement>;
   className: string;
   onChange: (...param: any) => any; // 输入事件
   onEnter: (...param: any) => any; // 回车事件
@@ -31,6 +32,7 @@ class WInput extends Component<Props> {
     placeholder: '请输入',
     autoComplete: 'off',
     autoSize: false,
+    inputRef: createRef(),
     onChange: () => {},
     onEnter: () => {},
     onFocus: () => {},
@@ -39,7 +41,7 @@ class WInput extends Component<Props> {
   state = {
     curValue: '',
   };
-  inputRef: React.RefObject<HTMLInputElement> = createRef();
+  // inputRef: React.RefObject<HTMLInputElement> = createRef();
   cnFlag: boolean = false;
 
   componentDidMount() {
@@ -82,7 +84,7 @@ class WInput extends Component<Props> {
 
   // 让输入框获得焦点
   focus = () => {
-    this.inputRef?.current?.focus();
+    this.props.inputRef?.current?.focus();
   };
 
   // 获得焦点
@@ -110,6 +112,7 @@ class WInput extends Component<Props> {
       disabled,
       name,
       autoSize,
+      inputRef,
     } = this.props;
     let { curValue } = this.state;
     return (
@@ -120,7 +123,7 @@ class WInput extends Component<Props> {
         {leftNode}
         {autoSize && <span className="i-txt i-txt-place">{value}</span>}
         <input
-          ref={this.inputRef}
+          ref={inputRef}
           type={type && !showPwd ? type : 'text'}
           value={curValue}
           autoComplete={autoComplete}

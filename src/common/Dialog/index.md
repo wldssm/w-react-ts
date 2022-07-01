@@ -28,7 +28,7 @@ export default () => (
     <WButton onClick={openDialog}>打开弹框</WButton>
     <WDialog show={show} showBtn={true} onClose={closeDialog} onSure={closeDialog}>
       <p style={{ padding: '28px', color: '#fff', textAlign: 'center' }}>
-        随意插入想要显示的提示文本：富强明主文明和谐自由平等公正法治爱国敬业诚信友善
+        富强明主文明和谐自由平等公正法治爱国敬业诚信友善
       </p>
     </WDialog>
   </Fragment>

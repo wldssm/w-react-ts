@@ -19,7 +19,7 @@ import { WIcon } from 'w-react-ts';
 
 ```tsx
 /**
- * defaultShowCode: true
+ * defaultShowCode: false
  */
 import React from 'react';
 import { WIcon, WToast } from 'w-react-ts';

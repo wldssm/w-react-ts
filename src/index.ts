@@ -4,6 +4,7 @@ import './assets/css/reset.css';
 import './assets/font/font.less';
 import './assets/css/common.less';
 
+// 通用组件
 export { default as WIcon } from './common/Icon';
 export { default as WButton } from './common/Button';
 export { WTab, WTabPane } from './common/Tab';
@@ -25,3 +26,8 @@ export { default as WRadio } from './common/Radio';
 export { default as WCollapse } from './common/Collapse';
 export { default as WUpload } from './common/Upload';
 export { default as WVirtualScroll } from './common/VirtualScroll';
+// export { default as WVirtualKeyboard } from './common/VirtualKeyboard';
+export { default as WDrag } from './common/Drag';
+
+// 业务组件
+// export { default as WSvgEditor } from './business/SvgEditor';
