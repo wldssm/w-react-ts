@@ -36,6 +36,7 @@ class WDropDown extends Component<Props> {
     curIndex: 0,
     disabled: false,
     canInput: false,
+    value: '',
     className: '',
     onClick: () => {},
     onChange: () => {},

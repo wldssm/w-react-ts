@@ -26,7 +26,7 @@ export { default as WRadio } from './common/Radio';
 export { default as WCollapse } from './common/Collapse';
 export { default as WUpload } from './common/Upload';
 export { default as WVirtualScroll } from './common/VirtualScroll';
-// export { default as WVirtualKeyboard } from './common/VirtualKeyboard';
+export { default as WVirtualKeyboard } from './common/VirtualKeyboard';
 export { default as WDrag } from './common/Drag';
 
 // 业务组件

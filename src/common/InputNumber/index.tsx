@@ -4,7 +4,7 @@ import WIcon from '../Icon';
 import './index.less';
 
 interface Props {
-  value?: string; // (不能写默认值，不然dumi会刷新)
+  value?: string;
   name: string;
   className: string;
   suffix: string; // 后缀（例：%）
@@ -18,6 +18,7 @@ interface Props {
 
 class InputNumber extends Component<Props> {
   static defaultProps = {
+    value: '',
     name: '',
     className: '',
     suffix: '',

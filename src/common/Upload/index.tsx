@@ -51,9 +51,12 @@ class WUpload extends Component<Props> {
           title=""
         />
         {React.Children.map(children, (child: any) => {
-          return React.cloneElement(child, {
-            className: child.props.className + ' upload-cont',
-          });
+          return (
+            child &&
+            React.cloneElement(child, {
+              className: child.props.className + ' upload-cont',
+            })
+          );
         })}
       </div>
     );

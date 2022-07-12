@@ -36,16 +36,18 @@ class WTable extends Component<Props> {
         {showHeader && (
           <div className="tb-th" onClick={this.clickRow.bind(this)}>
             {React.Children.map(children, (item: any, index) => {
-              let { label, width } = item.props;
+              let { label, width } = item?.props || {};
               return (
-                <div
-                  onClick={this.clickThCol.bind(this, index, label)}
-                  className="col"
-                  style={{ width: width }}
-                  key={Math.random().toString(36).substring(2)}
-                >
-                  {typeof label === 'function' ? label(index) : label}
-                </div>
+                item?.props && (
+                  <div
+                    onClick={this.clickThCol.bind(this, index, label)}
+                    className="col"
+                    style={{ width: width }}
+                    key={Math.random().toString(36).substring(2)}
+                  >
+                    {typeof label === 'function' ? label(index) : label}
+                  </div>
+                )
               );
             })}
           </div>
@@ -60,10 +62,13 @@ class WTable extends Component<Props> {
                 key={Math.random().toString(36).substring(2)}
               >
                 {React.Children.map(children, (child: any) => {
-                  return React.cloneElement(child, {
-                    data: item,
-                    index: index,
-                  });
+                  return (
+                    child &&
+                    React.cloneElement(child, {
+                      data: item,
+                      index: index,
+                    })
+                  );
                 })}
               </div>
             );
