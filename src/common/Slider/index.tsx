@@ -16,7 +16,7 @@ interface Props {
   disabled: boolean; // 禁用
   className: string;
   onChange?: (...param: any) => any; // 值改变时触发（松开鼠标后）
-  onInput?: (...param: any) => any; // 拖拽时触发
+  onInput?: (...param: any) => any; // 拖拽、输入时时触发，未矫正最大最小
   onFocus?: (...param: any) => any; // 输入框获取焦点时触发
   onBlur?: (...param: any) => any; // 输入框失去焦点时触发
 }
@@ -78,13 +78,14 @@ class Slider extends Component<Props> {
 
   // 初始数据更新位置
   initUpdate = () => {
-    let { value } = this.props;
+    let { value } = this.props,
+      realValue = value;
     value = parseFloat((+value).toFixed(this.precision));
     value = this.getCurValue(value);
 
     this.setState({
       newPosi: this.getCurPosi(value),
-      newValue: value,
+      newValue: realValue,
     });
   };
 

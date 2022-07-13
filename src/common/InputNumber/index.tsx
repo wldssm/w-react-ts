@@ -28,6 +28,20 @@ class InputNumber extends Component<Props> {
     narrow: () => {},
   };
 
+  componentDidUpdate(prevProps: any) {
+    if (this.props.value !== prevProps.value) {
+      // 矫正非法值
+      let { value, name } = this.props;
+      if (value) {
+        let temp = parseFloat('' + value),
+          newValue = isNaN(temp) ? '100' : '' + temp;
+        if (newValue !== value) {
+          this.props.change(newValue, name);
+        }
+      }
+    }
+  }
+
   // 双向绑定数据
   change = (e: any) => {
     let target = e.target,
@@ -56,12 +70,14 @@ class InputNumber extends Component<Props> {
   };
 
   // 获得焦点
-  inputFocus = () => {
-    this.props.onFocus && this.props.onFocus(this.props.name);
+  inputFocus = (e: any) => {
+    let { value, name } = this.props;
+    this.props.onFocus && this.props.onFocus(value, name, e);
   };
   // 失去焦点
-  inputBlur = () => {
-    this.props.onBlur && this.props.onBlur(this.props.name);
+  inputBlur = (e: any) => {
+    let { value, name } = this.props;
+    this.props.onBlur && this.props.onBlur(value, name, e);
   };
   render() {
     let { className, value, name, suffix } = this.props;
@@ -77,6 +93,7 @@ class InputNumber extends Component<Props> {
           onKeyPress={this.keyPress}
           onFocus={this.inputFocus}
           onBlur={this.inputBlur}
+          spellCheck={false}
         />
         <WIcon className="icom-zoomin" onClick={this.enlarge} code="&#xe643;" />
       </div>

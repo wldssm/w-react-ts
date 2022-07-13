@@ -31,14 +31,16 @@ export default () => {
 
 ### API
 
-| 参数      | 说明                         | 类型           | 默认值 |
-| --------- | ---------------------------- | -------------- | ------ |
-| showTotal | 显示总页数                   | boolean        | true   |
-| total     | 数据总条数                   | number         | 0      |
-| pageSize  | 每页显示条数                 | number         | 5      |
-| curPage   | 当前页码                     | number         | 1      |
-| showNum   | 可见页码数                   | number         | 7      |
-| className | 类名                         | string         | -      |
-| onChange  | 切换页码、回车、失去焦点触发 | function(page) | -      |
-| onFocus   | 输入框获得焦点时触发         | function()     | -      |
-| onBlur    | 输入框失去焦点时触发         | function(page) | -      |
+| 参数      | 说明                         | 类型                     | 默认值 |
+| --------- | ---------------------------- | ------------------------ | ------ |
+| showTotal | 显示总页数                   | boolean                  | true   |
+| total     | 数据总条数                   | number                   | 0      |
+| pageSize  | 每页显示条数                 | number                   | 5      |
+| curPage   | 当前页码                     | number                   | 1      |
+| value     | 输入框的值【可选】           | string                   | -      |
+| showNum   | 可见页码数                   | number                   | 7      |
+| className | 类名                         | string                   | -      |
+| onChange  | 切换页码、回车、失去焦点触发 | function(page)           | -      |
+| onInput   | 输入框输入时触发             | function(page)           | -      |
+| onFocus   | 输入框获得焦点时触发         | function(page, 'num', e) | -      |
+| onBlur    | 输入框失去焦点时触发         | function(page, 'num', e) | -      |

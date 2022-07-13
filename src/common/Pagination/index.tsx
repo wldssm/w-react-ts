@@ -4,6 +4,7 @@ import WIcon from '../Icon';
 import './index.less';
 
 interface Props {
+  value: string; // 输入框的值，为了虚拟键盘，避免输入过程中就触发分页更新，值未矫正
   showTotal: boolean; // 显示总页数
   total: number;
   pageSize: number; // 每页显示条数
@@ -11,12 +12,14 @@ interface Props {
   className: string;
   showNum: number; // 可见页码数，超出显示...。最小7，最大9
   onChange?: (...param: any) => any; // 切换页码、输入框回车、失去焦点触发
+  onInput?: (...param: any) => any; // 输入框输入时触发
   onFocus?: (...param: any) => any; // 输入框获取焦点时触发
   onBlur?: (...param: any) => any; // 输入框失去焦点时触发
 }
 
 class WPagination extends Component<Props> {
   static defaultProps = {
+    value: '',
     showTotal: true,
     total: 0,
     pageSize: 5,
@@ -28,6 +31,15 @@ class WPagination extends Component<Props> {
   state = {
     num: '', // 输入款
   };
+
+  componentDidMount() {
+    this.setState({ num: this.props.value });
+  }
+  componentDidUpdate(prevProps: any) {
+    if (this.props.value !== prevProps.value) {
+      this.setState({ num: this.props.value });
+    }
+  }
 
   //总页数
   get pageNum() {
@@ -110,6 +122,7 @@ class WPagination extends Component<Props> {
       value = target.type === 'checkbox' ? target.checked : target.value,
       name = target.name;
     this.setState({ [name]: value });
+    this.props.onInput && this.props.onInput(value);
   };
 
   // 回车提交
@@ -122,20 +135,21 @@ class WPagination extends Component<Props> {
   };
 
   // 获得焦点
-  inputFocus = () => {
-    this.props.onFocus && this.props.onFocus();
+  inputFocus = (e: any) => {
+    this.props.onFocus && this.props.onFocus(this.state.num, 'num', e);
   };
 
   // 失去焦点
-  inputBlur = () => {
+  inputBlur = (e: any) => {
     let num = this.state.num;
     num = this.go(Number(num) || 1);
-    this.props.onBlur && this.props.onBlur(num);
+    this.props.onBlur && this.props.onBlur(num, 'num', e);
   };
 
   render() {
-    let pageArr = this.getPageBtn();
-    let { showTotal, total, curPage, className } = this.props;
+    let pageArr = this.getPageBtn(),
+      { showTotal, total, curPage, className } = this.props;
+    curPage = Number(curPage) || 1;
     return (
       <div className={`page-cont ${className}`}>
         {showTotal && (
