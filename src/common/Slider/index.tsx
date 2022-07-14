@@ -181,11 +181,9 @@ class Slider extends Component<Props> {
   dragEnd = () => {
     this.isDrag = false;
     let { newValue, newPosi } = this.state,
-      { value, name } = this.props;
-    if (newValue !== value) {
-      this.setState({ initPosi: newPosi });
-      this.props.onChange && this.props.onChange(newValue, name);
-    }
+      { name } = this.props;
+    this.setState({ initPosi: newPosi });
+    this.props.onChange && this.props.onChange(newValue, name);
     window.removeEventListener('mousemove', this.draging);
     window.removeEventListener('touchmove', this.draging);
     window.removeEventListener('mouseup', this.dragEnd);
