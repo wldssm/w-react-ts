@@ -6,6 +6,13 @@
   "description": "心鉴智控",
   "glyphs": [
     {
+      "icon_id": "500663",
+      "name": "脉冲_pulse1",
+      "font_class": "maichongpulse1",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
       "icon_id": "10470863",
       "name": "键盘删除",
       "font_class": "jp-del",
