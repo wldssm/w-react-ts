@@ -52,9 +52,7 @@ class Collapse extends Component<Props> {
           />
           <span className="f-s-title">{title}</span>
           {insertHead}
-          {children && (
-            <WIcon className={`f-s-icon ${!fold ? ' ' + 'open' : ''}`} code="&#xe65e;" />
-          )}
+          {children && <WIcon className={`f-s-icon${!fold ? ' open' : ''}`} code="&#xe65e;" />}
           {!children && showArrow && <span className={`f-s-placeholder`}></span>}
         </div>
         {!fold && children && <div className="fold-cont">{children}</div>}

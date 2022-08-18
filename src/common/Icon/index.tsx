@@ -1,23 +1,30 @@
 import React, { Component } from 'react';
 
 interface Props {
-  className?: string,
-  onClick?: (e: Event) => any,
-  code: string
+  className?: string;
+  onClick?: (e: Event) => any;
+  title?: string;
+  code: string;
 }
 
 class WIcon extends Component<Props> {
   static defaultProps = {
     className: '',
-    onClick: () => { }
+    onClick: () => {},
   };
 
   click = (e?: any) => {
     this.props.onClick && this.props.onClick(e);
   };
   render() {
+    let { title } = this.props;
     return (
-      <span onClick={this.click} className={`iconfont ${this.props.className}`} dangerouslySetInnerHTML={{ __html: this.props.code }}></span>
+      <span
+        title={title}
+        onClick={this.click}
+        className={`iconfont ${this.props.className}`}
+        dangerouslySetInnerHTML={{ __html: this.props.code }}
+      ></span>
     );
   }
 }

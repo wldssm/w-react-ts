@@ -24,11 +24,8 @@ import { WDrag, WDialog, WButton } from 'w-react-ts';
 
 let [show, setShow] = useState(false);
 
-const openDialog = () => {
-  setShow(true);
-};
-const closeDialog = () => {
-  setShow(false);
+const switchDialog = (status) => {
+  setShow(status);
 };
 
 export default () => {
@@ -41,8 +38,14 @@ export default () => {
 
   return (
     <Fragment>
-      <WButton onClick={openDialog}>打开拖拽弹框</WButton>
-      <WDialog title="拖拽框" show={show} showBtn={true} onClose={closeDialog} onSure={closeDialog}>
+      <WButton onClick={() => switchDialog(true)}>打开拖拽弹框</WButton>
+      <WDialog
+        title="拖拽框"
+        show={show}
+        showBtn={true}
+        onClose={() => switchDialog(false)}
+        onSure={() => switchDialog(false)}
+      >
         <p style={{ padding: '28px', color: '#fff', textAlign: 'center' }}>该弹框可拖动</p>
       </WDialog>
     </Fragment>

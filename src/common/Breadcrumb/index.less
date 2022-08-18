@@ -1,0 +1,33 @@
+.breadcrumb-box {
+  display: flex;
+  align-items: center;
+  padding: 0 0 15px 8px;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 2px;
+
+  .breadcrumb-item {
+    &:nth-last-child(2) {
+      color: #fff;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    &:hover {
+      color: #fff;
+    }
+    color: #999;
+
+    cursor: pointer;
+  }
+
+  .breadcrumb-item-separator {
+    &:last-child {
+      display: none;
+    }
+
+    margin: 0 6px;
+    color: #999;
+    user-select: none;
+  }
+}

@@ -28,6 +28,8 @@ export { default as WUpload } from './common/Upload';
 export { default as WVirtualScroll } from './common/VirtualScroll';
 export { default as WVirtualKeyboard } from './common/VirtualKeyboard';
 export { default as WDrag } from './common/Drag';
+export { default as WDivider } from './common/Divider';
+export { WBreadcrumb, WBreadcrumbItem } from './common/Breadcrumb';
 
 // 业务组件
 // export { default as WSvgEditor } from './business/SvgEditor';

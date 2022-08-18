@@ -1,0 +1,48 @@
+// 水平方向
+.divider-line-horizontal {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  margin: 16px 0;
+  border: 0 solid rgba(216, 216, 216, 0.1);
+
+  &::before,
+  &::after {
+    display: block;
+    flex: auto;
+    border-color: inherit;
+    border-style: inherit;
+    border-width: 1px 0 0;
+    content: '';
+  }
+
+  &.divider-left::before,
+  &.divider-right::after {
+    max-width: 25px;
+  }
+
+  .divider-txt {
+    padding: 0 15px;
+    color: #fff;
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+}
+
+// 垂直方向
+.divider-line-vertical {
+  position: relative;
+  top: -0.06em;
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin: 0 16px;
+  vertical-align: middle;
+  background: linear-gradient(
+    0deg,
+    transparent,
+    rgba(216, 216, 216, 0.3),
+    rgba(216, 216, 216, 0.3),
+    transparent
+  );
+}
