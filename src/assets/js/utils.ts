@@ -57,10 +57,17 @@ export const treeToFlat = (data: any, childKay = 'children') => {
   return newArr;
 };
 
-// 对象数组字段查找
-export function getIndex(arr: any, val: any, key?: any) {
+// 对象数组字段查找(i是否区分大小写)
+export function getIndex(arr: any, val: any, key?: any, i = false) {
   return arr.findIndex((item: any) => {
-    return key ? item[key] === val : item === val;
+    if (key) {
+      return i && typeof item[key] === 'string' && typeof val === 'string'
+        ? item[key]?.toLowerCase() === val.toLowerCase()
+        : item[key] === val;
+    }
+    return i && typeof item === 'string' && typeof val === 'string'
+      ? item.toLowerCase() === val.toLowerCase()
+      : item === val;
   });
 }
 

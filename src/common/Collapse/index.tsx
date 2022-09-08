@@ -8,6 +8,7 @@ interface Props {
   title: string;
   fold: boolean;
   checked: boolean;
+  disabled: boolean;
   className: string; // 类名
   insertHead?: any; // 插入头部的内容
   showArrow: boolean; // 没有子节点是否显示下箭头占位
@@ -19,6 +20,7 @@ class Collapse extends Component<Props> {
     title: '标题',
     fold: true,
     checked: false,
+    disabled: false,
     className: '',
     showArrow: false,
     change: () => {},
@@ -37,7 +39,7 @@ class Collapse extends Component<Props> {
   };
 
   render() {
-    let { title, fold, checked, className, children, insertHead, showArrow } = this.props;
+    let { title, fold, checked, className, children, insertHead, showArrow, disabled } = this.props;
     return (
       <div
         className={`fold-cont-box${!fold && children ? ' active' : ''}${checked ? ' on' : ''} ${
@@ -47,6 +49,7 @@ class Collapse extends Component<Props> {
         <div className="fold-switch" onClick={this.change.bind(this, 'fold', !fold)}>
           <WCheckBox
             className="f-s-check"
+            disabled={disabled}
             checked={checked}
             onChange={this.check.bind(this, 'checked')}
           />

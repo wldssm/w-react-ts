@@ -30,6 +30,7 @@ export { default as WVirtualKeyboard } from './common/VirtualKeyboard';
 export { default as WDrag } from './common/Drag';
 export { default as WDivider } from './common/Divider';
 export { WBreadcrumb, WBreadcrumbItem } from './common/Breadcrumb';
+export { default as WViewImg } from './common/ViewImg';
 
 // 业务组件
 // export { default as WSvgEditor } from './business/SvgEditor';

@@ -40,6 +40,7 @@ export default () => (
 | title      | 标题               | string           | -      |
 | fold       | 是否折叠           | boolean          | true   |
 | checked    | 是否选中           | boolean          | false  |
+| disabled   | 是否禁用           | boolean          | false  |
 | showArrow  | 没有子节点是否占位 | boolean          | false  |
 | insertHead | 插入头部的内容     | any              | -      |
 | className  | 类名               | string           | -      |
