@@ -53,7 +53,9 @@ class Collapse extends Component<Props> {
             checked={checked}
             onChange={this.check.bind(this, 'checked')}
           />
-          <span className="f-s-title">{title}</span>
+          <span className="f-s-title" title={title}>
+            {title}
+          </span>
           {insertHead}
           {children && <WIcon className={`f-s-icon${!fold ? ' open' : ''}`} code="&#xe65e;" />}
           {!children && showArrow && <span className={`f-s-placeholder`}></span>}

@@ -71,6 +71,21 @@ class WDropDown extends Component<Props> {
 
     document.addEventListener('click', this.hide);
   }
+  shouldComponentUpdate(nextProps: any, nextState: any) {
+    return (
+      this.props.options !== nextProps.options ||
+      this.props.name !== nextProps.name ||
+      this.props.prop !== nextProps.prop ||
+      this.props.placeholder !== nextProps.placeholder ||
+      this.props.curIndex !== nextProps.curIndex ||
+      this.props.disabled !== nextProps.disabled ||
+      this.props.width !== nextProps.width ||
+      this.props.canInput !== nextProps.canInput ||
+      this.props.value !== nextProps.value ||
+      this.props.maxLength !== nextProps.maxLength ||
+      this.state.ifExpanded !== nextState.ifExpanded
+    );
+  }
   componentWillUnmount() {
     if (this.updateTimer) clearTimeout(this.updateTimer);
     document.removeEventListener('click', this.hide);
