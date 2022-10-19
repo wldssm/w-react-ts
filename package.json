@@ -1,6 +1,6 @@
 {
   "name": "w-react-ts",
-  "version": "1.0.40",
+  "version": "1.0.41",
   "description": "react-npm",
   "keywords": [
     "react",
@@ -35,6 +35,9 @@
     "*.ts?(x)": [
       "prettier --parser=typescript --write"
     ]
+  },
+  "peerDependencies": {
+    "react": "^16.12.0 || ^17.0.0"
   },
   "dependencies": {
     "react": "^16.12.0 || ^17.0.0"
