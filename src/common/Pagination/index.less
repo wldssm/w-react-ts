@@ -15,24 +15,6 @@
     }
   }
 
-  .arrow {
-    width: 20px;
-    margin: 0 6px 0 2px;
-    color: #fff;
-    font-size: 12px;
-    text-align: center;
-    cursor: pointer;
-
-    &:hover {
-      color: #2378de;
-    }
-
-    &.disabled {
-      color: @aibox-bg3;
-      cursor: default;
-    }
-  }
-
   .num {
     display: flex;
     align-items: center;
@@ -56,6 +38,23 @@
       &:hover {
         color: #fff;
       }
+    }
+  }
+
+  .arrow {
+    width: 20px;
+    margin: 0 6px 0 2px;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+      color: #2378de;
+    }
+
+    &.disabled {
+      color: @aibox-bg3;
+      cursor: default;
+      pointer-events: none;
     }
   }
 

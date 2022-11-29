@@ -1,5 +1,7 @@
 import React, { Component, createRef } from 'react';
+import WIcon from '../Icon';
 
+import { isEmpty } from '../../assets/js/validate';
 import './index.less';
 
 interface Props {
@@ -7,6 +9,7 @@ interface Props {
   value?: string; // 输入框的值
   name?: string;
   showPwd: boolean; // type为password是否显示明文
+  showDel: boolean; // 是否显示删除按钮
   maxLength: number;
   placeholder: string;
   autoComplete: string; // 是否记住密码
@@ -27,6 +30,7 @@ class WInput extends Component<Props> {
     type: 'text',
     value: '',
     showPwd: false,
+    showDel: false,
     className: '',
     placeholder: '请输入',
     autoComplete: 'off',
@@ -72,6 +76,13 @@ class WInput extends Component<Props> {
     this.props.onChange(value, this.props.name, e);
   };
 
+  // 清除输入框内容
+  clearInput = (e: any) => {
+    this.setState({ curValue: '' });
+    this.props.onChange('', this.props.name, e);
+    this.focus();
+  };
+
   // 回车提交
   keyPress = (e: any) => {
     let curKey = e.keyCode || e.which || e.charCode;
@@ -100,6 +111,7 @@ class WInput extends Component<Props> {
       value,
       type,
       showPwd,
+      showDel,
       placeholder,
       maxLength,
       className,
@@ -137,6 +149,9 @@ class WInput extends Component<Props> {
           disabled={disabled}
           spellCheck={false}
         />
+        {showDel && !isEmpty(curValue) && (
+          <WIcon code="&#xe6e5;" className="i-del" onClick={this.clearInput} />
+        )}
         {rightNode}
       </div>
     );

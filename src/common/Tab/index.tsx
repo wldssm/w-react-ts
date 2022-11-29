@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode } from 'react';
 
 import WTabPane from './WTabPane';
 import './index.less';
 
 interface Props {
   curTag: string;
+  extraNode?: { left?: ReactNode; right?: ReactNode } | ReactNode;
   className?: string;
   onClick?: (...param: any) => any;
 }
@@ -12,6 +13,7 @@ interface Props {
 class WTab extends Component<Props> {
   static defaultProps = {
     curTag: '',
+    extraNode: null,
     className: '',
     onClick: () => {},
   };
@@ -48,24 +50,29 @@ class WTab extends Component<Props> {
   };
 
   render() {
-    let { children, className } = this.props,
-      { curTag } = this.state;
+    let { children, className, extraNode } = this.props,
+      { curTag } = this.state,
+      isDom = extraNode?.['$$typeof' as keyof typeof extraNode];
     return (
       <div className="tab-box">
         <div className={`t-top ${className}`}>
-          {React.Children.map(children, (item: any, i) => {
-            if (!item) return;
-            let { label, tag } = item?.props;
-            return (
-              <div
-                className={`item ${tag === curTag ? 'on' : ''}`}
-                onClick={this.click.bind(this, tag, i, item)}
-                key={i}
-              >
-                {typeof label === 'function' ? label() : label}
-              </div>
-            );
-          })}
+          {extraNode?.['left' as keyof typeof extraNode]}
+          <div className="t-top-center">
+            {React.Children.map(children, (item: any, i) => {
+              if (!item) return;
+              let { label, tag } = item?.props;
+              return (
+                <div
+                  className={`item ${tag === curTag ? 'on' : ''}`}
+                  onClick={this.click.bind(this, tag, i, item)}
+                  key={i}
+                >
+                  {typeof label === 'function' ? label() : label}
+                </div>
+              );
+            })}
+          </div>
+          {isDom ? extraNode : extraNode?.['right' as keyof typeof extraNode]}
         </div>
         {React.Children.map(children, (child: any, index) => {
           if (!child) return;

@@ -14,10 +14,12 @@ interface Props {
   className: string;
   initExpanded: boolean; // 默认展开
   showCheck: boolean; // 显示复选框
+  showArrow: boolean; // 显示箭头
   checkKey: string; // 控制是否选中的字段名
   checkDisabled: boolean; // 禁用选中
   clickNodeExpanded: boolean; // 单击节点折叠
   clickNodeChecked: boolean; // 单击节点选中
+  expandAction: string; // 触发子节点折叠的方式:click、hover
   selectable: (...param: any) => any; // 是否可选中整个节点
   onClick: (...param: any) => any; // 点击节点
   onExpand: (...param: any) => any; // 切换节点显示隐藏
@@ -37,10 +39,12 @@ class WTree extends Component<Props> {
     className: '',
     initExpanded: true,
     showCheck: false,
+    showArrow: true,
     checkKey: 'checked',
     checkDisabled: false,
     clickNodeExpanded: false,
     clickNodeChecked: false,
+    expandAction: 'click',
     selectable: () => {},
     onClick: () => {},
     onExpand: () => {},
@@ -50,6 +54,7 @@ class WTree extends Component<Props> {
   };
 
   nodeDepth = 0; // 节点初始层级
+  _timer: any = null;
 
   componentDidMount() {
     if (this.props.initExpanded) {
@@ -81,6 +86,32 @@ class WTree extends Component<Props> {
       event: e,
     });
   };
+  // 滑动节点触发
+  hoverNode = (item: any, status: boolean, e: any) => {
+    e.stopPropagation();
+    let { expandAction, data, uniqueKey } = this.props;
+    if (expandAction === 'click' || item.expanded === status) return;
+
+    if (this._timer) clearTimeout(this._timer);
+
+    this.changeChild(item, status, 'expanded');
+    this.changeParent(data, item[uniqueKey], status, 'expanded');
+    if (status) {
+      this.props.onExpand({
+        expanded: item.expanded,
+        node: item,
+      });
+      this.setState({});
+    } else {
+      this._timer = setTimeout(() => {
+        this.props.onExpand({
+          expanded: item.expanded,
+          node: item,
+        });
+        this.setState({});
+      }, 300);
+    }
+  };
 
   // 切换节点显示隐藏
   toggleNode = (item: any, e: any) => {
@@ -98,8 +129,8 @@ class WTree extends Component<Props> {
     e.stopPropagation();
     let { data, uniqueKey } = this.props;
 
-    this.checkChild(item, status);
-    this.checkParent(data, item[uniqueKey], status);
+    this.changeChild(item, status);
+    this.changeParent(data, item[uniqueKey], status);
     this.props.onCheck({
       checked: status,
       node: item,
@@ -107,31 +138,33 @@ class WTree extends Component<Props> {
     this.setState({});
   };
 
-  // 切换子节点的选中状态
-  checkChild = (data: any, status: boolean) => {
-    let { subNode, checkKey } = this.props;
+  // 切换子节点的状态（选中、折叠）
+  changeChild = (data: any, status: boolean, curKey?: string) => {
+    let { subNode, checkKey } = this.props,
+      changeKey = curKey || checkKey;
     data &&
       data[subNode] &&
       data[subNode].forEach((item: any) => {
-        item[checkKey] = status;
-        this.checkChild(item, status);
+        item[changeKey] = status;
+        this.changeChild(item, status, curKey);
       });
   };
-  // 切换父节点的选中状态
-  checkParent = (rootData: any, initId: any, status: boolean) => {
-    let { subNode, checkKey, uniqueKey } = this.props;
+  // 切换父节点的状态（选中、折叠）
+  changeParent = (rootData: any, initId: any, status: boolean, curKey?: string) => {
+    let { subNode, checkKey, uniqueKey } = this.props,
+      changeKey = curKey || checkKey;
     return (
       rootData &&
       rootData.some((item: any) => {
         if (item[uniqueKey] === initId) {
-          item[checkKey] = status;
+          item[changeKey] = status;
           return true;
         }
         if (item[subNode] && item[subNode].length > 0) {
-          let findStatus = this.checkParent(item[subNode], initId, status);
+          let findStatus = this.changeParent(item[subNode], initId, status, curKey);
           if (findStatus) {
-            let childStatus = this.getChildStatus(item);
-            item[checkKey] = childStatus;
+            let childStatus = this.getChildStatus(item, curKey);
+            item[changeKey] = childStatus;
             return findStatus;
           }
         }
@@ -140,14 +173,15 @@ class WTree extends Component<Props> {
     );
   };
   // 获取子节点节点状态
-  getChildStatus = (data: any) => {
-    let { subNode, checkKey } = this.props;
+  getChildStatus = (data: any, curKey?: string) => {
+    let { subNode, checkKey } = this.props,
+      changeKey = curKey || checkKey;
     return (
       data &&
       data[subNode] &&
       data[subNode].some((item: any) => {
-        let checked = typeof item[checkKey] == 'undefined' ? false : item[checkKey];
-        return checked;
+        let status = typeof item[changeKey] == 'undefined' ? false : item[changeKey];
+        return status;
       })
     );
   };
@@ -160,20 +194,26 @@ class WTree extends Component<Props> {
 
   // 节点渲染
   treeRender = (data: any[], nodeDepth: number) => {
-    const { label, subNode, selectable, checkKey, checkDisabled, leftNode, rightNode } = this.props;
+    const { label, subNode, selectable, checkKey, checkDisabled, showArrow, leftNode, rightNode } =
+      this.props;
     return (
       data &&
       data.map((item) => {
         return (
-          <div className="tree-branch" key={Math.random().toString(36).substring(2)}>
+          <div
+            className={item.expanded ? 'tree-branch tree-branch-open' : 'tree-branch'}
+            key={Math.random().toString(36).substring(2)}
+          >
             <div
               className={`tree-name ${selectable(item) ? 'on' : ''}`}
               data-node-dept={nodeDepth}
               style={this.setPl(nodeDepth)}
               onClick={this.clickNode.bind(this, item)}
+              onMouseEnter={this.hoverNode.bind(this, item, true)}
+              onMouseLeave={this.hoverNode.bind(this, item, false)}
             >
               {leftNode(item)}
-              {item[subNode] && item[subNode].length > 0 && (
+              {showArrow && item[subNode] && item[subNode].length > 0 && (
                 <WIcon
                   className="icon-arrow"
                   onClick={this.toggleNode.bind(this, item)}
@@ -192,7 +232,9 @@ class WTree extends Component<Props> {
               </div>
               {rightNode(item)}
             </div>
-            {item.expanded ? this.treeRender(item[subNode], nodeDepth + 1) : null}
+            {item.expanded && item[subNode] ? (
+              <div className="sub-branch-box">{this.treeRender(item[subNode], nodeDepth + 1)}</div>
+            ) : null}
           </div>
         );
       })

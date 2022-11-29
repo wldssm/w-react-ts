@@ -9,6 +9,8 @@ interface Props {
   label?: any; // 头部单元格显示内容
   prop?: string; // 字段属性名
   width?: string; // 单元格宽度
+  ellipsis: boolean; // 是否超出省略
+  align: string; // 列的对齐方式
   className?: string;
   fmt?: string; // 空数据时显示的占位
   render?: (...param: any) => any; // 渲染col内容
@@ -18,6 +20,8 @@ interface Props {
 class WTableColumn extends Component<Props> {
   static defaultProps = {
     data: {},
+    ellipsis: false,
+    align: '',
     prop: '',
     className: '',
     fmt: '',
@@ -26,14 +30,25 @@ class WTableColumn extends Component<Props> {
     this.props.onClick && this.props.onClick(data, index, e);
   };
   render() {
-    let { data, index, render, prop, children, width, className, fmt } = this.props;
+    let { data, index, render, prop, children, width, className, fmt, ellipsis, align } =
+      this.props;
     return (
       <div
         onClick={this.click.bind(this, data, index)}
         className={`col ${className}`}
-        style={{ width: width }}
+        style={{ width, justifyContent: align }}
       >
-        {render ? render(data, index) : prop ? valFmt(data[prop], fmt) : children}
+        {ellipsis ? (
+          <div className="col-ellipsis">
+            {render ? render(data, index) : prop ? valFmt(data[prop], fmt) : children}
+          </div>
+        ) : render ? (
+          render(data, index)
+        ) : prop ? (
+          valFmt(data[prop], fmt)
+        ) : (
+          children
+        )}
       </div>
     );
   }

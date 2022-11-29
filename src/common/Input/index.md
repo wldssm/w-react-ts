@@ -32,6 +32,7 @@ export default () => {
 | value        | 输入框的值                        | string                   | -      |
 | name         | 输入框的名称                      | string                   | -      |
 | showPwd      | type 为 password 时，是否显示明文 | boolean                  | false  |
+| showDel      | 是否显示删除图标                  | boolean                  | false  |
 | maxLength    | 输入框字符的最大长度              | number                   | -      |
 | placeholder  | 输入框提示文字                    | string                   | 请输入 |
 | disabled     | 禁用                              | boolean                  | false  |

@@ -38,11 +38,12 @@ export default () => {
 
 ##### WTab
 
-| 参数      | 说明               | 类型                            | 默认值         |
-| --------- | ------------------ | ------------------------------- | -------------- |
-| curTag    | 当前选中面板的 tag | string                          | 第一个面板 tag |
-| className | 头部类名           | string                          | -              |
-| onClick   | 头部选项卡单击事件 | function(tag, index, childPane) | -              |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- | --- |
+| curTag | 当前选中面板的 tag | string | 第一个面板 tag |
+| extraNode | 额外插入 tab 上的节点 | ReactNode | {left?: ReactNode, right?: ReactNode} | - |
+| className | 头部类名 | string | - |
+| onClick | 头部选项卡单击事件 | function(tag, index, childPane) | - |
 
 ##### WTabPane
 

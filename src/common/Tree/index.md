@@ -79,10 +79,12 @@ export default () => (
 | className | 类名 | string | - |
 | initExpanded | 默认展开 | boolean | true |
 | showCheck | 显示复选框 | boolean | false |
+| showArrow | 显示下拉箭头 | boolean | true |
 | checkKey | 控制是否选中的字段名 | string | checked |
 | checkDisabled | 禁用选中 | boolean | false |
 | clickNodeExpanded | 单击节点折叠 | boolean | false |
 | clickNodeChecked | 单击节点选中 | boolean | false |
+| expandAction | 目录展开方式，可选：click \| hover | string | click |
 | selectable | 是否选中整个节点 | (item)=>boolean | - |
 | onClick | 点击节点 | function( {node, event} ) | - |
 | onExpand | 切换节点显示隐藏 | function( {expanded, node} ) | - |

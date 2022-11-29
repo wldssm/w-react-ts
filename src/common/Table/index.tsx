@@ -36,13 +36,13 @@ class WTable extends Component<Props> {
         {showHeader && (
           <div className="tb-th" onClick={this.clickRow.bind(this)}>
             {React.Children.map(children, (item: any, index) => {
-              let { label, width } = item?.props || {};
+              let { label, width, align } = item?.props || {};
               return (
                 item?.props && (
                   <div
                     onClick={this.clickThCol.bind(this, index, label)}
                     className="col"
-                    style={{ width: width }}
+                    style={{ width, justifyContent: align }}
                     key={Math.random().toString(36).substring(2)}
                   >
                     {typeof label === 'function' ? label(index) : label}

@@ -161,7 +161,7 @@ class WPagination extends Component<Props> {
           <WIcon
             onClick={this.prev}
             code="&#xe660;"
-            className={`arrow ${curPage === 1 ? 'disabled' : ''}`}
+            className={`num arrow ${curPage === 1 ? 'disabled' : ''}`}
           />
         )}
         {pageArr.map((item, index) => {
@@ -179,7 +179,7 @@ class WPagination extends Component<Props> {
           <WIcon
             onClick={this.next}
             code="&#xe65f;"
-            className={`arrow ${curPage === this.pageNum ? 'disabled' : ''}`}
+            className={`num arrow ${curPage === this.pageNum ? 'disabled' : ''}`}
           />
         )}
         {this.pageNum > 1 && (

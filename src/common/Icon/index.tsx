@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import './index.less';
+
 interface Props {
   className?: string;
   onClick?: (e: Event) => any;
@@ -17,13 +19,13 @@ class WIcon extends Component<Props> {
     this.props.onClick && this.props.onClick(e);
   };
   render() {
-    let { title } = this.props;
+    let { title, code, className } = this.props;
     return (
       <span
         title={title}
         onClick={this.click}
-        className={`iconfont ${this.props.className}`}
-        dangerouslySetInnerHTML={{ __html: this.props.code }}
+        className={`${code === '&#xe8fd;' ? 'iconfont i-icon-loading' : 'iconfont'} ${className}`}
+        dangerouslySetInnerHTML={{ __html: code }}
       ></span>
     );
   }
