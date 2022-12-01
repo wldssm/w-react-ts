@@ -17,12 +17,13 @@ import React, { useState } from 'react';
 import { WSlider } from 'w-react-ts';
 
 export default () => {
-  let [curValue, setCurValue] = useState(50);
+  let [curValue, setCurValue] = useState([40, 60]);
   const change = (value) => {
     setCurValue(value);
   };
   return (
     <WSlider
+      range={true}
       value={curValue}
       label="滑块文本"
       showInput={true}
@@ -37,13 +38,14 @@ export default () => {
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| value | 绑定值 | number | 0 |
+| value | 绑定值 | number \| [number, number] | range ? [0, 0] : 0 |
 | name | 字段名 | string | - |
 | min | 最小值 | number | 0 |
 | max | 最大值 | number | 100 |
 | step | 步长 | number | 1 |
 | label | 文本 label | string | - |
 | disabled | 禁用 | boolean | false |
+| range | 是否为范围选择 | boolean | false |
 | showTip | 显示 tooltip | boolean | true |
 | showRange | 显示最大值最小值 | boolean | false |
 | showInput | 显示输入框 | boolean | false |

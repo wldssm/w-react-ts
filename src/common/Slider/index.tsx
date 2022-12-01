@@ -4,12 +4,13 @@ import WTooltip from '../Tooltip/index';
 import './index.less';
 
 interface Props {
-  value: number; // 当前值
+  value: number | number[]; // 当前值
   min: number; // 最小值
   max: number; // 最大值
   step: number; // 步长
   label?: string; // label文本
   name?: string;
+  range: boolean; // 是否为范围选择
   showTip: boolean; // 显示tooltip
   showRange: boolean; // 显示最大值最小值
   showInput: boolean; // 显示输入框
@@ -27,6 +28,7 @@ class Slider extends Component<Props> {
     min: 0,
     max: 100,
     step: 1,
+    range: false,
     showTip: true,
     showRange: false,
     showInput: false,
@@ -35,10 +37,10 @@ class Slider extends Component<Props> {
     className: '',
   };
   state = {
-    newPosi: 0, // 当前位置
-    newValue: 0, // 当前value值
-    initPosi: 0, // 初始posi
-    dotActive: false, // 点是否激活状态
+    newPosi: [0, 0], // 当前位置
+    newValue: [0, 0], // 当前value值
+    initPosi: 0, // 拖动的初始posi
+    curIndex: -1, // 当前操作的点index，没操作则-1。
   };
   runwayRef: React.RefObject<HTMLDivElement> = createRef();
   dotRef: React.RefObject<HTMLDivElement> = createRef();
@@ -62,7 +64,7 @@ class Slider extends Component<Props> {
   }
 
   componentDidUpdate(prevProps: any) {
-    if (this.props.value !== prevProps.value) {
+    if (this.props.value !== prevProps.value || this.props.range !== prevProps.range) {
       this.initUpdate();
     }
   }
@@ -78,19 +80,39 @@ class Slider extends Component<Props> {
 
   // 初始数据更新位置
   initUpdate = () => {
-    let { value } = this.props,
-      realValue = value;
-    value = parseFloat((+value).toFixed(this.precision));
-    value = this.getCurValue(value);
+    let { value, range } = this.props,
+      realValue = value,
+      newPosi = [0, 0];
+    if (range) {
+      realValue = typeof realValue === 'number' ? [realValue, 0] : realValue;
+
+      realValue =
+        realValue &&
+        realValue.map((item, index) => {
+          item = parseFloat((+item).toFixed(this.precision));
+          item = this.getLimitValue(item);
+          newPosi[index] = this.getCurPosi(item);
+          return item;
+        });
+
+      if (realValue[0] > realValue[1]) {
+        realValue = [realValue[1], realValue[0]];
+        newPosi = [newPosi[1], newPosi[0]];
+      }
+    } else {
+      realValue = parseFloat((+realValue).toFixed(this.precision));
+      realValue = [this.getLimitValue(realValue)];
+      newPosi[0] = this.getCurPosi(realValue);
+    }
 
     this.setState({
-      newPosi: this.getCurPosi(value),
+      newPosi,
       newValue: realValue,
     });
   };
 
-  // 获取当前值
-  getCurValue = (value: any) => {
+  // 限定值的范围
+  getLimitValue = (value: any) => {
     let { min, max } = this.props;
     if (value < min) {
       value = min;
@@ -103,7 +125,7 @@ class Slider extends Component<Props> {
   // 获取圆点当前位置
   getCurPosi = (value: any) => {
     let { min, max } = this.props;
-    value = this.getCurValue(value);
+    value = this.getLimitValue(value);
     return ((value - min) / (max - min)) * 100;
   };
 
@@ -120,18 +142,36 @@ class Slider extends Component<Props> {
     this.runwayWidth = runwayPosi?.right - runwayPosi?.left;
     let newPosi = ((e.pageX - runwayPosi?.left) / this.runwayWidth) * 100;
 
-    this.setState({ ...this.calcStep(newPosi) }, () => {
-      this.props.onInput && this.props.onInput(this.state.newValue, this.props.name);
-      this.props.onChange && this.props.onChange(this.state.newValue, this.props.name);
-    });
+    let clickRes = this.calcStep(newPosi);
+    if (clickRes) {
+      let { range } = this.props,
+        changeIndex = 0,
+        { newPosi: clickPosi, newValue: clickValue } = clickRes,
+        { newPosi: finalPosi, newValue: finalValue } = this.state;
+
+      if (range && clickPosi > finalPosi[0]) {
+        changeIndex = 1;
+      }
+      finalValue[changeIndex] = clickValue;
+      finalPosi[changeIndex] = clickPosi;
+
+      this.setState({ newPosi: finalPosi, newValue: finalValue }, () => {
+        this.props.onInput &&
+          this.props.onInput(range ? finalValue : finalValue[0], this.props.name);
+        this.props.onChange &&
+          this.props.onChange(range ? finalValue : finalValue[0], this.props.name);
+      });
+    }
   };
   // 鼠标按下圆点
-  mouseDown = (e: any) => {
+  mouseDown = (index: number, e: any) => {
     if (this.props.disabled) return false;
     e?.persist();
     e?.preventDefault();
     e?.nativeEvent?.stopImmediatePropagation(); // 阻止冒泡，防止触发全局事件
     e.stopPropagation();
+
+    let { newPosi } = this.state;
 
     this.isDrag = true;
     if (e.type === 'touchstart') {
@@ -142,16 +182,15 @@ class Slider extends Component<Props> {
 
     this.setState(
       {
-        initPosi:
-          this.inputRef?.current === document.activeElement
-            ? this.state.newPosi
-            : this.getCurPosi(this.props.value),
-        dotActive: true,
+        initPosi: newPosi[index],
+        curIndex: index,
       },
       () => {
+        // 为了按键修改
         this.dotRef?.current?.focus();
       },
     );
+
     let runwayPosi: any = this.runwayRef?.current?.getBoundingClientRect();
     this.runwayWidth = runwayPosi?.right - runwayPosi?.left;
 
@@ -162,28 +201,39 @@ class Slider extends Component<Props> {
   };
   // 拖动中
   draging = (e: any) => {
-    let { initPosi } = this.state;
+    let { initPosi, curIndex, newPosi: finalPosi, newValue: finalValue } = this.state;
+
     e?.preventDefault();
     if (this.isDrag) {
       if (e.type === 'touchmove') {
         e = e.touches[0];
       }
 
-      let diffX = ((e.pageX - this.startPageX) / this.runwayWidth) * 100,
-        newPosi = initPosi + diffX;
+      let { range } = this.props,
+        diffX = ((e.pageX - this.startPageX) / this.runwayWidth) * 100,
+        newPosi = initPosi + diffX,
+        calcRes = this.calcStep(newPosi);
 
-      this.setState({ ...this.calcStep(newPosi) }, () => {
-        this.props.onInput && this.props.onInput(this.state.newValue, this.props.name);
-      });
+      if (calcRes) {
+        finalValue[curIndex] = calcRes.newValue;
+        finalPosi[curIndex] = calcRes.newPosi;
+
+        let { value, posi, curIndex: newIndex } = this.getOrderValue(finalValue, finalPosi);
+
+        this.setState({ newPosi: posi, newValue: value, curIndex: newIndex }, () => {
+          this.props.onInput && this.props.onInput(range ? value : value[0], this.props.name);
+        });
+      }
     }
   };
   // 停止拖动
   dragEnd = () => {
     this.isDrag = false;
-    let { newValue, newPosi } = this.state,
-      { name } = this.props;
-    this.setState({ initPosi: newPosi });
-    this.props.onChange && this.props.onChange(newValue, name);
+    let { newValue, newPosi, curIndex } = this.state,
+      { name, range } = this.props;
+
+    this.setState({ initPosi: newPosi[curIndex] });
+    this.props.onChange && this.props.onChange(range ? newValue : newValue[0], name);
     window.removeEventListener('mousemove', this.draging);
     window.removeEventListener('touchmove', this.draging);
     window.removeEventListener('mouseup', this.dragEnd);
@@ -217,17 +267,17 @@ class Slider extends Component<Props> {
       return false;
     }
 
-    let value = this.getCurValue(realValue);
+    let value = this.getLimitValue(realValue);
     if (realValue === value) {
       this.setState({
-        newPosi: this.getCurPosi(value),
-        newValue: realValue,
+        newPosi: [this.getCurPosi(value)],
+        newValue: [realValue, 0],
       });
 
       this.props.onInput && this.props.onInput(value, this.props.name);
     } else {
       this.setState({
-        newValue: realValue,
+        newValue: [realValue, 0],
       });
     }
   };
@@ -235,29 +285,29 @@ class Slider extends Component<Props> {
   pressSubmit = (e: any) => {
     let curKey = e.keyCode || e.which || e.charCode;
     if (curKey === 13) {
-      let curValue = this.getCurValue(this.state.newValue);
+      let curValue = this.getLimitValue(this.state.newValue[0]);
       this.setState({
-        newPosi: this.getCurPosi(curValue),
-        newValue: curValue,
+        newPosi: [this.getCurPosi(curValue), 0],
+        newValue: [curValue, 0],
       });
       this.props.onChange && this.props.onChange(curValue, this.props.name);
     }
   };
   // 输入框失去焦点
   inputBlur = () => {
-    let { newValue, dotActive } = this.state,
+    let { newValue, curIndex } = this.state,
       { name, value } = this.props;
-    if (dotActive) {
+    if (curIndex !== -1) {
       return false;
     }
-    let realValue = this.getCurValue(newValue);
-    if (realValue !== newValue) {
+    let realValue = this.getLimitValue(newValue[0]);
+    if (realValue !== newValue[0]) {
       this.setState({
-        newPosi: this.getCurPosi(realValue),
-        newValue: realValue,
+        newPosi: [this.getCurPosi(realValue), 0],
+        newValue: [realValue, 0],
       });
     }
-    if (realValue !== value) {
+    if (realValue !== +value) {
       this.props.onInput && this.props.onInput(realValue, name);
       this.props.onChange && this.props.onChange(realValue, name);
     }
@@ -272,8 +322,9 @@ class Slider extends Component<Props> {
   // 左右按键位移
   keyPress = (e: any) => {
     let curKey = e.keyCode || e.which || e.charCode,
-      { step, name } = this.props,
-      curValue = this.state.newValue;
+      { step, name, range } = this.props,
+      { newValue: newV, newPosi: newP, curIndex } = this.state,
+      curValue: any = newV[curIndex];
 
     if (curKey === 37 || curKey === 40) {
       // 左移
@@ -282,32 +333,67 @@ class Slider extends Component<Props> {
       // 右
       curValue += step;
     }
-    curValue = this.getCurValue(curValue);
-    if (curValue !== this.state.newValue) {
+
+    curValue = this.getLimitValue(curValue);
+    if (curValue !== newV[curIndex]) {
+      newV[curIndex] = curValue;
+      newP[curIndex] = this.getCurPosi(curValue);
+
+      let { value, posi, curIndex: newIndex } = this.getOrderValue(newV, newP);
       this.setState({
-        newPosi: this.getCurPosi(curValue),
-        newValue: curValue,
+        curIndex: newIndex,
+        newPosi: value,
+        newValue: posi,
       });
-      this.props.onChange && this.props.onChange(curValue, name);
+      this.props.onChange && this.props.onChange(range ? value : value[0], name);
     }
   };
   // 点击其他区域圆点失去焦点
   dotBlur = () => {
-    this.setState({ dotActive: false });
+    this.setState({ curIndex: -1 });
   };
-  // 圆点渲染
-  dotRender = (newPosi: any, dotActive: any) => {
+
+  // 根据圆点位置，获取横线位置
+  getBarPosi = () => {
+    let { newPosi } = this.state,
+      { range } = this.props;
+
+    if (!range) {
+      return { width: newPosi[0] + '%' };
+    }
+
+    return { width: newPosi[1] - newPosi[0] + '%', left: newPosi[0] + '%' };
+  };
+
+  // 获取顺序值[min,max]
+  getOrderValue = (value: any, posi: any) => {
+    let { range } = this.props,
+      { curIndex } = this.state;
+    if (range && value[0] > value[1]) {
+      value = [value[1], value[0]];
+      posi = [posi[1], posi[0]];
+      if (curIndex !== -1) {
+        curIndex = curIndex === 0 ? 1 : 0;
+      }
+    }
+    return { value, posi, curIndex };
+  };
+
+  // 单圆点渲染
+  dotStyleRender = (index: number, newPosi: any) => {
+    let { curIndex } = this.state;
     return (
       <div
+        data-index={index}
         className="slider-dot-box"
         style={{ left: newPosi + '%' }}
-        onTouchStart={this.mouseDown}
-        onMouseDown={this.mouseDown}
+        onTouchStart={(e) => this.mouseDown(index, e)}
+        onMouseDown={(e) => this.mouseDown(index, e)}
       >
         <div
           ref={this.dotRef}
-          className={`slider-dot${dotActive ? ' on' : ''}`}
-          onKeyDown={this.keyPress}
+          className={`slider-dot${curIndex === index ? ' on' : ''}`}
+          onKeyDown={(e) => this.keyPress(e)}
           onBlur={this.dotBlur}
           tabIndex={-1}
         ></div>
@@ -315,9 +401,20 @@ class Slider extends Component<Props> {
     );
   };
 
+  // 圆点位置渲染
+  dotRender = (index: number) => {
+    let { newPosi, newValue } = this.state,
+      { showTip } = this.props;
+    return showTip ? (
+      <WTooltip content={newValue[index]}>{this.dotStyleRender(index, newPosi[index])}</WTooltip>
+    ) : (
+      this.dotStyleRender(index, newPosi[index])
+    );
+  };
+
   render() {
-    let { newPosi, newValue, dotActive } = this.state,
-      { disabled, min, max, label, className, showRange, showInput, showTip } = this.props;
+    let { newValue } = this.state,
+      { disabled, min, max, label, className, showRange, showInput, range } = this.props;
     return (
       <div className={`slider-box ${className || ''}${disabled ? ' disabled' : ''}`}>
         {label && <p className="slider-label">{label}</p>}
@@ -330,12 +427,9 @@ class Slider extends Component<Props> {
               onTouchStart={this.clickRunway}
               onMouseDown={this.clickRunway}
             >
-              <div className="slider-bar" style={{ width: newPosi + '%' }}></div>
-              {showTip ? (
-                <WTooltip content={newValue}>{this.dotRender(newPosi, dotActive)}</WTooltip>
-              ) : (
-                this.dotRender(newPosi, dotActive)
-              )}
+              <div className="slider-bar" style={this.getBarPosi()}></div>
+              {this.dotRender(0)}
+              {range && this.dotRender(1)}
             </div>
             {/* mark */}
             {showRange && (
@@ -345,12 +439,12 @@ class Slider extends Component<Props> {
               </div>
             )}
           </div>
-          {showInput && (
+          {showInput && !range && (
             <input
               ref={this.inputRef}
               type="text"
               onChange={this.change}
-              value={newValue}
+              value={newValue[0]}
               autoComplete="off"
               disabled={disabled}
               spellCheck={false}
