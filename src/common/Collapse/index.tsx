@@ -14,6 +14,7 @@ interface Props {
   showArrow: boolean; // 没有子节点是否显示下箭头占位
   change: (...param: any) => any; // 折叠状态改变时
   check: (...param: any) => any; // 选中状态改变时
+  children?: React.ReactNode;
 }
 class Collapse extends Component<Props> {
   static defaultProps = {

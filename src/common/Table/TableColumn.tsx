@@ -15,6 +15,7 @@ interface Props {
   fmt?: string; // 空数据时显示的占位
   render?: (...param: any) => any; // 渲染col内容
   onClick?: (...param: any) => any; // 单击单元格
+  children?: React.ReactNode;
 }
 
 class WTableColumn extends Component<Props> {

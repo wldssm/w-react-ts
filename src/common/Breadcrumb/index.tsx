@@ -6,6 +6,7 @@ import './index.less';
 interface Props {
   separator?: React.ReactNode;
   className?: string;
+  children?: React.ReactNode;
 }
 class WBreadcrumb extends Component<Props> {
   static defaultProps = {

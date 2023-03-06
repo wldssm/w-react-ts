@@ -6,6 +6,7 @@ interface Props {
   separator?: React.ReactNode;
   className?: string;
   onClick?: (...param: any) => any; // 单击文本
+  children?: React.ReactNode;
 }
 class WBreadcrumbItem extends Component<Props> {
   static defaultProps = {

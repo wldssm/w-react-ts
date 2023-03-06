@@ -8,6 +8,7 @@ interface Props {
   curTag: string;
   className?: string;
   index?: string;
+  children?: React.ReactNode;
 }
 
 class AiTabPane extends Component<Props> {

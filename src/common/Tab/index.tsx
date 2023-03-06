@@ -8,6 +8,7 @@ interface Props {
   extraNode?: { left?: ReactNode; right?: ReactNode } | ReactNode;
   className?: string;
   onClick?: (...param: any) => any;
+  children?: React.ReactNode;
 }
 
 class WTab extends Component<Props> {
@@ -72,7 +73,7 @@ class WTab extends Component<Props> {
               );
             })}
           </div>
-          {isDom ? extraNode : extraNode?.['right' as keyof typeof extraNode]}
+          {isDom ? (extraNode as ReactNode) : extraNode?.['right' as keyof typeof extraNode]}
         </div>
         {React.Children.map(children, (child: any, index) => {
           if (!child) return;

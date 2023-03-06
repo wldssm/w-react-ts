@@ -9,6 +9,7 @@ interface Props {
   dir?: string; // 文本显示位置
   className?: string;
   onClick: (...param: any) => any;
+  children?: React.ReactNode;
 }
 
 class WRadio extends Component<Props> {

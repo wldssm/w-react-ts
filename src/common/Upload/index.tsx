@@ -9,6 +9,7 @@ interface Props {
   multiple: boolean;
   className: string;
   onChange: (...param: any) => any; // 输入事件
+  children?: React.ReactNode;
 }
 
 class WUpload extends Component<Props> {

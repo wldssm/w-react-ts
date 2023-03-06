@@ -16,6 +16,7 @@ interface Props {
   headNode: any; // 头部插槽
   onClose: () => any;
   onSure: () => any;
+  children?: React.ReactNode;
 }
 
 class WDialog extends Component<Props> {

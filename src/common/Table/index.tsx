@@ -9,6 +9,7 @@ interface Props {
   className?: string;
   clickRow?: (...param: any) => any; // 单击行
   clickThCol?: (...param: any) => any; // 单击头部单元格
+  children?: React.ReactNode;
 }
 
 class WTable extends Component<Props> {

@@ -5,6 +5,7 @@ import './index.less';
 interface Props {
   dir: string; // 方向（horizontal、vertical）
   posi: string; // 水平分割线文本的位置（left、right、center）
+  children?: React.ReactNode;
 }
 
 class Divider extends Component<Props> {

@@ -10,6 +10,7 @@ interface Props {
   width?: string;
   className?: string;
   onClick?: (e: Event) => any;
+  children?: React.ReactNode;
 }
 
 class WButton extends Component<Props> {
