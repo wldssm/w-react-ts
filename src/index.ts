@@ -22,7 +22,7 @@ export { default as WSlider } from './common/Slider';
 export { default as WTooltip } from './common/Tooltip';
 export { default as WSwitch } from './common/Switch';
 export { default as WInputNumber } from './common/InputNumber';
-export { default as WRadio } from './common/Radio';
+export { WRadio, WRadioGroup } from './common/Radio';
 export { default as WCollapse } from './common/Collapse';
 export { default as WUpload } from './common/Upload';
 export { default as WVirtualScroll } from './common/VirtualScroll';

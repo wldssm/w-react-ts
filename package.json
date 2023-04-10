@@ -1,6 +1,6 @@
 {
   "name": "w-react-ts",
-  "version": "1.0.44",
+  "version": "1.0.45",
   "description": "react-npm",
   "keywords": [
     "react",
@@ -17,6 +17,7 @@
     "docs:deploy": "gh-pages -d dist",
     "build": "father-build",
     "build:dev": "father-build -w",
+    "yalc:push": "nodemon -x yalc push",
     "deploy": "npm run docs:build && npm run docs:deploy",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "test": "umi-test",

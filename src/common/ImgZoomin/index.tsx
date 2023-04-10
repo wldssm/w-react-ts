@@ -59,7 +59,8 @@ class WImgZoomin extends Component<Props> {
   get imgScale(): number {
     let curImgW = Number(this.state.curImgW) || 0;
     if (!this.imgSize.w || !curImgW) return 0;
-    return parseInt((curImgW / this.imgSize.w) * 100 + '');
+    return (curImgW / this.imgSize.w) * 100;
+    // return parseInt((curImgW / this.imgSize.w) * 100 + '');
   }
   // 父组件传入的缩放比例
   get initScale(): number {
@@ -166,7 +167,7 @@ class WImgZoomin extends Component<Props> {
         },
         () => {
           if (!scale) {
-            this.props.onZoomin(this.imgScale);
+            this.props.onZoomin(parseInt(this.imgScale + ''));
           }
         },
       );
@@ -274,6 +275,8 @@ class WImgZoomin extends Component<Props> {
     e?.nativeEvent?.stopImmediatePropagation(); // 阻止冒泡，防止触发全局事件
     e.stopPropagation();
     let type = e.deltaY > 0 ? 'narrow' : 'enlarge';
+    this.pageX = e.pageX;
+    this.pageY = e.pageY;
     this.zoominImg(type, true);
   };
   // 放大缩小图片(narrow缩小，enlarge放大)(isHandEvent是否手动操作)
@@ -282,21 +285,16 @@ class WImgZoomin extends Component<Props> {
       maxScale = Number(this.props.maxScale),
       curScale = this.imgScale,
       curImgW = this.imgSize.w,
-      curImgH = this.imgSize.h,
-      speed = 0;
+      curImgH = this.imgSize.h;
     switch (type) {
       case 'narrow':
         // console.log('narrow');
-        // curScale = curScale - 1;
-        speed = (curScale - minScale) / 20;
-        curScale = curScale - speed;
+        curScale = curScale * 0.95;
         curScale = curScale > minScale ? curScale : minScale;
         break;
       case 'enlarge':
         // console.log('enlarge', curScale);
-        speed = (maxScale - curScale) / 20;
-        speed = speed > 1 ? speed : 2;
-        curScale = curScale + speed;
+        curScale = curScale * 1.05; // 1/0.95=1.05
         curScale = curScale < maxScale ? curScale : maxScale;
         break;
       default:
@@ -322,7 +320,7 @@ class WImgZoomin extends Component<Props> {
       },
       () => {
         if (type === 'narrow' || type === 'enlarge') {
-          this.props.onZoomin(this.imgScale);
+          this.props.onZoomin(parseInt(this.imgScale + ''));
         }
       },
     );
@@ -332,16 +330,16 @@ class WImgZoomin extends Component<Props> {
     curScale = curScale || this.imgScale;
     let { curImgW, curImgH, curLeft, curTop } = this.state,
       boxPosi: any = this.imgBoxRef?.current?.getBoundingClientRect() || {},
-      // 尺寸变化
+      // 尺寸与上一次的变化
       diffW = curImgW - (curScale / 100) * this.imgSize.w,
       diffH = curImgH - (curScale / 100) * this.imgSize.h,
       // 位置比例
       posiXRatio = 1 / 2,
       posiYRatio = 1 / 2;
     if (isHandEvent) {
-      // 鼠标位置相对容器的左右、上下比例
-      posiXRatio = (this.pageX - boxPosi.left) / (boxPosi.right - boxPosi.left);
-      posiYRatio = (this.pageY - boxPosi.top) / (boxPosi.bottom - boxPosi.top);
+      // 鼠标位置相对图片的左右、上下比例
+      posiXRatio = (this.pageX - boxPosi.left - curLeft) / curImgW;
+      posiYRatio = (this.pageY - boxPosi.top - curTop) / curImgH;
     }
     return {
       curLeft: curLeft + diffW * posiXRatio,

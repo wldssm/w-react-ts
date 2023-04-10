@@ -1,16 +1,94 @@
+@color-on: #206ecb;
+@color-on-disabled: rgba(32, 110, 203, 0.4);
+
+.radio-box-group {
+  display: inline-flex;
+  align-items: center;
+
+  &.radio-button {
+    .radio-box {
+      height: 32px;
+      margin: 0;
+      padding: 0 15px;
+      background: rgba(35, 120, 222, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0);
+
+      .title {
+        color: @color-on;
+      }
+
+      &:first-child {
+        border-radius: 4px 0 0 4px;
+      }
+
+      &:last-child {
+        border-radius: 0 4px 4px 0;
+      }
+
+      &.disabled {
+        &.on {
+          background: @color-on-disabled;
+          border-color: @color-on-disabled;
+
+          .title {
+            color: rgba(255, 255, 255, 0.4);
+          }
+        }
+
+        .title {
+          color: rgba(255, 255, 255, 0.4);
+        }
+      }
+
+      &:hover:not(.on, .disabled) {
+        .title {
+          color: #fff;
+        }
+      }
+
+      &.on {
+        background: @color-on;
+        border-color: rgba(255, 255, 255, 0.5);
+
+        .title {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
 .radio-box {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  margin: 0 16px 0 0;
   cursor: pointer;
 
   &.disabled {
     cursor: not-allowed;
+
+    &.on .radio-dot {
+      border: 1px solid @color-on-disabled;
+
+      &::before {
+        background: @color-on-disabled;
+      }
+    }
+
+    .radio-dot {
+      border: 1px solid rgba(198, 198, 198, 0.4);
+    }
+
+    .title {
+      color: rgba(255, 255, 255, 0.4);
+    }
   }
 
   &.on {
     .radio-dot {
       position: relative;
-      border: 1px solid #206ecb;
+      border: 1px solid @color-on;
 
       &::before {
         position: absolute;
@@ -19,11 +97,15 @@
         display: inline-block;
         width: 8px;
         height: 8px;
-        background: #206ecb;
+        background: @color-on;
         border-radius: 100%;
         content: '';
       }
     }
+  }
+
+  &:hover:not(.disabled) .radio-dot {
+    border: 1px solid @color-on;
   }
 
   .radio-dot {
@@ -33,16 +115,6 @@
     border: 1px solid #c6c6c6;
     border-radius: 100%;
 
-    &:hover {
-      border: 1px solid #206ecb;
-    }
-  }
-
-  .title {
-    color: #fff;
-    font-size: 15px;
-    letter-spacing: 2px;
-
     &.t-l {
       margin-right: 10px;
     }
@@ -50,5 +122,13 @@
     &.t-r {
       margin-left: 10px;
     }
+  }
+
+  .title {
+    color: #fff;
+    font-size: 15px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    user-select: none;
   }
 }
