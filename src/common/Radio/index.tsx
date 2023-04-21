@@ -26,11 +26,11 @@ class WRadioGroup extends Component<Props> {
     curTag: '',
   };
   // 切换
-  change = (checked: boolean, rname: string, val: any) => {
+  change = (checked: boolean, rname: string, val: any, e: any) => {
     let { disabled, name } = this.props;
     if (disabled) return false;
 
-    this.props.onChange(val, name);
+    this.props.onChange(val, name, e);
   };
   render() {
     let { curValue, type, dir, disabled, className, children } = this.props;

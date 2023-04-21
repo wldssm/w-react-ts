@@ -26,10 +26,10 @@ class WRadio extends Component<Props> {
     onClick: () => {},
   };
   // 切换
-  change = () => {
+  change = (e: any) => {
     let { value, disabled, checked, name } = this.props;
     if (disabled) return false;
-    this.props.onClick(checked, name, value);
+    this.props.onClick(checked, name, value, e);
   };
   render() {
     let { type, dir, checked, disabled, className, children, index } = this.props;

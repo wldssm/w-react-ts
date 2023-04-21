@@ -45,15 +45,15 @@ export default () => {
 
 ##### WRadio
 
-| 参数      | 说明               | 类型                     | 默认值 |
-| --------- | ------------------ | ------------------------ | ------ |
-| value     | 选项值             | string\|number\| boolean | -      |
-| name      | 绑定名称           | string                   | -      |
-| disabled  | 是否禁用           | boolean                  | false  |
-| checked   | 是否选中           | boolean                  | false  |
-| dir       | 文本显示在左还是右 | 'right'\|其他            | 右     |
-| className | 类名               | string                   | -      |
-| onClick   | 单击选项           | function(checked, name)  | -      |
+| 参数      | 说明               | 类型                       | 默认值 |
+| --------- | ------------------ | -------------------------- | ------ |
+| value     | 选项值             | string\|number\| boolean   | -      |
+| name      | 绑定名称           | string                     | -      |
+| disabled  | 是否禁用           | boolean                    | false  |
+| checked   | 是否选中           | boolean                    | false  |
+| dir       | 文本显示在左还是右 | 'right'\|其他              | 右     |
+| className | 类名               | string                     | -      |
+| onClick   | 单击选项           | function(checked, name, e) | -      |
 
 ##### WRadioGroup
 
@@ -65,4 +65,4 @@ export default () => {
 | type      | 显示方式           | dot 圆点\|'button' 按钮  | dot    |
 | dir       | 文本显示在左还是右 | 'right'\|其他            | 右     |
 | className | 类名               | string                   | -      |
-| onChange  | 选项变化时         | function(value, name)    | -      |
+| onChange  | 选项变化时         | function(value, name, e) | -      |

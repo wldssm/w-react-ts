@@ -26,7 +26,7 @@ class WTable extends Component<Props> {
   };
 
   clickRow = (item?: any, index?: number, e?: any) => {
-    this.props.clickRow && this.props.clickRow.bind(this, item, index);
+    this.props.clickRow && this.props.clickRow(item, index, e);
   };
 
   render() {
