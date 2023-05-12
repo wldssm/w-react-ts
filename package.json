@@ -1,6 +1,6 @@
 {
   "name": "w-react-ts",
-  "version": "1.0.46",
+  "version": "1.0.47",
   "description": "react-npm",
   "keywords": [
     "react",
@@ -18,7 +18,7 @@
     "build": "father-build",
     "build:dev": "father-build -w",
     "yalc:push": "nodemon -x yalc push",
-    "deploy": "npm run docs:build && npm run docs:deploy",
+    "deploy": "yarn docs:build && yarn docs:deploy",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "test": "umi-test",
     "test:coverage": "umi-test --coverage",
@@ -40,9 +40,6 @@
   "peerDependencies": {
     "react": "^16.12.0 || ^17.0.0"
   },
-  "dependencies": {
-    "react": "^16.12.0 || ^17.0.0"
-  },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^12.1.2",
@@ -50,6 +47,7 @@
     "@umijs/fabric": "^2.8.1",
     "@umijs/test": "^3.0.5",
     "dumi": "^1.1.0",
+    "react": "^16.12.0 || ^17.0.0",
     "father-build": "^1.17.2",
     "gh-pages": "^3.0.0",
     "lint-staged": "^10.0.7",
