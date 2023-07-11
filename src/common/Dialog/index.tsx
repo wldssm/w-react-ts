@@ -14,7 +14,7 @@ interface Props {
   maskClickable: boolean; // 点击背景关闭
   className: string;
   headNode: any; // 头部插槽
-  onClose: () => any;
+  onClose: (...param: any) => any;
   onSure: () => any;
   children?: React.ReactNode;
 }
@@ -32,9 +32,9 @@ class WDialog extends Component<Props> {
   };
 
   // 关闭弹框
-  close = (type: any) => {
+  close = (e: any, type?: any) => {
     if (type === 'mask' && !this.props.maskClickable) return false;
-    this.props.onClose();
+    this.props.onClose(e, type === 'mask');
   };
   // 弹框确定
   sure = () => {
@@ -82,7 +82,7 @@ class WDialog extends Component<Props> {
               </div>
             )}
           </div>
-          <div className="pop-mask" onClick={this.close.bind(this, 'mask')}></div>
+          <div className="pop-mask" onClick={(e) => this.close(e, 'mask')}></div>
         </div>
       )
     );

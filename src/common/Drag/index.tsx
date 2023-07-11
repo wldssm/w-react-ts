@@ -45,8 +45,17 @@ class WDrag {
     if (e.type === 'touchmove') {
       e = e.touches[0];
     }
-    this.elBox.style.left = e.pageX - this.startInfo.x + 'px';
-    this.elBox.style.top = e.pageY - this.startInfo.y + 'px';
+
+    // 边界不超过可视区域
+    let clientW = document.body.clientWidth || document.documentElement.clientWidth || 0, // 可见区域宽,
+      clientH = document.body.clientHeight || document.documentElement.clientHeight || 0; // 可见区域高
+
+    if (e.pageX >= 0 && e.pageX <= clientW) {
+      this.elBox.style.left = e.pageX - this.startInfo.x + 'px';
+    }
+    if (e.pageY >= 0 && e.pageY <= clientH) {
+      this.elBox.style.top = e.pageY - this.startInfo.y + 'px';
+    }
   };
   up = (e: any) => {
     // e?.preventDefault();

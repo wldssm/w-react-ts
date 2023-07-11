@@ -31,8 +31,9 @@ const switchDialog = (status) => {
 export default () => {
   useEffect(() => {
     if (show) {
-      document.getElementsByClassName('p-main')[0].style.position = 'fixed';
-      new WDrag(document.getElementsByClassName('p-main')[0]);
+      const boxEl = document.getElementsByClassName('p-main')[0];
+      boxEl.style.position = 'fixed';
+      new WDrag(boxEl);
     }
   }, [show]);
 

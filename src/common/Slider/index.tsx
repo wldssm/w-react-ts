@@ -291,6 +291,7 @@ class Slider extends Component<Props> {
         newValue: [curValue, 0],
       });
       this.props.onChange && this.props.onChange(curValue, this.props.name);
+      this.props.onInput && this.props.onInput(curValue, this.props.name);
     }
   };
   // 输入框失去焦点

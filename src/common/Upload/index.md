@@ -30,5 +30,6 @@ export default () => (
 | accept    | 可上传文件类型 | string，可选值：pdf / mp4 / img / apk / docx / all | img    |
 | disabled  | 是否禁用       | boolean                                            | false  |
 | multiple  | 可否多选       | boolean                                            | false  |
+| directory | 是否选择文件夹 | boolean                                            | false  |
 | className | 类名           | string                                             | -      |
 | onChange  | 选中文件后     | function(fileArr, name, e)                         | -      |
