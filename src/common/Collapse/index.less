@@ -2,18 +2,18 @@
 
 .fold-cont-box {
   margin: 10px;
-  background: rgba(11, 36, 67, 0.4);
+  background: var(--aibox-b12);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 2px;
   user-select: none;
 
   &.on {
-    background: rgba(35, 120, 222, 0.35);
+    background: var(--aibox-b13);
   }
 
   &.active {
-    background: #0b2443;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: var(--aibox-b14);
+    border: 1px solid var(--aibox-b2);
   }
 
   .fold-switch {
@@ -27,7 +27,7 @@
       flex: 1;
       margin: 0 10px 0 20px;
       overflow: hidden;
-      color: #fff;
+      color: var(--aibox-color);
       font-weight: bold;
       font-size: 14px;
       letter-spacing: 1px;
@@ -36,7 +36,7 @@
     }
 
     .f-s-icon {
-      color: #fff;
+      color: var(--aibox-color);
       font-size: 16px;
       transform: rotate(0deg);
       transition: transform 0.1s;
@@ -56,6 +56,6 @@
 
   .fold-cont {
     padding: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--aibox-b15);
   }
 }

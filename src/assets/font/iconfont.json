@@ -6,6 +6,13 @@
   "description": "心鉴智控",
   "glyphs": [
     {
+      "icon_id": "33970473",
+      "name": "主题色",
+      "font_class": "zhutise",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
       "icon_id": "11468160",
       "name": "椭圆",
       "font_class": "tuoyuan",

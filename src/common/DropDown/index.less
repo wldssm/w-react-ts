@@ -8,17 +8,18 @@
   // width: 200px;
   height: 40px;
   font-size: 14px;
-  background: #193c66;
-  border: 1px solid #2378de;
+  background: var(--aibox-bg10);
+  border: 1px solid var(--aibox-color2);
   border-radius: 2px;
   cursor: pointer;
 
   &.disabled {
+    border: 1px solid var(--aibox-color3);
     cursor: not-allowed;
 
     .i-txt,
     .icon-arrow {
-      color: @aibox-color1;
+      color: var(--aibox-color1);
     }
   }
 
@@ -28,7 +29,7 @@
     min-width: 0;
     padding: 0 15px;
     overflow: hidden;
-    color: #fff;
+    color: var(--aibox-color);
     font-size: 14px;
     letter-spacing: 1px;
     white-space: nowrap;
@@ -44,7 +45,7 @@
     align-items: center;
     height: 100%;
     padding: 0 14px 0 0;
-    color: #fff;
+    color: var(--aibox-color);
     font-size: 14px;
   }
 
@@ -58,20 +59,21 @@
     max-height: 200px;
     padding: 8px 0;
     overflow: auto;
-    background: #193c66;
+    background: var(--aibox-bg10);
     border: 1px solid #2378de;
     border-radius: 2px;
 
     .dd-item {
       padding: 8px 20px;
-      color: #fff;
+      color: var(--aibox-color);
       font-size: 14px;
       line-height: 20px;
       letter-spacing: 1px;
 
       &:hover,
       &.active {
-        background: #2378de;
+        color: #fff;
+        background: var(--aibox-bg2);
       }
     }
   }

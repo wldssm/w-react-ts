@@ -29,7 +29,7 @@
     min-width: 260px;
     max-height: 90%;
     overflow: auto;
-    background: @aibox-bg4;
+    background: var(--aibox-bg4);
     border-radius: 4px;
 
     // head
@@ -39,10 +39,10 @@
       align-items: center;
       justify-content: center;
       height: 62px;
-      border-bottom: 1px solid rgba(216, 216, 216, 0.1);
+      border-bottom: 1px solid var(--aibox-b1);
 
       .title {
-        color: #fff;
+        color: var(--aibox-color);
         font-size: 18px;
         letter-spacing: 2px;
       }
@@ -53,7 +53,7 @@
         right: 0;
         height: 100%;
         padding: 20px 16px;
-        color: #fff;
+        color: var(--aibox-color);
         font-size: 22px;
         cursor: pointer;
       }
@@ -78,7 +78,7 @@
       }
 
       .btn-sure {
-        background: @aibox-bg12;
+        background: var(--aibox-bg12);
       }
     }
   }

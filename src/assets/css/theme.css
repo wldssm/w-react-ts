@@ -1,0 +1,35 @@
+:root {
+  --aibox-bg1: #081d36;
+  --aibox-bg2: #2378de;
+  --aibox-bg3: #3c4b5a;
+  --aibox-bg4: #0e3058;
+  --aibox-bg5: #c33d3d;
+  --aibox-bg6: #05172d;
+  --aibox-bg7: #051c34;
+  --aibox-bg8: #1c508d;
+  --aibox-bg9: #da833c;
+  --aibox-bg10: #193c66;
+  --aibox-bg11: #0b2443;
+  --aibox-bg12: #cb3d45;
+  --aibox-bg13: #6f4a30;
+  --aibox-bg14: #00fe00;
+  --aibox-bg15: #193c66;
+  --aibox-bg16: #0d2c52;
+  --aibox-bg17: #1d508d;
+  --aibox-bg18: #0b2443;
+
+  --aibox-color: #fff;
+  --aibox-color1: #9da5ac;
+  --aibox-color2: #2378de;
+  --aibox-color3: rgba(255, 255, 255, 0.1);
+  --aibox-color-a2: rgba(255, 255, 255, 0.6);
+  --aibox-color-a3: rgba(255, 255, 255, 0.4);
+  --aibox-b1: rgba(216, 216, 216, 0.1);
+  --aibox-c5: #c5c5c5;
+
+  --aibox-b12: rgba(11, 36, 67, 0.4);
+  --aibox-b13: rgba(35, 120, 222, 0.35);
+  --aibox-b14: #0b2443;
+  --aibox-b15: rgba(255, 255, 255, 0.1);
+  --aibox-bg21: #2378de;
+}

@@ -11,10 +11,11 @@ interface Props {
   fill: boolean; // 初始是否预填充bottom
   boxRef: React.RefObject<HTMLDivElement>; // 外容器ref
   height?: string; // 外容器高度
-  itemClassName?: string;
+  itemClassName: string | ((...param: any) => any);
   className?: string;
   render: (...param: any) => any; // 渲染list内容
   loadMore?: (...param: any) => any; // 无限加载时加载更多数据
+  onClick?: (...param: any) => any; // 点击子项
 }
 
 class VirtualScroll extends Component<Props> {
@@ -29,7 +30,6 @@ class VirtualScroll extends Component<Props> {
     boxRef: createRef(),
     itemClassName: '',
     className: '',
-    // render: () => { }
   };
   // boxRef: React.RefObject<HTMLDivElement> = createRef(); // 容器
   contRef: React.RefObject<HTMLDivElement> = createRef(); // 内容
@@ -307,8 +307,13 @@ class VirtualScroll extends Component<Props> {
     }
   };
 
+  // 单项点击
+  clickItem = (item: any, index: any, e: any) => {
+    this.props.onClick && this.props.onClick(item, index, e);
+  };
+
   render() {
-    let { className, render, boxRef, height, itemClassName } = this.props,
+    let { className, render, boxRef, height, itemClassName, onClick } = this.props,
       { showList, startIndex, paddingTop, paddingBottom } = this.state;
     return (
       <div className={`virtual-box ${className}`} ref={boxRef} style={{ height: height }}>
@@ -318,9 +323,16 @@ class VirtualScroll extends Component<Props> {
           style={{ padding: `${paddingTop}px 0 ${paddingBottom}px` }}
         >
           {showList.map((item, index) => {
+            let curIndex = startIndex + index;
             return (
-              <div key={startIndex + index} className={`item ${itemClassName}`}>
-                {render(item, startIndex + index)}
+              <div
+                key={curIndex}
+                className={`item ${
+                  typeof itemClassName === 'string' ? itemClassName : itemClassName(item, curIndex)
+                }`}
+                onClick={this.clickItem.bind(this, item, curIndex)}
+              >
+                {render(item, curIndex)}
               </div>
             );
           })}

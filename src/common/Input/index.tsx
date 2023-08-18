@@ -79,8 +79,8 @@ class WInput extends Component<Props> {
   // 清除输入框内容
   clearInput = (e: any) => {
     this.setState({ curValue: '' });
-    this.props.onChange('', this.props.name, e);
     this.focus();
+    this.props.onChange('', this.props.name, e);
   };
 
   // 回车提交

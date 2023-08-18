@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  color: #fff;
+  color: var(--aibox-color);
   font-size: 14px;
 
   .total {
@@ -22,7 +22,7 @@
     width: 32px;
     height: 32px;
     margin: 0 2px;
-    color: #fff;
+    color: var(--aibox-color);
     font-size: 14px;
     cursor: pointer;
 
@@ -32,11 +32,12 @@
     }
 
     &.active {
-      background: #2378de;
+      color: #fff;
+      background: var(--aibox-bg2);
       border-radius: 2px;
 
       &:hover {
-        color: #fff;
+        color: var(--aibox-color);
       }
     }
   }
@@ -52,7 +53,7 @@
     }
 
     &.disabled {
-      color: @aibox-bg3;
+      color: var(--aibox-bg3);
       cursor: default;
       pointer-events: none;
     }
@@ -68,9 +69,10 @@
       height: 32px;
       margin: 0 8px;
       padding: 0 8px;
-      color: #fff;
+      color: var(--aibox-color);
       font-size: 14px;
-      background: #1d508d;
+      background: var(--aibox-bg17);
+      border: 1px solid @aibox-bg17;
       border-radius: 2px;
     }
   }

@@ -11,13 +11,13 @@
   letter-spacing: 2px;
   white-space: nowrap;
   vertical-align: top;
-  background: @aibox-bg2;
+  background: var(--aibox-bg2);
   border-radius: 2px;
   cursor: pointer;
 
   &.disabled {
-    color: @aibox-color-a2 !important;
-    background: @aibox-bg3 !important;
+    color: var(--aibox-color-a2) !important;
+    background: var(--aibox-bg3) !important;
     cursor: not-allowed;
   }
 
@@ -28,7 +28,7 @@
   .loading {
     display: inline-block;
     margin-right: 10px;
-    color: #fff;
+    color: var(--aibox-color);
     animation: loading 1s linear 0s infinite;
   }
 }

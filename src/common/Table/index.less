@@ -14,7 +14,7 @@
     width: 100%;
     min-height: 70px;
     padding: 0 2px;
-    color: #fff;
+    color: var(--aibox-color);
     font-size: 14px;
     letter-spacing: 2px;
     word-break: break-all;
@@ -33,7 +33,7 @@
   .tb-th {
     display: flex;
     // height: 48px;
-    background: @aibox-bg10;
+    background: var(--aibox-bg15);
     border-radius: 2px 2px 0 0;
 
     .col {
@@ -60,16 +60,17 @@
     &:nth-child(odd),
     &:nth-child(even) {
       &:hover {
-        background: #0d2c52;
+        color: #fff;
+        background: var(--aibox-bg16);
       }
     }
 
     &:nth-child(odd) {
-      background: @aibox-bg1;
+      background: var(--aibox-bg1);
     }
 
     &:nth-child(even) {
-      background: @aibox-bg11;
+      background: var(--aibox-bg11);
     }
   }
 }

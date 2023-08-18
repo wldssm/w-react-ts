@@ -9,16 +9,17 @@
   // width: 200px;
   height: 40px;
   font-size: 14px;
-  background: #193c66;
-  border: 1px solid #2378de;
+  background: var(--aibox-bg10);
+  border: 1px solid var(--aibox-color2);
   border-radius: 2px;
 
   // box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
   &.disabled {
+    border: 1px solid var(--aibox-color3);
     cursor: not-allowed;
 
     .i-txt {
-      color: @aibox-color1;
+      color: var(--aibox-color1);
     }
   }
 
@@ -27,7 +28,7 @@
     min-width: 0;
     height: 100%;
     padding: 0 15px;
-    color: #fff;
+    color: var(--aibox-color);
     font-size: 14px;
     letter-spacing: 1px;
     cursor: inherit;
@@ -49,7 +50,7 @@
 
   .i-del {
     margin-right: 10px;
-    color: #fff;
+    color: var(--aibox-color);
     font-size: 24px;
     cursor: pointer;
   }
