@@ -15,25 +15,39 @@ group:
 import React, { useState } from 'react';
 import { WDropDown } from 'w-react-ts';
 
-let [codeIndex, setCodeIndex] = useState(0),
-  codeList = [
-    {
-      label: 'option1',
-      id: 1,
-    },
-    {
-      label: 'option2',
-      id: 2,
-    },
-  ];
+export default () => {
+  let [codeIndex, setCodeIndex] = useState(0),
+    [code, setCode] = useState(''),
+    codeList = [
+      {
+        label: 'option1',
+        id: 1,
+      },
+      {
+        label: 'option2',
+        id: 2,
+      },
+    ];
 
-const select = (index, name) => {
-  setCodeIndex(index);
+  const select = (index, name) => {
+    setCodeIndex(index);
+  };
+  const input = (val) => {
+    setCode(val);
+  };
+  return (
+    <WDropDown
+      width="300px"
+      onSelect={select}
+      curIndex={codeIndex}
+      prop="label"
+      options={codeList}
+      canInput={true}
+      value={code}
+      onChange={input}
+    />
+  );
 };
-
-export default () => (
-  <WDropDown width="300px" onSelect={select} curIndex={codeIndex} prop="label" options={codeList} />
-);
 ```
 
 ### API
@@ -57,8 +71,8 @@ export default () => (
 | onClick     | 单击下拉菜单                   | function(name, status, options) | -      |
 | onSelect    | 选中下拉菜单选项事件           | function(index, name, item)     | -      |
 | onChange    | 输入事件                       | function(value, name)           | -      |
-| onEnter     | 回车事件                       | function(name)                  | -      |
-| onFocus     | 输入框获得焦点时触发           | function(name)                  | -      |
-| onBlur      | 输入框失去焦点时触发           | function(name)                  | -      |
+| onEnter     | 回车事件                       | function(value, name, e)        | -      |
+| onFocus     | 输入框获得焦点时触发           | function(value, name, e)        | -      |
+| onBlur      | 输入框失去焦点时触发           | function(value, name, e)        | -      |
 | optionRight | 插入选项右边内容               | function(item, index)           | -      |
 | optionLeft  | 插入选项左边内容               | function(item, index)           | -      |

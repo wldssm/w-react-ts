@@ -100,24 +100,24 @@ class WDropDown extends Component<Props> {
   change = (e: any) => {
     const target = e.target,
       value = target.type === 'checkbox' ? target.checked : target.value;
-    this.props.onChange(value, this.props.name);
+    this.props.onChange(value, this.props.name, e);
   };
 
   // 回车提交
   keyPress = (e: any) => {
     let curKey = e.keyCode || e.which || e.charCode;
     if (curKey === 13) {
-      this.props.onEnter(this.props.name);
+      this.props.onEnter(this.props.value, this.props.name, e);
     }
   };
 
   // 获得焦点
-  inputFocus = () => {
-    this.props.onFocus && this.props.onFocus(this.props.name);
+  inputFocus = (e: any) => {
+    this.props.onFocus && this.props.onFocus(this.props.value, this.props.name, e);
   };
   // 失去焦点
-  inputBlur = () => {
-    this.props.onBlur && this.props.onBlur(this.props.name);
+  inputBlur = (e: any) => {
+    this.props.onBlur && this.props.onBlur(this.props.value, this.props.name, e);
   };
 
   // 整体点击
@@ -141,8 +141,13 @@ class WDropDown extends Component<Props> {
   };
 
   // 单击选项
-  select = (item: any, index: number) => {
-    this.props.onSelect(index, this.props.name, item);
+  select = (item: any, index: number, label: any, e: any) => {
+    const { name, canInput } = this.props;
+    this.props.onSelect(index, name, item, e);
+
+    if (canInput) {
+      this.props.onChange(label, name, e);
+    }
   };
 
   render() {
@@ -203,14 +208,19 @@ class WDropDown extends Component<Props> {
         {ifExpanded && options.length > 0 && (
           <div className="s-dd-box">
             {options.map((item, index) => {
+              const curLabel = prop
+                ? item[prop]
+                : typeof item === 'object'
+                ? JSON.stringify(item)
+                : item;
               return (
                 <div
                   className={`dd-item ${index === this.curIndex ? 'active' : ''}`}
                   key={Math.random().toString(36).substring(2)}
-                  onClick={this.select.bind(this, item, index)}
+                  onClick={this.select.bind(this, item, index, curLabel)}
                 >
                   {optionLeft(item, index)}
-                  {prop ? item[prop] : typeof item === 'object' ? JSON.stringify(item) : item}
+                  {curLabel}
                   {optionRight(item, index)}
                 </div>
               );
