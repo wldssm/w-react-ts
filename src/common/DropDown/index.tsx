@@ -86,6 +86,16 @@ class WDropDown extends Component<Props> {
       this.state.ifExpanded !== nextState.ifExpanded
     );
   }
+  componentDidUpdate(preProps: any, prevState: any) {
+    const { options } = this.props,
+      { ifExpanded } = this.state;
+    if (ifExpanded && prevState.ifExpanded === false && options.length > 0) {
+      const curEl = document.querySelector('.dd-item.active');
+      if (curEl) {
+        curEl.scrollIntoView({ block: 'center' });
+      }
+    }
+  }
   componentWillUnmount() {
     if (this.updateTimer) clearTimeout(this.updateTimer);
     document.removeEventListener('click', this.hide);

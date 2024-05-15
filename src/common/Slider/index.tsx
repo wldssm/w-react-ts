@@ -51,7 +51,7 @@ class Slider extends Component<Props> {
 
   // 获取小数位个数
   get precision() {
-    let { min, max, step } = this.props;
+    const { min, max, step } = this.props;
     let precisions = [min, max, step].map((item) => {
       let decimal = ('' + item).split('.')[1];
       return decimal ? decimal.length : 0;
@@ -100,7 +100,7 @@ class Slider extends Component<Props> {
         newPosi = [newPosi[1], newPosi[0]];
       }
     } else {
-      realValue = parseFloat((+realValue).toFixed(this.precision));
+      // realValue = parseFloat((+realValue).toFixed(this.precision));
       realValue = [this.getLimitValue(realValue)];
       newPosi[0] = this.getCurPosi(realValue);
     }
@@ -113,7 +113,7 @@ class Slider extends Component<Props> {
 
   // 限定值的范围
   getLimitValue = (value: any) => {
-    let { min, max } = this.props;
+    const { min, max } = this.props;
     if (value < min) {
       value = min;
     } else if (value > max) {
@@ -124,7 +124,7 @@ class Slider extends Component<Props> {
 
   // 获取圆点当前位置
   getCurPosi = (value: any) => {
-    let { min, max } = this.props;
+    const { min, max } = this.props;
     value = this.getLimitValue(value);
     return ((value - min) / (max - min)) * 100;
   };
