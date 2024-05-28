@@ -32,7 +32,8 @@ export default () => (
 | src         | 图片 src 地址           | string           | -                  |
 | scale       | 初始缩放比例%           | string \| number | 最大不超过容器宽高 |
 | minScale    | 最小缩放比例%           | string \| number | 2，即（2%）        |
-| maxScale    | 最大缩放比例%           | string \| number | 400，即（400%）    |
+| maxScale    | 最大缩放比例%           | string \| number | 800，即（800%）    |
+| showPix     | 图片像素化              | boolean          | true               |
 | center      | 切换 src 后是否保持居中 | boolean          | true               |
 | className   | 类名                    | string           | -                  |
 | onZoomin    | 获取当前缩放比例%       | function(scale)  | -                  |

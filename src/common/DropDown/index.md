@@ -76,3 +76,10 @@ export default () => {
 | onBlur      | 输入框失去焦点时触发           | function(value, name, e)        | -      |
 | optionRight | 插入选项右边内容               | function(item, index)           | -      |
 | optionLeft  | 插入选项左边内容               | function(item, index)           | -      |
+
+### Ref
+
+| 参数  | 说明           | 类型       |
+| ----- | -------------- | ---------- |
+| focus | 输入框获取焦点 | () => void |
+| blur  | 输入框失去焦点 | () => void |

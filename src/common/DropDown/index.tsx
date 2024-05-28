@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 
 import WIcon from '../Icon';
 import './index.less';
@@ -49,6 +49,7 @@ class WDropDown extends Component<Props> {
   state = {
     ifExpanded: true,
   };
+  inputRef: React.RefObject<HTMLInputElement> = createRef();
 
   // 当前显示的curIndex
   get curIndex() {
@@ -119,6 +120,15 @@ class WDropDown extends Component<Props> {
     if (curKey === 13) {
       this.props.onEnter(this.props.value, this.props.name, e);
     }
+  };
+
+  // 让输入框获得焦点
+  focus = () => {
+    this.inputRef?.current?.focus();
+  };
+  // 让输入框失去焦点
+  blur = () => {
+    this.inputRef?.current?.blur();
   };
 
   // 获得焦点
@@ -196,6 +206,7 @@ class WDropDown extends Component<Props> {
           </div>
         ) : (
           <input
+            ref={this.inputRef}
             type="text"
             value={value}
             autoComplete="off"
@@ -206,6 +217,7 @@ class WDropDown extends Component<Props> {
             onBlur={this.inputBlur}
             maxLength={maxLength}
             placeholder={placeholder}
+            spellCheck={false}
           />
         )}
         {rightNode}

@@ -194,6 +194,7 @@ class WPagination extends Component<Props> {
               onKeyPress={this.keyPress}
               onFocus={this.inputFocus}
               onBlur={this.inputBlur}
+              spellCheck={false}
             />
             页
           </div>

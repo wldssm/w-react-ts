@@ -95,6 +95,10 @@ class WInput extends Component<Props> {
   focus = () => {
     this.inputRef?.current?.focus();
   };
+  // 让输入框失去焦点
+  blur = () => {
+    this.inputRef?.current?.blur();
+  };
 
   // 获得焦点
   focusFunc = (e: any) => {
@@ -102,7 +106,7 @@ class WInput extends Component<Props> {
   };
 
   // 失去焦点
-  blur = (e: any) => {
+  blurFunc = (e: any) => {
     this.props.onBlur(this.state.curValue, this.props.name, e);
   };
 
@@ -143,7 +147,7 @@ class WInput extends Component<Props> {
           onCompositionEnd={this.compositionend}
           onKeyPress={this.keyPress}
           onFocus={this.focusFunc}
-          onBlur={this.blur}
+          onBlur={this.blurFunc}
           maxLength={maxLength}
           placeholder={placeholder}
           disabled={disabled}

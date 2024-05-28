@@ -8,6 +8,7 @@ interface Props {
   minScale: string | number; // 最小比例%
   maxScale: string | number;
   center: boolean; // 切换src后是否保持居中
+  showPix: boolean; // 图片像素化
   className: string;
   onZoomin: (...param: any) => any; // 放大缩小
   onClick: (...param: any) => any; // 单击。为了图片预览单击关闭
@@ -26,8 +27,9 @@ class WImgZoomin extends Component<Props> {
     src: '', // 图片src来源
     scale: '', // 当前比例%
     minScale: 2, // 最小比例%
-    maxScale: 400,
+    maxScale: 800,
     center: true,
+    showPix: true,
     className: '',
     onZoomin: () => {}, // 放大缩小
     onClick: () => {},
@@ -358,8 +360,8 @@ class WImgZoomin extends Component<Props> {
 
   render() {
     // onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouseUp onWheel
-    let { src, className } = this.props;
-    let { curImgW, curImgH, curLeft, curTop } = this.state;
+    const { src, className, showPix } = this.props,
+      { curImgW, curImgH, curLeft, curTop } = this.state;
     return (
       <div className={`img-box ${className}`} ref={this.imgBoxRef}>
         <img
@@ -369,6 +371,7 @@ class WImgZoomin extends Component<Props> {
             width: `${curImgW}px`,
             height: `${curImgH}px`,
             transform: `translate(${curLeft}px, ${curTop}px)`,
+            ...(showPix && { imageRendering: 'pixelated' }),
           }}
           onLoad={this.onImgLoaded}
           onError={this.onImgError}
