@@ -240,13 +240,13 @@ class VirtualScroll extends Component<Props> {
 
       let flexH = itemMinHeight;
       if (flexNum > 0) {
-        flexH = showList[flexNum + 1].offsetTop - showList[0].offsetTop || flexH;
+        flexH = showList[flexNum + 1]?.offsetTop - showList[0]?.offsetTop || flexH;
       }
       let boxH = boxEl?.clientHeight || 0,
         boxTop = boxEl?.offsetTop || 0,
         lastItem = showList[this.showNum - 1]?.getBoundingClientRect() || {},
         lastH = lastItem?.bottom - lastItem?.top || 0,
-        lastBottom = lastH + showList[this.showNum - 1].offsetTop - boxTop, // 最后一个元素底部距离父元素顶部的距离
+        lastBottom = lastH + showList[this.showNum - 1]?.offsetTop - boxTop, // 最后一个元素底部距离父元素顶部的距离
         curThreshold = paddingTop + flexH; // 临界值
 
       let canFlex = lastBottom - flexH >= curScrollTop + boxH;
