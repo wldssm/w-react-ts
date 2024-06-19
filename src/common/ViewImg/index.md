@@ -38,5 +38,6 @@ export default () => {
 | src       | 图片 src 地址                  | string      |
 | show      | 是否显示预览图                 | boolean     | false  |
 | list      | 预览图片组，可左右切换【可选】 | array       | []     |
+| showPix   | 图片像素化                     | boolean     | true   |
 | className | 类名                           | string      | -      |
 | onClose   | 单击任意位置触发关闭           | function(e) | -      |

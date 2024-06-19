@@ -100,9 +100,10 @@ class VirtualScroll extends Component<Props> {
 
   // 获取显示的数据
   getShowList = (dir?: string, curChangeSize: number = 0) => {
-    let { startIndex, paddingTop, paddingBottom } = this.state,
-      { data, itemMinHeight } = this.props,
-      showList = data.slice(startIndex, startIndex + this.showNum);
+    let { startIndex, paddingTop, paddingBottom, scrollTop } = this.state,
+      { data, itemMinHeight } = this.props;
+    startIndex = dir ? startIndex : 0;
+    const showList = data.slice(startIndex, startIndex + this.showNum);
 
     if (dir) {
       setTimeout(() => {
@@ -149,9 +150,13 @@ class VirtualScroll extends Component<Props> {
           this.setState({ paddingTop });
         }
       }, 0);
+      this.setState({ showList });
+      return;
     }
-
-    this.setState({ showList });
+    if (scrollTop) {
+      this.contRef?.current?.scrollIntoView({ block: 'start' });
+    }
+    this.setState({ showList, startIndex, paddingTop: 0, paddingBottom: 0 });
   };
 
   // 上滚（计算滚动了多少个元素距离）
@@ -240,13 +245,13 @@ class VirtualScroll extends Component<Props> {
 
       let flexH = itemMinHeight;
       if (flexNum > 0) {
-        flexH = showList[flexNum + 1].offsetTop - showList[0].offsetTop || flexH;
+        flexH = showList[flexNum + 1]?.offsetTop - showList[0]?.offsetTop || flexH;
       }
       let boxH = boxEl?.clientHeight || 0,
         boxTop = boxEl?.offsetTop || 0,
         lastItem = showList[this.showNum - 1]?.getBoundingClientRect() || {},
         lastH = lastItem?.bottom - lastItem?.top || 0,
-        lastBottom = lastH + showList[this.showNum - 1].offsetTop - boxTop, // 最后一个元素底部距离父元素顶部的距离
+        lastBottom = lastH + showList[this.showNum - 1]?.offsetTop - boxTop, // 最后一个元素底部距离父元素顶部的距离
         curThreshold = paddingTop + flexH; // 临界值
 
       let canFlex = lastBottom - flexH >= curScrollTop + boxH;
@@ -313,7 +318,7 @@ class VirtualScroll extends Component<Props> {
   };
 
   render() {
-    let { className, render, boxRef, height, itemClassName, onClick } = this.props,
+    const { className, render, boxRef, height, itemClassName } = this.props,
       { showList, startIndex, paddingTop, paddingBottom } = this.state;
     return (
       <div className={`virtual-box ${className}`} ref={boxRef} style={{ height: height }}>

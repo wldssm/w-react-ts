@@ -9,6 +9,7 @@ interface Props {
   src: string;
   show: boolean;
   list?: any;
+  showPix: boolean; // 图片像素化
   className: string;
   onClose: (...param: any) => any;
 }
@@ -17,6 +18,7 @@ class WViewImg extends Component<Props> {
     src: '',
     show: false,
     list: [],
+    showPix: true,
     className: '',
     onClose: () => {},
   };
@@ -120,7 +122,7 @@ class WViewImg extends Component<Props> {
     });
   };
   render() {
-    let { show, className } = this.props,
+    const { show, className, showPix } = this.props,
       { scale, curKey, curIndex, total, imgPath } = this.state;
     return (
       show && (
@@ -145,6 +147,7 @@ class WViewImg extends Component<Props> {
               src={imgPath}
               scale={scale}
               maxScale="1000"
+              showPix={showPix}
               key={curKey}
               onClick={this.close}
             />
