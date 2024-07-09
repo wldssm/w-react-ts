@@ -154,7 +154,8 @@ class VirtualScroll extends Component<Props> {
       return;
     }
     if (scrollTop) {
-      this.contRef?.current?.scrollIntoView({ block: 'start' });
+      this.props.boxRef?.current?.scrollTo(0, 0);
+      // this.contRef?.current?.scrollIntoView({ block: 'start' });
     }
     this.setState({ showList, startIndex, paddingTop: 0, paddingBottom: 0 });
   };

@@ -91,9 +91,19 @@ class WDropDown extends Component<Props> {
     const { options } = this.props,
       { ifExpanded } = this.state;
     if (ifExpanded && prevState.ifExpanded === false && options.length > 0) {
-      const curEl = document.querySelector('.dd-item.active');
-      if (curEl) {
-        curEl.scrollIntoView({ block: 'center' });
+      // const curEl = document.querySelector('.dd-item.active');
+      // if (curEl) {
+      //   curEl.scrollIntoView({ block: 'center' });   // 会导致整个窗口滚动
+      // }
+      const itemBox = document.querySelector('.el-dropdown .s-dd-box');
+      const activeItem = itemBox?.querySelector('.dd-item.active');
+
+      if (itemBox && activeItem) {
+        const boxRect = itemBox.getBoundingClientRect();
+        const activeRect = activeItem.getBoundingClientRect();
+
+        const scrollTop = activeRect.top - boxRect.top - (boxRect.height - activeRect.height) / 2;
+        itemBox.scrollTop = scrollTop;
       }
     }
   }
